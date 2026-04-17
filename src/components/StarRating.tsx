@@ -12,10 +12,6 @@ export default function StarRating({
 }: starRatingProps) {
   const [tempRating, setTempRating] = useState(0);
 
-  function handleRating(value: number) {
-    onStarChange(value);
-  }
-
   return (
     <div className="flex gap-4 center ">
       <div className="flex">
@@ -23,7 +19,7 @@ export default function StarRating({
           <Star
             key={i}
             full={tempRating ? tempRating >= i + 1 : value >= i + 1}
-            onRate={() => handleRating(i + 1)}
+            onRate={() => onStarChange(i + 1)}
             onHoverIn={() => setTempRating(i + 1)}
             onHoverOut={() => setTempRating(0)}
           />

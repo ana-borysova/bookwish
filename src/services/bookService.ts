@@ -27,6 +27,3 @@ export async function addBook(book: Book): Promise<Book> {
   }
   return data;
 }
-
-// .or(`title.ilike.%${query}%,authors::text.ilike.%${query}%`);
-// .ilike("title", `%${query}%`);

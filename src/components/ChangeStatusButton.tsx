@@ -48,7 +48,7 @@ function getButtonConfig(
   status: WishlistItemStatus,
   isOwner: boolean,
 ): ButtonConfig | null {
-  if (status === WishlistItemStatus.AVAILABLE && isOwner) {
+  if (status === WishlistItemStatus.AVAILABLE && !isOwner) {
     return {
       color: "bg-green-100 text-green-800",
       label: "Подарувати🎁",

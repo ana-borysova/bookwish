@@ -2,11 +2,16 @@ import { useState } from "react";
 import { useDebounce } from "../hooks/useDebounce";
 import { useBookSearch } from "../hooks/useBookSearch";
 import { BookCard } from "../components/BookCard";
+import { useAddWishlistItem } from "../hooks/useWishlist";
+import { useAuthContext } from "../context/AuthContext";
 
 export function SearchPage() {
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebounce(query);
+  const { user } = useAuthContext();
   const { data, isLoading, isError } = useBookSearch(debouncedQuery);
+
+  const { mutate } = useAddWishlistItem(user!.id);
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
@@ -33,7 +38,13 @@ export function SearchPage() {
 
       <div className="flex flex-col gap-4">
         {data?.map((book) => (
-          <BookCard book={book} />
+          <BookCard
+            key={book.id}
+            book={book}
+            onAdd={(book) => {
+              mutate(book);
+            }}
+          />
         ))}
       </div>
     </div>

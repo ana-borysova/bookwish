@@ -4,6 +4,7 @@ import {
   type WishlistItem,
   type WishlistItemWithBook,
 } from "../types/book";
+import { addBook, getBookByGoogleId } from "./bookService";
 import { supabase } from "./supabase";
 
 export async function getWishlist(
@@ -18,7 +19,10 @@ export async function getWishlist(
   if (error) {
     throw new Error(error.message);
   }
-  return data;
+  return data.map((item) => ({
+    ...item,
+    book: item.books,
+  }));
 }
 
 export async function addToWishlist(
@@ -39,6 +43,17 @@ export async function addToWishlist(
     throw new Error(error.message);
   }
   return data;
+}
+
+export async function addBookToWishlist(book: Book, userId: string) {
+  if (!book.googleBooksId) {
+    throw new Error("Book must have a googleBooksId");
+  }
+  let savedBook = await getBookByGoogleId(book.googleBooksId);
+  if (savedBook === null) {
+    savedBook = await addBook(book);
+  }
+  await addToWishlist(savedBook, userId);
 }
 
 export async function removeFromWishlist(id: string): Promise<void> {

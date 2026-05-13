@@ -8,10 +8,11 @@ function mapToBook(item: GoogleBooksItem): Book {
 
   return {
     id: item.id,
+    googleBooksId: item.id,
     title: info.title,
     authors: info.authors,
     thumbnail: info.imageLinks?.thumbnail.replace("http://", "https://"),
-    year: Number(info.publishedDate?.slice(0, 3)),
+    year: Number(info.publishedDate?.slice(0, 4)),
     publisher: info.publisher ?? "Невідоме видавництво",
     pageCount: info.pageCount,
   };

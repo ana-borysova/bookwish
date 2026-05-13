@@ -9,7 +9,7 @@ export function Star({ onRate, full, onHoverIn, onHoverOut }: starProps) {
   return (
     <span
       role="button"
-      className="w-4 h-4 block cursor-pointer"
+      className="w-6 h-6 block cursor-pointer"
       onClick={onRate}
       onMouseEnter={onHoverIn}
       onMouseLeave={onHoverOut}

@@ -2,10 +2,10 @@ import type { Book } from "../types/book";
 
 interface BookCardProps {
   book: Book;
-  //onAdd: (book: Book) => void;
+  onAdd: (book: Book) => void;
 }
 
-export function BookCard({ book }: BookCardProps) {
+export function BookCard({ book, onAdd }: BookCardProps) {
   return (
     <div className="flex gap-4 rounded-xl border border-gray-200 p-4 shadow-sm hover:shadow-md transition-shadow">
       {book.thumbnail ? (
@@ -33,12 +33,12 @@ export function BookCard({ book }: BookCardProps) {
           <p className="text-xs text-gray-400">{book.pageCount} стор.</p>
         )}
 
-        {/* <button
+        <button
           onClick={() => onAdd(book)}
           className={`mt-auto self-start text-sm px-4 py-1.5 rounded-full transition-colors ${"bg-blue-100 text-blue-600 hover:bg-blue-200"}`}
         >
           До списку
-        </button> */}
+        </button>
       </div>
     </div>
   );

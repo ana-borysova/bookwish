@@ -10,12 +10,36 @@ export async function searchBook(query: string): Promise<Book[]> {
   if (error) {
     throw new Error(error.message);
   }
-  return data ?? [];
+  return (data ?? []).map((item) => ({
+    ...item,
+    googleBooksId: item.google_books_id,
+  }));
+}
+
+export async function getBookByGoogleId(
+  googleBooksId: string,
+): Promise<Book | null> {
+  const { data, error } = await supabase
+    .from("books")
+    .select("*")
+    .eq("google_books_id", googleBooksId)
+    .maybeSingle();
+  if (error) {
+    throw new Error(error.message);
+  }
+  return data ? { ...data, googleBooksId: data.google_books_id } : null;
 }
 
 export async function addBook(book: Book): Promise<Book> {
-  const { id, ...rest } = book;
-  const bookToInsert = { ...rest, googleBooksId: id };
+  const bookToInsert = {
+    title: book.title,
+    authors: book.authors,
+    thumbnail: book.thumbnail,
+    year: book.year,
+    publisher: book.publisher,
+    page_count: book.pageCount,
+    google_books_id: book.id,
+  };
   const { data, error } = await supabase
     .from("books")
     .insert(bookToInsert)
@@ -27,6 +51,3 @@ export async function addBook(book: Book): Promise<Book> {
   }
   return data;
 }
-
-// .or(`title.ilike.%${query}%,authors::text.ilike.%${query}%`);
-// .ilike("title", `%${query}%`);

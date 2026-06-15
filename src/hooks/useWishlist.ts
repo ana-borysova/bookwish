@@ -43,7 +43,7 @@ export function useDeleteWishlistItem(userId: string) {
     mutationFn: async (itemId: string) => {
       return removeFromWishlist(itemId);
     },
-    onSuccess: () => {
+    onSettled: () => {
       queryClient.invalidateQueries({
         queryKey: [WISHLIST_SEARCH_Q_KEY, userId],
       });

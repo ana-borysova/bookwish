@@ -26,8 +26,15 @@ function App() {
         />
         <Route
           path="/wishlist"
-          element={user ? <WishlistPage /> : <Navigate to="/auth" />}
+          element={
+            user ? (
+              <Navigate to={`/wishlist/${user.id}`} />
+            ) : (
+              <Navigate to="/auth" />
+            )
+          }
         />
+        <Route path={`/wishlist/:ownerId`} element={<WishlistPage />} />
         <Route
           path="/auth"
           element={!user ? <AuthPage /> : <Navigate to="/" />}

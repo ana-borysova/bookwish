@@ -4,10 +4,8 @@ import { WishlistItemStatus } from "../types/book";
 interface ChangeStatusButtonProps {
   status: WishlistItemStatus;
   isOwner: boolean;
-  onReserve: (id: string) => void;
-  onPurchase: (id: string) => void;
-  onReceived: (id: string) => void;
-  onDelete: (id: string) => void;
+  isAuthenticated: boolean;
+  onOpenModal: () => void;
 }
 
 type ButtonConfig = {
@@ -70,10 +68,7 @@ function getButtonConfig(
 export function ChangeStatusButton({
   status,
   isOwner,
-  onReserve,
-  onPurchase,
-  onReceived,
-  onDelete,
+  onOpenModal,
 }: ChangeStatusButtonProps) {
   const config = getButtonConfig(status, isOwner);
 
@@ -84,6 +79,7 @@ export function ChangeStatusButton({
   return (
     <button
       className={clsx("rounded-full whitespace-nowrap px-2 py-1", config.color)}
+      onClick={onOpenModal}
     >
       {config.label}
     </button>

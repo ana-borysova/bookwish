@@ -17,11 +17,11 @@ export function WishlistPage() {
   const isOwner = user?.id === ownerId;
   const { data: books, isLoading, isError } = useWishlist(ownerId!);
 
-  const { mutate: deleteItem } = useDeleteWishlistItem(user!.id);
+  const { mutate: deleteItem } = useDeleteWishlistItem(ownerId!);
   const { mutate: reserveItem } = useReserveWishlistItem(ownerId!);
 
-  const { mutate: markPurchased } = useChangeToPurchased(user!.id);
-  const { mutate: markReceived } = useChangeToReceived(user!.id);
+  const { mutate: markPurchased } = useChangeToPurchased(ownerId!);
+  const { mutate: markReceived } = useChangeToReceived(ownerId!);
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 ">

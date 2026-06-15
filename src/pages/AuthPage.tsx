@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { supabase } from "../services/supabase";
+import { useSearchParams } from "react-router-dom";
 
 export function AuthPage() {
+  const [searchParams] = useSearchParams();
+  const mode = searchParams.get("mode");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(mode === "login");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 

@@ -29,12 +29,15 @@ export interface GoogleBooksResponse {
   totalItems: number;
   items?: GoogleBooksItem[];
 }
-export enum WishlistItemStatus {
-  AVAILABLE = "available",
-  RESERVED = "reserved",
-  PURCHASED = "purchased",
-  RECEIVED = "received",
-}
+export const WishlistItemStatus = {
+  AVAILABLE: "available",
+  RESERVED: "reserved",
+  PURCHASED: "purchased",
+  RECEIVED: "received",
+} as const;
+
+export type WishlistItemStatus =
+  (typeof WishlistItemStatus)[keyof typeof WishlistItemStatus];
 
 export interface WishlistItem {
   id: string;

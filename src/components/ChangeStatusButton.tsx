@@ -68,8 +68,13 @@ function getButtonConfig(
 export function ChangeStatusButton({
   status,
   isOwner,
+  isAuthenticated,
   onOpenModal,
 }: ChangeStatusButtonProps) {
+  if (!isAuthenticated) {
+    return null;
+  }
+
   const config = getButtonConfig(status, isOwner);
 
   if (!config) {
@@ -85,29 +90,3 @@ export function ChangeStatusButton({
     </button>
   );
 }
-//   const buttonConfig: Record<
-//     WishlistItemStatus,
-//     { style: string; label: string; onPress: () => void }
-//   > = {
-//     available: {
-//       style:
-//         "bg-green-100 text-green-800 rounded-full whitespace-nowrap px-2 py-1",
-//       label: "Змінити",
-//       onPress: () => {},
-//     },
-//     reserved: {
-//       style: "bg-yellow-100 text-yellow-800",
-//       label: "Змінити",
-//       onPress: () => {},
-//     },
-//     purchased: {
-//       style: "bg-yellow-100 text-yellow-800",
-//       label: "Придбано",
-//       onPress: () => {},
-//     },
-//     received: {
-//       style: "bg-gray-100 text-gray-800",
-//       label: "Отримано",
-//       onPress: () => {},
-//     },
-//   };

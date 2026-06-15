@@ -92,7 +92,7 @@ export function WishlistItemCard({
         ReactDOM.createPortal(
           <ChangeStatusModal
             onClose={onCloseModal}
-            isAuthenticated
+            isAuthenticated={isAuthenticated}
             isOwner={isOwner}
             itemId={item.id}
             onReserve={onReserve}

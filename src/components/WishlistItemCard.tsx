@@ -1,34 +1,52 @@
+import ReactDOM from "react-dom";
+import { useState } from "react";
 import type { WishlistItemWithBook } from "../types/book";
 import { ChangeStatusButton } from "./ChangeStatusButton";
 import StarRating from "./StarRating";
 import { StatusBadge } from "./StatusBadge";
+import { ChangeStatusModal } from "./ChangeStatusModal";
 
 interface WishlistItemCardProps {
   item: WishlistItemWithBook;
+  isAuthenticated: boolean;
   isOwner: boolean;
-  onReserve: (id: string) => void;
+  onReserve: (data: {
+    itemId: string;
+    reservedBy: string;
+    isAnonymous: boolean;
+  }) => void;
   onPurchase: (id: string) => void;
   onReceived: (id: string) => void;
-  onDelete: (id: string) => void;
+  onDelete?: (id: string) => void;
   onRatingChange: (id: string, rating: number) => void;
-  onCommentEdit: (id: string, comment: string) => void;
+  onCommentEdit?: (id: string, comment: string) => void;
 }
 
 export function WishlistItemCard({
   item,
   isOwner,
+  isAuthenticated,
   onReserve,
   onPurchase,
   onReceived,
-  onDelete,
+
   onRatingChange,
-  onCommentEdit,
 }: WishlistItemCardProps) {
   const { title, thumbnail, authors, year, publisher } = item.book;
   const { status } = item;
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  function onOpenModal() {
+    setIsModalOpen(true);
+  }
+
+  function onCloseModal() {
+    setIsModalOpen(false);
+  }
+
   return (
-    <div className="flex flex-col rounded-xl border border-gray-200 p-4 shadow-sm hover:shadow-md transition-shadow w-[70%]">
+    <div className="flex flex-col rounded-xl border border-gray-200 p-4 shadow-sm hover:shadow-md transition-shadow w-[45%]">
       <div className="flex justify-between items-start pb-4">
         <div className="text-xl ">{title}</div>
         <StatusBadge status={status} />
@@ -64,13 +82,25 @@ export function WishlistItemCard({
           <ChangeStatusButton
             status={status}
             isOwner={isOwner}
-            onReserve={onReserve}
-            onPurchase={onPurchase}
-            onReceived={onReceived}
-            onDelete={onDelete}
+            isAuthenticated={isAuthenticated}
+            onOpenModal={onOpenModal}
           />
         </div>
       </div>
+
+      {isModalOpen &&
+        ReactDOM.createPortal(
+          <ChangeStatusModal
+            onClose={onCloseModal}
+            isAuthenticated
+            isOwner={isOwner}
+            itemId={item.bookId}
+            onReserve={onReserve}
+            onReceived={onReceived}
+            onPurchase={onPurchase}
+          />,
+          document.body,
+        )}
     </div>
   );
 }

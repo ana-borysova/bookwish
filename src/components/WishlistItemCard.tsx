@@ -94,7 +94,7 @@ export function WishlistItemCard({
             onClose={onCloseModal}
             isAuthenticated
             isOwner={isOwner}
-            itemId={item.bookId}
+            itemId={item.id}
             onReserve={onReserve}
             onReceived={onReceived}
             onPurchase={onPurchase}

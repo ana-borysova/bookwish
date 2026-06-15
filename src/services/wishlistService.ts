@@ -4,8 +4,22 @@ import {
   type WishlistItem,
   type WishlistItemWithBook,
 } from "../types/book";
-import { addBook, getBookByGoogleId } from "./bookService";
+import { addBook, getBookByGoogleId, mapRowToBook } from "./bookService";
 import { supabase } from "./supabase";
+
+export function mapRowToWishlistItem(row: any): WishlistItemWithBook {
+  return {
+    id: row.id,
+    userId: row.user_id,
+    bookId: row.book_id,
+    desirability: row.desirability,
+    comment: row.comment,
+    reservedBy: row.reserved_by,
+    isAnonymous: row.is_anonymous,
+    status: row.status,
+    book: mapRowToBook(row.books),
+  };
+}
 
 export async function getWishlist(
   userId: string,
@@ -19,10 +33,7 @@ export async function getWishlist(
   if (error) {
     throw new Error(error.message);
   }
-  return data.map((item) => ({
-    ...item,
-    book: item.books,
-  }));
+  return data.map(mapRowToWishlistItem);
 }
 
 export async function addToWishlist(

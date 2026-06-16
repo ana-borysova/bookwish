@@ -1,19 +1,25 @@
 import { supabase } from "./supabase";
 
 export interface Profile {
+  id: string;
   username: string | null;
-  plan: string;
+  name: string | null;
+  surname: string | null;
+  date_of_birth: string | null;
+  bio: string | null;
+  plan: string | null;
+  created_at: string;
 }
 
-export async function fetchProfile(userId: string): Promise<Profile | null> {
+export async function fetchProfile(userId: string): Promise<Profile> {
   const { data, error } = await supabase
     .from("profiles")
-    .select("username, plan")
+    .select("*")
     .eq("id", userId)
     .single();
 
   if (error) {
-    return null;
+    throw error;
   }
-  return data ?? null;
+  return data as Profile;
 }

@@ -1,25 +1,14 @@
-// src/hooks/useProfile.ts
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "../services/supabase";
+import { fetchProfile } from "../services/profileService";
 import { useAuthContext } from "../context/AuthContext";
 
-export function useProfile() {
+export function useProfile(userId?: string) {
   const { user } = useAuthContext();
+  const targetId = userId ?? user?.id;
 
   return useQuery({
-    queryKey: ["profile", user?.id],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", user!.id)
-        .single();
-
-      if (error) {
-        throw error;
-      }
-      return data;
-    },
-    enabled: !!user?.id,
+    queryKey: ["profile", targetId],
+    queryFn: () => fetchProfile(targetId!),
+    enabled: !!targetId,
   });
 }

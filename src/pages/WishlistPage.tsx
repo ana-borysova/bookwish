@@ -10,6 +10,7 @@ import { WishlistItemCard } from "../components/WishlistItemCard";
 import { useAuthContext } from "../context/AuthContext";
 import { useParams } from "react-router-dom";
 import { GuestBanner } from "../components/GuestBanner";
+import { useProfile } from "../hooks/useProfiles";
 
 export function WishlistPage() {
   const { user } = useAuthContext();
@@ -17,6 +18,7 @@ export function WishlistPage() {
   const { ownerId } = useParams();
   const isOwner = user?.id === ownerId;
   const { data: books, isLoading, isError } = useWishlist(ownerId!);
+  const { data: owner } = useProfile(ownerId);
 
   const { mutate: deleteItem } = useDeleteWishlistItem(ownerId!);
   const { mutate: reserveItem } = useReserveWishlistItem(ownerId!);
@@ -35,7 +37,11 @@ export function WishlistPage() {
       )}
       {!isLoading && !isAuthenticated && <GuestBanner />}
 
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Мій список 📚</h1>
+      <h1 className="text-2xl font-bold text-gray-900 mb-6">
+        {isOwner
+          ? "Мій список 📚"
+          : `Список: ${owner?.username ?? "Користувач"} 📚`}
+      </h1>
 
       {!isLoading && books?.length === 0 ? (
         <p className="text-center text-gray-500">

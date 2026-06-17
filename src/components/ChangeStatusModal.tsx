@@ -31,6 +31,7 @@ export function ChangeStatusModal({
   itemId,
   onReserve,
   onPurchase,
+  onReceived,
   onClose,
 }: ChangeStatusModalProps) {
   const [step, setStep] = useState<1 | 2>(1);
@@ -45,8 +46,15 @@ export function ChangeStatusModal({
         <div>
           <h3>Вже отримали?🎁</h3>
 
-          <button>Так, отримала!</button>
-          <button>Ні, ще чекаю!</button>
+          <button
+            onClick={() => {
+              onReceived(itemId);
+              onClose();
+            }}
+          >
+            Так, отримала!
+          </button>
+          <button onClick={onClose}>Ні, ще чекаю!</button>
         </div>
       )}
       {!isOwner && isAuthenticated && step === 1 && (

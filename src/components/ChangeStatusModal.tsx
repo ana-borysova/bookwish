@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useProfile } from "../hooks/useProfiles";
-import type { WishlistItemStatus } from "../types/book";
+import { WishlistItemStatus } from "../types/book";
 
 interface ChangeStatusModalProps {
   status: WishlistItemStatus;
   isAuthenticated: boolean;
   isOwner: boolean;
-  isReserver: boolean;
+
   isAnonymous: boolean;
   itemId: string;
   onReserve: (data: {
@@ -26,19 +26,28 @@ interface ChangeStatusModalProps {
 type Action = "reserve" | "purchase" | null;
 
 export function ChangeStatusModal({
+  status,
   isAuthenticated,
   isOwner,
   itemId,
+  isAnonymous: initialIsAnonymous,
   onReserve,
   onPurchase,
   onReceived,
   onClose,
 }: ChangeStatusModalProps) {
-  const [step, setStep] = useState<1 | 2>(1);
-  const [action, setAction] = useState<Action>(null);
-  const [isAnonymous, setIsAnonymous] = useState(false);
+  const isReservedFlow = status === WishlistItemStatus.RESERVED;
+
+  const [step, setStep] = useState<1 | 2>(isReservedFlow ? 2 : 1);
+  const [action, setAction] = useState<Action>(
+    isReservedFlow ? "purchase" : null,
+  );
+  const [isAnonymous, setIsAnonymous] = useState(
+    isReservedFlow ? initialIsAnonymous : true,
+  );
 
   const { data: profile } = useProfile();
+  const username = profile?.username;
 
   return (
     <div>
@@ -60,7 +69,7 @@ export function ChangeStatusModal({
       {!isOwner && isAuthenticated && step === 1 && (
         <div>
           <h3>Виконуємо бажання?🎁</h3>
-          <p>Повідом усім, що хто вже подбав саме про цю книгу! </p>
+          <p>Повідом усім, що хтось уже подбав саме про цю книгу! </p>
           <div>
             <label>
               <input
@@ -93,6 +102,7 @@ export function ChangeStatusModal({
                 <span>Так, я вже купив цю книгу!</span>
               </div>
             </label>
+
             <button disabled={action === null} onClick={() => setStep(2)}>
               Далі
             </button>
@@ -103,7 +113,7 @@ export function ChangeStatusModal({
         <div>
           <h3>Хочеш зробити сюрприз?🎁</h3>
           <p>
-            Оберии, чи хочеш ти залишитись анонімним, чи повідомиш власнику хто
+            Обери, чи хочеш ти залишитись анонімним, чи повідомиш власнику хто
             ти
           </p>
           <div>
@@ -138,21 +148,30 @@ export function ChangeStatusModal({
                 <span>Скажи їй хто я</span>
               </div>
             </label>
+
+            {!isAnonymous && (
+              <p>
+                Власник одразу побачить, хто ти. Якщо передумаєш — може бути
+                запізно.
+              </p>
+            )}
             <button
-              disabled={action === null}
+              disabled={!username}
               onClick={() => {
                 if (action === "reserve") {
                   onReserve({
                     itemId: itemId,
                     isAnonymous: isAnonymous,
-                    reservedBy: profile
-                      ? profile.name + " " + profile.surname
-                      : "Імя не вказано",
+                    reservedBy: username ?? "Таємний виконувач бажань",
                   });
                   onClose();
                 }
                 if (action === "purchase") {
-                  onPurchase({ itemId, reservedBy: "", isAnonymous });
+                  onPurchase({
+                    itemId,
+                    reservedBy: username ?? "Таємний виконувач бажань",
+                    isAnonymous,
+                  });
                   onClose();
                 }
               }}

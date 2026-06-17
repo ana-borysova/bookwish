@@ -104,7 +104,6 @@ export function WishlistItemCard({
             status={status}
             isAuthenticated={isAuthenticated}
             isOwner={isOwner}
-            isReserver={isReserver}
             isAnonymous={item.isAnonymous ?? false}
             itemId={item.id}
             onReserve={onReserve}

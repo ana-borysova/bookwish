@@ -17,6 +17,7 @@ type ButtonConfig = {
 function getButtonConfig(
   status: WishlistItemStatus,
   isOwner: boolean,
+  isReserver: boolean,
 ): ButtonConfig | null {
   if (status === WishlistItemStatus.AVAILABLE && !isOwner) {
     return {
@@ -24,7 +25,7 @@ function getButtonConfig(
       label: "Подарувати🎁",
     };
   }
-  if (status === WishlistItemStatus.RESERVED && !isOwner) {
+  if (status === WishlistItemStatus.RESERVED && !isOwner && isReserver) {
     return { color: "bg-yellow-100 text-yellow-800", label: "Придбано🎁" };
   }
 
@@ -41,13 +42,14 @@ export function ChangeStatusButton({
   status,
   isOwner,
   isAuthenticated,
+  isReserver,
   onOpenModal,
 }: ChangeStatusButtonProps) {
   if (!isAuthenticated) {
     return null;
   }
 
-  const config = getButtonConfig(status, isOwner);
+  const config = getButtonConfig(status, isOwner, isReserver);
 
   if (!config) {
     return null;

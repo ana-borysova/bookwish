@@ -15,7 +15,11 @@ interface WishlistItemCardProps {
     reservedBy: string;
     isAnonymous: boolean;
   }) => void;
-  onPurchase: (id: string) => void;
+  onPurchase: (data: {
+    itemId: string;
+    reservedBy: string;
+    isAnonymous: boolean;
+  }) => void;
   onReceived: (id: string) => void;
   onDelete?: (id: string) => void;
   onRatingChange: (id: string, rating: number) => void;

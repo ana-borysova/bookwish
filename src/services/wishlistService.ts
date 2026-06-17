@@ -97,10 +97,18 @@ export async function reserveBook(
   return data;
 }
 
-export async function markAsPurchased(id: string): Promise<WishlistItem> {
+export async function markAsPurchased(
+  id: string,
+  reservedBy: string,
+  isAnonymous: boolean,
+): Promise<WishlistItem> {
   const { data, error } = await supabase
     .from("wishlist_item")
-    .update({ status: WishlistItemStatus.PURCHASED })
+    .update({
+      reserved_by: reservedBy,
+      is_anonymous: isAnonymous,
+      status: WishlistItemStatus.PURCHASED,
+    })
     .eq("id", id)
     .select()
     .single();

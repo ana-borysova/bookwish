@@ -10,7 +10,11 @@ interface ChangeStatusModalProps {
     reservedBy: string;
     isAnonymous: boolean;
   }) => void;
-  onPurchase: (id: string) => void;
+  onPurchase: (data: {
+    itemId: string;
+    reservedBy: string;
+    isAnonymous: boolean;
+  }) => void;
   onReceived: (id: string) => void;
   onClose: () => void;
 }
@@ -136,7 +140,7 @@ export function ChangeStatusModal({
                   onClose();
                 }
                 if (action === "purchase") {
-                  onPurchase(itemId);
+                  onPurchase({ itemId, reservedBy: "", isAnonymous });
                   onClose();
                 }
               }}

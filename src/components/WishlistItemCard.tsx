@@ -10,7 +10,7 @@ interface WishlistItemCardProps {
   item: WishlistItemWithBook;
   isAuthenticated: boolean;
   isOwner: boolean;
-  currentUsername?: string | null;
+  currentUserId?: string;
   onReserve: (data: {
     itemId: string;
     reservedBy: string;
@@ -31,7 +31,7 @@ export function WishlistItemCard({
   item,
   isOwner,
   isAuthenticated,
-  currentUsername,
+  currentUserId,
   onReserve,
   onPurchase,
   onReceived,
@@ -43,7 +43,7 @@ export function WishlistItemCard({
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const isReserver = !!currentUsername && currentUsername === item.reservedBy;
+  const isReserver = !!currentUserId && currentUserId === item.reservedBy;
 
   function onOpenModal() {
     setIsModalOpen(true);

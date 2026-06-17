@@ -10,12 +10,17 @@ interface WishlistItemCardProps {
   item: WishlistItemWithBook;
   isAuthenticated: boolean;
   isOwner: boolean;
+  currentUserId?: string;
   onReserve: (data: {
     itemId: string;
     reservedBy: string;
     isAnonymous: boolean;
   }) => void;
-  onPurchase: (id: string) => void;
+  onPurchase: (data: {
+    itemId: string;
+    reservedBy: string;
+    isAnonymous: boolean;
+  }) => void;
   onReceived: (id: string) => void;
   onDelete?: (id: string) => void;
   onRatingChange: (id: string, rating: number) => void;
@@ -26,6 +31,7 @@ export function WishlistItemCard({
   item,
   isOwner,
   isAuthenticated,
+  currentUserId,
   onReserve,
   onPurchase,
   onReceived,
@@ -36,6 +42,8 @@ export function WishlistItemCard({
   const { status } = item;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const isReserver = !!currentUserId && currentUserId === item.reservedBy;
 
   function onOpenModal() {
     setIsModalOpen(true);
@@ -83,6 +91,7 @@ export function WishlistItemCard({
             status={status}
             isOwner={isOwner}
             isAuthenticated={isAuthenticated}
+            isReserver={isReserver}
             onOpenModal={onOpenModal}
           />
         </div>
@@ -92,8 +101,10 @@ export function WishlistItemCard({
         ReactDOM.createPortal(
           <ChangeStatusModal
             onClose={onCloseModal}
+            status={status}
             isAuthenticated={isAuthenticated}
             isOwner={isOwner}
+            isAnonymous={item.isAnonymous ?? false}
             itemId={item.id}
             onReserve={onReserve}
             onReceived={onReceived}

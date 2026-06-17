@@ -55,12 +55,13 @@ export function WishlistPage() {
               item={book}
               isOwner={isOwner}
               onReserve={(data) => reserveItem(data)}
-              onPurchase={(id) => markPurchased(id)}
+              onPurchase={(data) => markPurchased(data)}
               onReceived={(id) => markReceived(id)}
               onDelete={(id) => deleteItem(id)}
               onRatingChange={() => {}}
               onCommentEdit={() => {}}
               isAuthenticated={isAuthenticated}
+              currentUserId={user?.id}
             />
           ))}
         </div>

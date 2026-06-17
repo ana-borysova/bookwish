@@ -76,8 +76,16 @@ export function useReserveWishlistItem(userId: string) {
 export function useChangeToPurchased(userId: string) {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (itemId: string) => {
-      return markAsPurchased(itemId);
+    mutationFn: async ({
+      itemId,
+      reservedBy,
+      isAnonymous,
+    }: {
+      itemId: string;
+      reservedBy: string;
+      isAnonymous: boolean;
+    }) => {
+      return markAsPurchased(itemId, reservedBy, isAnonymous);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({

@@ -5,6 +5,7 @@ interface ChangeStatusButtonProps {
   status: WishlistItemStatus;
   isOwner: boolean;
   isAuthenticated: boolean;
+  isReserver: boolean;
   onOpenModal: () => void;
 }
 
@@ -12,35 +13,6 @@ type ButtonConfig = {
   color: string;
   label: string;
 };
-
-// function getButtonConfig(status: WishlistItemStatus, isOwner: boolean) {
-//   let config: ButtonConfig | null = null;
-
-//   if (status === WishlistItemStatus.AVAILABLE && isOwner) {
-//     config = {
-//       color: "bg-green-100 text-green-800",
-//       label: "Подарувати🎁",
-//     };
-//     return config;
-//   }
-//   if (status === WishlistItemStatus.RESERVED && !isOwner) {
-//     config = {
-//       color: "bg-yellow-100 text-yellow-800",
-//       label: "Придбано🎁",
-//     };
-//     return config;
-//   }
-
-//   if (status === WishlistItemStatus.PURCHASED && isOwner) {
-//     config = {
-//       color: "bg-orange-100 text-orange-800",
-//       label: "Отримано🎁",
-//     };
-//     return config;
-//   } else {
-//     return null;
-//   }
-// }
 
 function getButtonConfig(
   status: WishlistItemStatus,

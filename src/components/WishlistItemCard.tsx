@@ -10,6 +10,7 @@ interface WishlistItemCardProps {
   item: WishlistItemWithBook;
   isAuthenticated: boolean;
   isOwner: boolean;
+  currentUsername?: string | null;
   onReserve: (data: {
     itemId: string;
     reservedBy: string;
@@ -30,6 +31,7 @@ export function WishlistItemCard({
   item,
   isOwner,
   isAuthenticated,
+  currentUsername,
   onReserve,
   onPurchase,
   onReceived,
@@ -40,6 +42,8 @@ export function WishlistItemCard({
   const { status } = item;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const isReserver = !!currentUsername && currentUsername === item.reservedBy;
 
   function onOpenModal() {
     setIsModalOpen(true);
@@ -87,6 +91,7 @@ export function WishlistItemCard({
             status={status}
             isOwner={isOwner}
             isAuthenticated={isAuthenticated}
+            isReserver={isReserver}
             onOpenModal={onOpenModal}
           />
         </div>
@@ -96,8 +101,11 @@ export function WishlistItemCard({
         ReactDOM.createPortal(
           <ChangeStatusModal
             onClose={onCloseModal}
+            status={status}
             isAuthenticated={isAuthenticated}
             isOwner={isOwner}
+            isReserver={isReserver}
+            isAnonymous={item.isAnonymous ?? false}
             itemId={item.id}
             onReserve={onReserve}
             onReceived={onReceived}

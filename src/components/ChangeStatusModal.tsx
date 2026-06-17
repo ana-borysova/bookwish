@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { useProfile } from "../hooks/useProfiles";
+import type { WishlistItemStatus } from "../types/book";
 
 interface ChangeStatusModalProps {
+  status: WishlistItemStatus;
   isAuthenticated: boolean;
   isOwner: boolean;
+  isReserver: boolean;
+  isAnonymous: boolean;
   itemId: string;
   onReserve: (data: {
     itemId: string;

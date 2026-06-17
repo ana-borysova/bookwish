@@ -19,6 +19,7 @@ export function WishlistPage() {
   const isOwner = user?.id === ownerId;
   const { data: books, isLoading, isError } = useWishlist(ownerId!);
   const { data: owner } = useProfile(ownerId);
+  const { data: currentUser } = useProfile();
 
   const { mutate: deleteItem } = useDeleteWishlistItem(ownerId!);
   const { mutate: reserveItem } = useReserveWishlistItem(ownerId!);
@@ -61,6 +62,7 @@ export function WishlistPage() {
               onRatingChange={() => {}}
               onCommentEdit={() => {}}
               isAuthenticated={isAuthenticated}
+              currentUsername={currentUser?.username}
             />
           ))}
         </div>

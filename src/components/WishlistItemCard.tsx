@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom";
 import { useState } from "react";
-import type { WishlistItemWithBook } from "../types/book";
+import { WishlistItemStatus, type WishlistItemWithBook } from "../types/book";
 import { ChangeStatusButton } from "./ChangeStatusButton";
 import StarRating from "./StarRating";
 import { StatusBadge } from "./StatusBadge";
@@ -26,6 +26,7 @@ interface WishlistItemCardProps {
   onDelete?: (id: string) => void;
   onRatingChange: (id: string, rating: number) => void;
   onCommentEdit?: (id: string, comment: string) => void;
+  onCancelReservation?: (id: string) => void;
 }
 
 export function WishlistItemCard({
@@ -38,6 +39,7 @@ export function WishlistItemCard({
   onReceived,
   onDelete,
   onRatingChange,
+  onCancelReservation,
 }: WishlistItemCardProps) {
   const { title, thumbnail, authors, year, publisher } = item.book;
   const { status } = item;
@@ -68,6 +70,16 @@ export function WishlistItemCard({
             ✕
           </button>
         )}
+        {isReserver &&
+          (status === WishlistItemStatus.RESERVED ||
+            status === WishlistItemStatus.PURCHASED) && (
+            <button
+              className="text-gray-400 hover:text-gray-600"
+              onClick={() => setConfirm("cancel")}
+            >
+              ✕
+            </button>
+          )}
       </div>
       <div className="flex pb-4">
         {thumbnail ? (
@@ -126,9 +138,24 @@ export function WishlistItemCard({
         <ConfirmDialog
           title="Видалити книгу?"
           message="Точно хочеш видалити цю книгу зі свого списку?"
-          confirmLabel="Видалити"
+          confirmLabel="Так, видаляємо книгу"
+          cancelLabel="Ні, залишаємо книгу"
           onConfirm={() => {
             onDelete?.(item.id);
+            setConfirm(null);
+          }}
+          onCancel={() => setConfirm(null)}
+        />
+      )}
+
+      {confirm === "cancel" && (
+        <ConfirmDialog
+          title="Змінили свою думку?"
+          message="Більше не хочеш дарувати цю книгу?"
+          confirmLabel="Так, я передумала"
+          cancelLabel="Ні, вертаймось"
+          onConfirm={() => {
+            onCancelReservation?.(item.id);
             setConfirm(null);
           }}
           onCancel={() => setConfirm(null)}

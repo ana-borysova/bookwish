@@ -1,4 +1,5 @@
 import {
+  useCancelReservation,
   useChangeToPurchased,
   useChangeToReceived,
   useDeleteWishlistItem,
@@ -25,6 +26,7 @@ export function WishlistPage() {
 
   const { mutate: markPurchased } = useChangeToPurchased(ownerId!);
   const { mutate: markReceived } = useChangeToReceived(ownerId!);
+  const { mutate: cancelItem } = useCancelReservation(ownerId!);
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 ">
@@ -58,6 +60,7 @@ export function WishlistPage() {
               onPurchase={(data) => markPurchased(data)}
               onReceived={(id) => markReceived(id)}
               onDelete={(id) => deleteItem(id)}
+              onCancelReservation={(id) => cancelItem(id)}
               onRatingChange={() => {}}
               onCommentEdit={() => {}}
               isAuthenticated={isAuthenticated}

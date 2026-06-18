@@ -4,6 +4,7 @@ interface ConfirmDialogProps {
   title: string;
   message: string;
   confirmLabel: string;
+  cancelLabel: string;
   onConfirm: () => void;
   onCancel: () => void;
 }
@@ -12,6 +13,7 @@ export function ConfirmDialog({
   title,
   message,
   confirmLabel,
+  cancelLabel,
   onConfirm,
   onCancel,
 }: ConfirmDialogProps) {
@@ -21,22 +23,32 @@ export function ConfirmDialog({
       onClick={onCancel}
     >
       <div
-        className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl bg-white p-8 shadow-xl "
+        className="relative w-full max-w-xl max-h-[80vh] overflow-y-auto rounded-2xl bg-white p-6 shadow-xl "
         onClick={(e) => e.stopPropagation()}
       >
         <button
           className="absolute right-4 top-4 text-gray-400 hover:text-gray-600"
           onClick={onCancel}
         >
-          X
+          ✕
         </button>
 
-        <div>
-          <h2>{title}</h2>
-          <p>{message}</p>
-          <div>
-            <button onClick={onConfirm}>{confirmLabel}</button>
-            <button onClick={onCancel}> Ні, повернутися назад</button>
+        <div className="p-2 text-center">
+          <h2 className="text-xl p-1">{title}</h2>
+          <p className="p-1">{message}</p>
+          <div className="py-3">
+            <button
+              className="py-2 px-3 hover:text-yellow-600 hover:border-b-2 hover:border-b-amber-600 transition-colors"
+              onClick={onConfirm}
+            >
+              {confirmLabel}
+            </button>
+            <button
+              className="py-2 px-3 hover:text-yellow-600 hover:border-b-2 hover:border-b-amber-600 transition-colors"
+              onClick={onCancel}
+            >
+              {cancelLabel}
+            </button>
           </div>
         </div>
       </div>

@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import {
   addBookToWishlist,
+  cancelReservation,
   getWishlist,
   markAsPurchased,
   markAsReceived,
@@ -103,6 +104,20 @@ export function useChangeToReceived(userId: string) {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [WISHLIST_SEARCH_Q_KEY, userId],
+      });
+    },
+  });
+}
+
+export function useCancelReservation(ownerId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (itemId: string) => {
+      return cancelReservation(itemId);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [WISHLIST_SEARCH_Q_KEY, ownerId],
       });
     },
   });

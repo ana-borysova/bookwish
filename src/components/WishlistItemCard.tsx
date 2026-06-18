@@ -1,10 +1,11 @@
 import ReactDOM from "react-dom";
 import { useState } from "react";
-import type { WishlistItemWithBook } from "../types/book";
+import { WishlistItemStatus, type WishlistItemWithBook } from "../types/book";
 import { ChangeStatusButton } from "./ChangeStatusButton";
 import StarRating from "./StarRating";
 import { StatusBadge } from "./StatusBadge";
 import { ChangeStatusModal } from "./ChangeStatusModal";
+import { ConfirmDialog } from "./ConfirmDialog";
 
 interface WishlistItemCardProps {
   item: WishlistItemWithBook;
@@ -25,6 +26,7 @@ interface WishlistItemCardProps {
   onDelete?: (id: string) => void;
   onRatingChange: (id: string, rating: number) => void;
   onCommentEdit?: (id: string, comment: string) => void;
+  onCancelReservation?: (id: string) => void;
 }
 
 export function WishlistItemCard({
@@ -35,13 +37,15 @@ export function WishlistItemCard({
   onReserve,
   onPurchase,
   onReceived,
-
+  onDelete,
   onRatingChange,
+  onCancelReservation,
 }: WishlistItemCardProps) {
   const { title, thumbnail, authors, year, publisher } = item.book;
   const { status } = item;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [confirm, setConfirm] = useState<"delete" | "cancel" | null>(null);
 
   const isReserver = !!currentUserId && currentUserId === item.reservedBy;
 
@@ -57,7 +61,25 @@ export function WishlistItemCard({
     <div className="flex flex-col rounded-xl border border-gray-200 p-4 shadow-sm hover:shadow-md transition-shadow w-[45%]">
       <div className="flex justify-between items-start pb-4">
         <div className="text-xl ">{title}</div>
-        <StatusBadge status={status} />
+        <StatusBadge status={status} />{" "}
+        {isOwner && (
+          <button
+            className="text-gray-400 hover:text-gray-600"
+            onClick={() => setConfirm("delete")}
+          >
+            ✕
+          </button>
+        )}
+        {isReserver &&
+          (status === WishlistItemStatus.RESERVED ||
+            status === WishlistItemStatus.PURCHASED) && (
+            <button
+              className="text-gray-400 hover:text-gray-600"
+              onClick={() => setConfirm("cancel")}
+            >
+              ✕
+            </button>
+          )}
       </div>
       <div className="flex pb-4">
         {thumbnail ? (
@@ -96,7 +118,6 @@ export function WishlistItemCard({
           />
         </div>
       </div>
-
       {isModalOpen &&
         ReactDOM.createPortal(
           <ChangeStatusModal
@@ -112,6 +133,34 @@ export function WishlistItemCard({
           />,
           document.body,
         )}
+
+      {confirm === "delete" && (
+        <ConfirmDialog
+          title="Видалити книгу?"
+          message="Точно хочеш видалити цю книгу зі свого списку?"
+          confirmLabel="Так, видаляємо книгу"
+          cancelLabel="Ні, залишаємо книгу"
+          onConfirm={() => {
+            onDelete?.(item.id);
+            setConfirm(null);
+          }}
+          onCancel={() => setConfirm(null)}
+        />
+      )}
+
+      {confirm === "cancel" && (
+        <ConfirmDialog
+          title="Змінили свою думку?"
+          message="Більше не хочеш дарувати цю книгу?"
+          confirmLabel="Так, я передумала"
+          cancelLabel="Ні, вертаймось"
+          onConfirm={() => {
+            onCancelReservation?.(item.id);
+            setConfirm(null);
+          }}
+          onCancel={() => setConfirm(null)}
+        />
+      )}
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { ChangeStatusButton } from "./ChangeStatusButton";
 import StarRating from "./StarRating";
 import { StatusBadge } from "./StatusBadge";
 import { ChangeStatusModal } from "./ChangeStatusModal";
+import { ConfirmDialog } from "./ConfirmDialog";
 
 interface WishlistItemCardProps {
   item: WishlistItemWithBook;
@@ -35,13 +36,14 @@ export function WishlistItemCard({
   onReserve,
   onPurchase,
   onReceived,
-
+  onDelete,
   onRatingChange,
 }: WishlistItemCardProps) {
   const { title, thumbnail, authors, year, publisher } = item.book;
   const { status } = item;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [confirm, setConfirm] = useState<"delete" | "cancel" | null>(null);
 
   const isReserver = !!currentUserId && currentUserId === item.reservedBy;
 
@@ -57,7 +59,15 @@ export function WishlistItemCard({
     <div className="flex flex-col rounded-xl border border-gray-200 p-4 shadow-sm hover:shadow-md transition-shadow w-[45%]">
       <div className="flex justify-between items-start pb-4">
         <div className="text-xl ">{title}</div>
-        <StatusBadge status={status} />
+        <StatusBadge status={status} />{" "}
+        {isOwner && (
+          <button
+            className="text-gray-400 hover:text-gray-600"
+            onClick={() => setConfirm("delete")}
+          >
+            ✕
+          </button>
+        )}
       </div>
       <div className="flex pb-4">
         {thumbnail ? (
@@ -96,7 +106,6 @@ export function WishlistItemCard({
           />
         </div>
       </div>
-
       {isModalOpen &&
         ReactDOM.createPortal(
           <ChangeStatusModal
@@ -112,6 +121,19 @@ export function WishlistItemCard({
           />,
           document.body,
         )}
+
+      {confirm === "delete" && (
+        <ConfirmDialog
+          title="Видалити книгу?"
+          message="Точно хочеш видалити цю книгу зі свого списку?"
+          confirmLabel="Видалити"
+          onConfirm={() => {
+            onDelete?.(item.id);
+            setConfirm(null);
+          }}
+          onCancel={() => setConfirm(null)}
+        />
+      )}
     </div>
   );
 }

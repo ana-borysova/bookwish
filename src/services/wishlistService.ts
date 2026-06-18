@@ -138,3 +138,24 @@ export async function markAsReceived(id: string): Promise<WishlistItem> {
   }
   return data;
 }
+
+export async function cancelReservation(id: string): Promise<WishlistItem> {
+  const { data, error } = await supabase
+    .from("wishlist_item")
+    .update({
+      reserved_by: null,
+      is_anonymous: null,
+      status: WishlistItemStatus.AVAILABLE,
+    })
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) {
+    throw new Error(error.message);
+  }
+  if (!data) {
+    throw new Error("Wishlist item not found");
+  }
+  return data;
+}

@@ -1,1 +1,43 @@
 @import "tailwindcss";
+
+/* --- wishlist card flip --- */
+.flip {
+  perspective: 1600px;
+}
+
+.flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+
+.flip.is-flipped .flip-inner {
+  transform: rotateY(-180deg);
+}
+
+.flip-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.flip-back {
+  transform: rotateY(180deg);
+}
+
+.spine {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 14px;
+  background: var(--spine, #e11d48);
+  box-shadow:
+    inset -4px 0 7px rgba(0, 0, 0, 0.35),
+    0 0 16px -1px var(--spine, #e11d48);
+}

@@ -29,7 +29,7 @@ export function WishlistPage() {
   const { mutate: cancelItem } = useCancelReservation(ownerId!);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8 ">
+    <div className="max-w-6xl mx-auto px-8 py-8 ">
       {isLoading && (
         <p className="text-center text-gray-500">Завантаження...</p>
       )}
@@ -50,7 +50,7 @@ export function WishlistPage() {
           Список порожній — знайди щось цікаве! 🔍
         </p>
       ) : (
-        <div className="flex gap-4 flex-wrap">
+        <div className="flex gap-9 flex-wrap">
           {books?.map((book) => (
             <WishlistItemCard
               key={book.id}

@@ -8,6 +8,7 @@ import { ChangeStatusModal } from "./ChangeStatusModal";
 import { ConfirmDialog } from "./ConfirmDialog";
 import { getDesirabilityTier, DEFAULT_DESIRABILITY } from "../lib/desirability";
 import clsx from "clsx";
+import { coverUrl } from "../lib/coverUrl";
 
 interface WishlistItemCardProps {
   item: WishlistItemWithBook;
@@ -72,7 +73,7 @@ export function WishlistItemCard({
         <div className=" flip-face relative ">
           {thumbnail ? (
             <img
-              src={thumbnail}
+              src={coverUrl(thumbnail)}
               alt={title}
               className="w-full h-full object-cover"
             />

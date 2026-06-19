@@ -42,7 +42,7 @@ export function SearchPage() {
             key={book.id}
             book={book}
             onAdd={(book) => {
-              mutate(book);
+              mutate({ book });
             }}
           />
         ))}

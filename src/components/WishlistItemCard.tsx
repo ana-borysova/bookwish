@@ -151,12 +151,8 @@ export function WishlistItemCard({
               {tier.label}
             </div>
 
-            <div className="rounded-xl border border-gray-200 p-4 shadow-sm hover:shadow-md transition-shadow w-full flex justify-between items-end my-2">
-              <div>Comment</div>
-              <div>Change icon</div>
-            </div>
             <div
-              className="py-2 text-center"
+              className="py-4 text-center"
               onClick={(e) => e.stopPropagation()}
             >
               <ChangeStatusButton

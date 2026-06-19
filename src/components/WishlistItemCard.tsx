@@ -6,7 +6,12 @@ import { ChangeStatusButton } from "./ChangeStatusButton";
 import { StatusBadge } from "./StatusBadge";
 import { ChangeStatusModal } from "./ChangeStatusModal";
 import { ConfirmDialog } from "./ConfirmDialog";
-import { getDesirabilityTier, DEFAULT_DESIRABILITY } from "../lib/desirability";
+import {
+  getDesirabilityTier,
+  desirabilityFillPct,
+  DEFAULT_DESIRABILITY,
+  DESIRABILITY_TIERS,
+} from "../lib/desirability";
 import clsx from "clsx";
 import { coverUrl } from "../lib/coverUrl";
 
@@ -50,8 +55,11 @@ export function WishlistItemCard({
   const [confirm, setConfirm] = useState<"delete" | "cancel" | null>(null);
   const [flipped, setFlipped] = useState(false);
 
-  const tier = getDesirabilityTier(item.desirability ?? DEFAULT_DESIRABILITY);
+  const desirability = item.desirability ?? DEFAULT_DESIRABILITY;
+  const tier = getDesirabilityTier(desirability);
   const isReserver = !!currentUserId && currentUserId === item.reservedBy;
+
+  const gradient = `linear-gradient(90deg, ${DESIRABILITY_TIERS.map((t) => t.color.trim()).join(", ")})`;
 
   function onOpenModal() {
     setIsModalOpen(true);
@@ -65,7 +73,7 @@ export function WishlistItemCard({
     <>
       <div
         className={clsx(
-          "flip aspect-2/3 w-60 cursor-pointer",
+          "flip aspect-2/3 w-65 cursor-pointer",
           flipped && "is-flipped",
         )}
         onClick={() => setFlipped((f) => !f)}
@@ -119,17 +127,38 @@ export function WishlistItemCard({
                 )}
             </div>
 
-            <div className="text-xl leading-none py-1">{title}</div>
+            <div className="text-xl leading-none py-2 ">{title}</div>
 
             <div className="text-sm text-gray-500">{authors}</div>
             <div className="text-xs text-gray-400">{year}</div>
-            <div className="text-xs text-gray-400 pb-2">{publisher}</div>
+            <div className="text-xs text-gray-400 pb-4 ">{publisher}</div>
 
-            <div className="rounded-xl border border-gray-200 p-4 shadow-sm hover:shadow-md transition-shadow w-full flex justify-between items-end">
+            <div
+              className="h-3 w-full rounded-full relative"
+              style={{
+                background: gradient,
+              }}
+            >
+              <div
+                className="absolute inset-y-0 right-0 bg-gray-100"
+                style={{ left: `${desirabilityFillPct(desirability)}%` }}
+              />
+            </div>
+            <div
+              className="text-center font-bold text-sm"
+              style={{ color: tier.color }}
+            >
+              {tier.label}
+            </div>
+
+            <div className="rounded-xl border border-gray-200 p-4 shadow-sm hover:shadow-md transition-shadow w-full flex justify-between items-end my-2">
               <div>Comment</div>
               <div>Change icon</div>
             </div>
-            <div className="pl-2" onClick={(e) => e.stopPropagation()}>
+            <div
+              className="py-2 text-center"
+              onClick={(e) => e.stopPropagation()}
+            >
               <ChangeStatusButton
                 status={status}
                 isOwner={isOwner}

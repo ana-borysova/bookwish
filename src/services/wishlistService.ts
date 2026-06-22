@@ -1,3 +1,5 @@
+import { DEFAULT_DESIRABILITY } from "../lib/desirability";
+import { AppErrorCode } from "../lib/errors";
 import {
   WishlistItemStatus,
   type Book,
@@ -28,6 +30,7 @@ export async function getWishlist(
     .from("wishlist_item")
     .select("*, books(*)")
     .eq("user_id", userId)
+    .order("desirability", { ascending: false })
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -39,16 +42,27 @@ export async function getWishlist(
 export async function addToWishlist(
   book: Book,
   userId: string,
+  desirability = DEFAULT_DESIRABILITY,
+  comment?: string,
 ): Promise<WishlistItem> {
   const { data, error } = await supabase
     .from("wishlist_item")
     .insert({
       user_id: userId,
       book_id: book.id,
+      desirability: desirability,
+      comment: comment ?? null,
+
       status: WishlistItemStatus.AVAILABLE,
     })
     .select()
     .single();
+
+  if (error?.code === "23505") {
+    throw Object.assign(new Error("Wishlist item already exists"), {
+      code: AppErrorCode.DUPLICATE_WISHLIST_ITEM,
+    });
+  }
 
   if (error) {
     throw new Error(error.message);
@@ -56,7 +70,12 @@ export async function addToWishlist(
   return data;
 }
 
-export async function addBookToWishlist(book: Book, userId: string) {
+export async function addBookToWishlist(
+  book: Book,
+  userId: string,
+  desirability?: number,
+  comment?: string,
+) {
   if (!book.googleBooksId) {
     throw new Error("Book must have a googleBooksId");
   }
@@ -64,7 +83,7 @@ export async function addBookToWishlist(book: Book, userId: string) {
   if (savedBook === null) {
     savedBook = await addBook(book);
   }
-  await addToWishlist(savedBook, userId);
+  await addToWishlist(savedBook, userId, desirability, comment);
 }
 
 export async function removeFromWishlist(id: string): Promise<void> {

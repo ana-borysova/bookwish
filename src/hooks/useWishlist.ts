@@ -27,8 +27,16 @@ export function useWishlist(userId: string) {
 export function useAddWishlistItem(userId: string) {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (book: Book) => {
-      return addBookToWishlist(book, userId);
+    mutationFn: async ({
+      book,
+      desirability,
+      comment,
+    }: {
+      book: Book;
+      desirability?: number;
+      comment?: string;
+    }) => {
+      return addBookToWishlist(book, userId, desirability, comment);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({

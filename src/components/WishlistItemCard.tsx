@@ -59,7 +59,7 @@ export function WishlistItemCard({
   const tier = getDesirabilityTier(desirability);
   const isReserver = !!currentUserId && currentUserId === item.reservedBy;
 
-  const gradient = `linear-gradient(90deg, ${DESIRABILITY_TIERS.map((t) => t.color.trim()).join(", ")})`;
+  const gradient = `linear-gradient(90deg, ${DESIRABILITY_TIERS.map((t) => t.color).join(", ")})`;
 
   function onOpenModal() {
     setIsModalOpen(true);

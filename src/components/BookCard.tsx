@@ -4,6 +4,7 @@ import { AddToWishlistModal } from "./AddToWishlistModal";
 
 interface BookCardProps {
   book: Book;
+  alreadyAdded?: boolean;
   onAdd: (payload: {
     book: Book;
     desirability: number;
@@ -11,7 +12,7 @@ interface BookCardProps {
   }) => Promise<unknown>;
 }
 
-export function BookCard({ book, onAdd }: BookCardProps) {
+export function BookCard({ book, onAdd, alreadyAdded }: BookCardProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -41,12 +42,21 @@ export function BookCard({ book, onAdd }: BookCardProps) {
           <p className="text-xs text-gray-400">{book.pageCount} стор.</p>
         )}
 
-        <button
-          onClick={() => setOpen(true)}
-          className={`mt-auto self-start text-sm px-4 py-1.5 rounded-full transition-colors ${"bg-blue-100 text-blue-600 hover:bg-blue-200"}`}
-        >
-          До списку
-        </button>
+        {alreadyAdded ? (
+          <button
+            disabled={true}
+            className={`mt-auto self-start text-sm px-4 py-1.5 rounded-full transition-colors ${" bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
+          >
+            Вже у списку
+          </button>
+        ) : (
+          <button
+            onClick={() => setOpen(true)}
+            className={`mt-auto self-start text-sm px-4 py-1.5 rounded-full transition-colors ${"bg-blue-100 text-blue-600 hover:bg-blue-200"}`}
+          >
+            До списку
+          </button>
+        )}
 
         {open && (
           <AddToWishlistModal

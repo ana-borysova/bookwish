@@ -1,15 +1,13 @@
 import {
-  DESIRABILITY_TIERS,
   getDesirabilityTier,
   desirabilityFillPct,
+  gradient,
 } from "../lib/desirability";
 
 export interface SliderProps {
   value: number;
   onChange: (value: number) => void;
 }
-
-const gradient = `linear-gradient(90deg, ${DESIRABILITY_TIERS.map((t) => t.color).join(", ")})`;
 
 export function WishlistDesirabilitySlider({ value, onChange }: SliderProps) {
   const tier = getDesirabilityTier(value);

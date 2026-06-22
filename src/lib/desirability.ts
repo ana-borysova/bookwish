@@ -21,5 +21,7 @@ export function getDesirabilityTier(value: number): DesirabilityTier {
 
 export function desirabilityFillPct(value: number): number {
   const v = Math.min(5, Math.max(1, value));
-  return (v / 5) * 100;
+  return ((v - 1) / 4) * 100;
 }
+
+export const gradient = `linear-gradient(90deg, ${DESIRABILITY_TIERS.map((t) => t.color).join(", ")})`;

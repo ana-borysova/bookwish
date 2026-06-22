@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { coverUrl } from "../lib/coverUrl";
 import type { Book } from "../types/book";
-import { DEFAULT_DESIRABILITY } from "../lib/desirability";
+import {
+  DEFAULT_DESIRABILITY,
+  getDesirabilityTier,
+  gradient,
+} from "../lib/desirability";
 import { WishlistDesirabilitySlider } from "./WishlistDesirabilitySlider";
 
 export interface AddToWishlistModalProps {
@@ -25,6 +29,7 @@ export function AddToWishlistModal({
   >("idle");
 
   const [desirability, setDesirability] = useState(DEFAULT_DESIRABILITY);
+  const tier = getDesirabilityTier(desirability);
 
   async function handleAdd() {
     setStatus("loading");
@@ -56,9 +61,9 @@ export function AddToWishlistModal({
         >
           X
         </button>
-        <h2>Додати до списку</h2>
-        <div className="flex">
-          <div>
+        <h2 className="text-2xl">Додати до списку 🎁</h2>
+        <div className="my-2 flex gap-1">
+          <div className="flex-1 relative rounded-lg overflow-hidden">
             {book.thumbnail ? (
               <img
                 src={coverUrl(book.thumbnail)}
@@ -70,11 +75,16 @@ export function AddToWishlistModal({
                 Немає обкладинки
               </div>
             )}
-          </div>
-          <div>
-            <div className="text-xl leading-none py-2 ">{book.title}</div>
 
-            <div className="text-sm text-gray-500">
+            <span
+              className="spine"
+              style={{ ["--spine" as string]: tier.color }}
+            />
+          </div>
+          <div className="mx-4 flex-2 flex flex-col">
+            <div className="text-xl leading-none">{book.title}</div>
+
+            <div className="text-sm text-gray-500 mb-2">
               <p>{book.authors?.join(", ")}</p> <p>{book.year}</p>
             </div>
 
@@ -82,11 +92,15 @@ export function AddToWishlistModal({
               value={desirability}
               onChange={setDesirability}
             />
-
+            <div className="text-s text-gray-500 mt-2">
+              <p>Твій коментар (необов'язково)</p>
+            </div>
             <textarea
               maxLength={200}
               value={comment}
               onChange={(e) => setComment(e.target.value)}
+              className="bg-gray-200 w-full p-2 rounded-md"
+              placeholder="Наприклад: Хочу цю книгу з кольоровим зрізом ❤️"
             />
             <div className="text-xs text-gray-400 text-right">
               {comment.length}/200
@@ -97,9 +111,11 @@ export function AddToWishlistModal({
             {status === "error" && (
               <p className="text-red-600">Не вдалося додати. Спробуй ще раз.</p>
             )}
-            <div>
+            <div className="flex gap-5 justify-end self-end mt-auto">
               <button onClick={onClose}>Скасувати</button>
               <button
+                className="rounded-full whitespace-nowrap px-4 py-1"
+                style={{ backgroundImage: gradient }}
                 onClick={handleAdd}
                 disabled={status === "loading" || status === "success"}
               >

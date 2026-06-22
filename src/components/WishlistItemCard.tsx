@@ -10,7 +10,7 @@ import {
   getDesirabilityTier,
   desirabilityFillPct,
   DEFAULT_DESIRABILITY,
-  DESIRABILITY_TIERS,
+  gradient,
 } from "../lib/desirability";
 import clsx from "clsx";
 import { coverUrl } from "../lib/coverUrl";
@@ -58,8 +58,6 @@ export function WishlistItemCard({
   const desirability = item.desirability ?? DEFAULT_DESIRABILITY;
   const tier = getDesirabilityTier(desirability);
   const isReserver = !!currentUserId && currentUserId === item.reservedBy;
-
-  const gradient = `linear-gradient(90deg, ${DESIRABILITY_TIERS.map((t) => t.color).join(", ")})`;
 
   function onOpenModal() {
     setIsModalOpen(true);

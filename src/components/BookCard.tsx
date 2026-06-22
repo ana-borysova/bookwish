@@ -1,11 +1,19 @@
+import { useState } from "react";
 import type { Book } from "../types/book";
+import { AddToWishlistModal } from "./AddToWishlistModal";
 
 interface BookCardProps {
   book: Book;
-  onAdd: (book: Book) => void;
+  onAdd: (payload: {
+    book: Book;
+    desirability: number;
+    comment?: string;
+  }) => Promise<unknown>;
 }
 
 export function BookCard({ book, onAdd }: BookCardProps) {
+  const [open, setOpen] = useState(false);
+
   return (
     <div className="flex gap-4 rounded-xl border border-gray-200 p-4 shadow-sm hover:shadow-md transition-shadow">
       {book.thumbnail ? (
@@ -34,11 +42,19 @@ export function BookCard({ book, onAdd }: BookCardProps) {
         )}
 
         <button
-          onClick={() => onAdd(book)}
+          onClick={() => setOpen(true)}
           className={`mt-auto self-start text-sm px-4 py-1.5 rounded-full transition-colors ${"bg-blue-100 text-blue-600 hover:bg-blue-200"}`}
         >
           До списку
         </button>
+
+        {open && (
+          <AddToWishlistModal
+            book={book}
+            onClose={() => setOpen(false)}
+            onSubmit={onAdd}
+          />
+        )}
       </div>
     </div>
   );

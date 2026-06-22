@@ -11,7 +11,7 @@ export function SearchPage() {
   const { user } = useAuthContext();
   const { data, isLoading, isError } = useBookSearch(debouncedQuery);
 
-  const { mutate } = useAddWishlistItem(user!.id);
+  const { mutateAsync } = useAddWishlistItem(user!.id);
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
@@ -41,9 +41,7 @@ export function SearchPage() {
           <BookCard
             key={book.id}
             book={book}
-            onAdd={(book) => {
-              mutate({ book });
-            }}
+            onAdd={(payload) => mutateAsync(payload)}
           />
         ))}
       </div>

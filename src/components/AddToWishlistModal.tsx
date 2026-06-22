@@ -7,6 +7,7 @@ import {
   gradient,
 } from "../lib/desirability";
 import { WishlistDesirabilitySlider } from "./WishlistDesirabilitySlider";
+import { AppErrorCode } from "../lib/errors";
 
 export interface AddToWishlistModalProps {
   book: Book;
@@ -25,7 +26,7 @@ export function AddToWishlistModal({
 }: AddToWishlistModalProps) {
   const [comment, setComment] = useState("");
   const [status, setStatus] = useState<
-    "idle" | "loading" | "success" | "error"
+    "idle" | "loading" | "success" | "duplicate" | "error"
   >("idle");
 
   const [desirability, setDesirability] = useState(DEFAULT_DESIRABILITY);
@@ -41,8 +42,14 @@ export function AddToWishlistModal({
       });
       setStatus("success");
       setTimeout(onClose, 1200);
-    } catch {
-      setStatus("error");
+    } catch (e) {
+      if (
+        (e as { code?: string }).code === AppErrorCode.DUPLICATE_WISHLIST_ITEM
+      ) {
+        setStatus("duplicate");
+      } else {
+        setStatus("error");
+      }
     }
   }
 
@@ -92,7 +99,7 @@ export function AddToWishlistModal({
               value={desirability}
               onChange={setDesirability}
             />
-            <div className="text-s text-gray-500 mt-2">
+            <div className="text-lg text-gray-500 my-1.5">
               <p>Твій коментар (необов'язково)</p>
             </div>
             <textarea
@@ -102,14 +109,21 @@ export function AddToWishlistModal({
               className="bg-gray-200 w-full p-2 rounded-md"
               placeholder="Наприклад: Хочу цю книгу з кольоровим зрізом ❤️"
             />
-            <div className="text-xs text-gray-400 text-right">
+            <div className="text-sm text-gray-400 text-right">
               {comment.length}/200
             </div>
             {status === "success" && (
-              <p className="text-green-600">Додано! 🎉</p>
+              <p className="text-green-600 text-lg">Додано! 🎉</p>
+            )}
+            {status === "duplicate" && (
+              <p className="text-red-600 text-lg">
+                Ця книжка вже є у списку 📚
+              </p>
             )}
             {status === "error" && (
-              <p className="text-red-600">Не вдалося додати. Спробуй ще раз.</p>
+              <p className="text-red-600 text-lg">
+                Не вдалося додати. Спробуй ще раз.
+              </p>
             )}
             <div className="flex gap-5 justify-end self-end mt-auto">
               <button onClick={onClose}>Скасувати</button>
@@ -117,7 +131,11 @@ export function AddToWishlistModal({
                 className="rounded-full whitespace-nowrap px-4 py-1"
                 style={{ backgroundImage: gradient }}
                 onClick={handleAdd}
-                disabled={status === "loading" || status === "success"}
+                disabled={
+                  status === "loading" ||
+                  status === "success" ||
+                  status === "duplicate"
+                }
               >
                 {status === "loading" ? "Додаю…" : "Додати"}
               </button>

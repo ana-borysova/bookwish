@@ -1,4 +1,5 @@
 import { DEFAULT_DESIRABILITY } from "../lib/desirability";
+import { AppErrorCode } from "../lib/errors";
 import {
   WishlistItemStatus,
   type Book,
@@ -56,6 +57,12 @@ export async function addToWishlist(
     })
     .select()
     .single();
+
+  if (error?.code === "23505") {
+    throw Object.assign(new Error("Wishlist item already exists"), {
+      code: AppErrorCode.DUPLICATE_WISHLIST_ITEM,
+    });
+  }
 
   if (error) {
     throw new Error(error.message);

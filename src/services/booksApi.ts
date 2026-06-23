@@ -30,5 +30,6 @@ export async function searchBooks(query: string): Promise<Book[]> {
   return (data.items ?? [])
     .filter((item) => item.volumeInfo.authors)
     .filter((item) => item.volumeInfo.imageLinks?.thumbnail)
+    .filter((item) => item.volumeInfo.language !== "ru")
     .map(mapToBook);
 }

@@ -5,8 +5,15 @@ import {
   type Book,
   type WishlistItem,
   type WishlistItemWithBook,
+  type CustomBookItem,
 } from "../types/book";
-import { addBook, getBookByGoogleId, mapRowToBook } from "./bookService";
+import {
+  addBook,
+  getBookByGoogleId,
+  mapRowToBook,
+  addCustomBook,
+  getBookByIsbn,
+} from "./bookService";
 import { supabase } from "./supabase";
 
 export function mapRowToWishlistItem(row: any): WishlistItemWithBook {
@@ -77,11 +84,28 @@ export async function addBookToWishlist(
   comment?: string,
 ) {
   if (!book.googleBooksId) {
-    throw new Error("Book must have a googleBooksId");
+    await addToWishlist(book, userId, desirability, comment);
+    return;
   }
   let savedBook = await getBookByGoogleId(book.googleBooksId);
   if (savedBook === null) {
     savedBook = await addBook(book);
+  }
+  await addToWishlist(savedBook, userId, desirability, comment);
+}
+
+export async function addCustomBookToWishlist(
+  input: CustomBookItem,
+  userId: string,
+  desirability?: number,
+  comment?: string,
+) {
+  let savedBook: Book | null = null;
+  if (input.isbn) {
+    savedBook = await getBookByIsbn(input.isbn);
+  }
+  if (savedBook === null) {
+    savedBook = await addCustomBook(input, userId);
   }
   await addToWishlist(savedBook, userId, desirability, comment);
 }

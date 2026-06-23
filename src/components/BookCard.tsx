@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Book } from "../types/book";
 import { AddToWishlistModal } from "./AddToWishlistModal";
+import { bookCoverUrl } from "../lib/coverUrl";
 
 interface BookCardProps {
   book: Book;
@@ -15,16 +16,20 @@ interface BookCardProps {
 export function BookCard({ book, onAdd, alreadyAdded }: BookCardProps) {
   const [open, setOpen] = useState(false);
 
+  const [coverError, setCoverError] = useState(false);
+  const cover = bookCoverUrl(book);
+
   return (
     <div className="flex gap-4 rounded-xl border border-gray-200 p-4 shadow-sm hover:shadow-md transition-shadow">
-      {book.thumbnail ? (
+      {cover && !coverError ? (
         <img
-          src={book.thumbnail}
+          src={cover}
           alt={book.title}
-          className="w-16 h-24 object-cover rounded"
+          className="w-24 h-36 object-cover rounded"
+          onError={() => setCoverError(true)}
         />
       ) : (
-        <div className="w-16 h-24 bg-gray-100 rounded flex items-center justify-center text-gray-400 text-xs text-center">
+        <div className="w-24 h-36 object-cover rounded text-gray-400 text-xs text-center">
           Немає обкладинки
         </div>
       )}

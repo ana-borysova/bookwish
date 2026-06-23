@@ -3,11 +3,20 @@ export interface Book {
   googleBooksId?: string;
   title: string;
   authors: string[] | undefined;
-  //description?: string;
   thumbnail?: string | undefined;
   year?: number;
   publisher?: string;
   pageCount?: number;
+  isbn?: string;
+}
+
+export interface CustomBookItem {
+  title: string;
+  authors: string[] | undefined;
+  year?: number;
+  publisher?: string;
+  pageCount?: number;
+  isbn?: string;
 }
 
 export interface GoogleBooksItem {
@@ -15,7 +24,6 @@ export interface GoogleBooksItem {
   volumeInfo: {
     title: string;
     authors: string[] | undefined;
-    //description?: string;
     imageLinks?: {
       thumbnail: string;
     };

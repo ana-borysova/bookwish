@@ -13,7 +13,7 @@ import {
   gradient,
 } from "../lib/desirability";
 import clsx from "clsx";
-import { coverUrl } from "../lib/coverUrl";
+import { bookCoverUrl } from "../lib/coverUrl";
 
 interface WishlistItemCardProps {
   item: WishlistItemWithBook;
@@ -49,7 +49,7 @@ export function WishlistItemCard({
 
   onCancelReservation,
 }: WishlistItemCardProps) {
-  const { title, thumbnail, authors, year, publisher } = item.book;
+  const { title, authors, year, publisher } = item.book;
   const { status } = item;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [confirm, setConfirm] = useState<"delete" | "cancel" | null>(null);
@@ -58,6 +58,9 @@ export function WishlistItemCard({
   const desirability = item.desirability ?? DEFAULT_DESIRABILITY;
   const tier = getDesirabilityTier(desirability);
   const isReserver = !!currentUserId && currentUserId === item.reservedBy;
+
+  const [coverError, setCoverError] = useState(false);
+  const cover = bookCoverUrl(item.book);
 
   function onOpenModal() {
     setIsModalOpen(true);
@@ -78,11 +81,12 @@ export function WishlistItemCard({
       >
         <div className="flip-inner">
           <div className=" flip-face relative ">
-            {thumbnail ? (
+            {cover && !coverError ? (
               <img
-                src={coverUrl(thumbnail)}
+                src={cover}
                 alt={title}
                 className="w-full h-full object-cover"
+                onError={() => setCoverError(true)}
               />
             ) : (
               <div className="w-full h-full object-cover text-gray-400 text-xs text-center">

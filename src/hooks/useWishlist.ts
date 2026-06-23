@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import {
   addBookToWishlist,
+  addCustomBookToWishlist,
   cancelReservation,
   getWishlist,
   markAsPurchased,
@@ -9,7 +10,8 @@ import {
   removeFromWishlist,
   reserveBook,
 } from "../services/wishlistService";
-import type { Book } from "../types/book";
+import type { Book, CustomBookItem } from "../types/book";
+import { BOOKS_SEARCH_Q_KEY } from "./useBookSearch";
 
 export const WISHLIST_SEARCH_Q_KEY = "wishlist";
 
@@ -42,6 +44,29 @@ export function useAddWishlistItem(userId: string) {
       queryClient.invalidateQueries({
         queryKey: [WISHLIST_SEARCH_Q_KEY, userId],
       });
+    },
+  });
+}
+
+export function useAddCustomWishlistItem(userId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({
+      input,
+      desirability,
+      comment,
+    }: {
+      input: CustomBookItem;
+      desirability?: number;
+      comment?: string;
+    }) => {
+      return addCustomBookToWishlist(input, userId, desirability, comment);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [WISHLIST_SEARCH_Q_KEY, userId],
+      });
+      queryClient.invalidateQueries({ queryKey: [BOOKS_SEARCH_Q_KEY] });
     },
   });
 }

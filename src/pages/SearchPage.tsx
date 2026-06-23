@@ -27,14 +27,14 @@ export function SearchPage() {
   const { mutateAsync: addManual } = useAddCustomWishlistItem(user!.id);
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8">
+    <div className="max-w-5xl mx-auto px-4 py-8 ">
       <h1 className="text-2xl font-bold text-gray-900 mb-6">Пошук книг</h1>
-      <div className="flex">
+      <div className="flex mb-6 gap-5">
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Введіть назву або автора..."
-          className="w-full border border-gray-300 rounded-lg mx-4 py-2 px-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="w-full border border-gray-300 rounded-lg py-2 px-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
         <button
           onClick={() => setIsManualOpen(true)}

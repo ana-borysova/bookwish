@@ -84,7 +84,8 @@ export async function addBookToWishlist(
   comment?: string,
 ) {
   if (!book.googleBooksId) {
-    throw new Error("Book must have a googleBooksId");
+    await addToWishlist(book, userId, desirability, comment);
+    return;
   }
   let savedBook = await getBookByGoogleId(book.googleBooksId);
   if (savedBook === null) {

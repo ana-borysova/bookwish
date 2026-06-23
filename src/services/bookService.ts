@@ -11,6 +11,7 @@ export function mapRowToBook(row: any): Book {
     year: row.year,
     publisher: row.publisher,
     pageCount: row.page_count,
+    isbn: row.isbn,
   };
 }
 

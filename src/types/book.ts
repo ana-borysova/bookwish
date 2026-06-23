@@ -20,6 +20,7 @@ export interface GoogleBooksItem {
       thumbnail: string;
     };
     publishedDate?: string;
+    language?: string;
     publisher?: string;
     pageCount?: number;
   };

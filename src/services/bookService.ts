@@ -1,4 +1,4 @@
-import type { Book } from "../types/book";
+import type { Book, CustomBookItem } from "../types/book";
 import { supabase } from "./supabase";
 
 export function mapRowToBook(row: any): Book {
@@ -41,6 +41,20 @@ export async function getBookByGoogleId(
   return data ? mapRowToBook(data) : null;
 }
 
+export async function getBookByIsbn(isbn: string): Promise<Book | null> {
+  const { data, error } = await supabase
+    .from("books")
+    .select("*")
+    .eq("isbn", isbn)
+    .maybeSingle();
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data ? mapRowToBook(data) : null;
+}
+
 export async function addBook(book: Book): Promise<Book> {
   const bookToInsert = {
     title: book.title,
@@ -57,6 +71,31 @@ export async function addBook(book: Book): Promise<Book> {
     .select()
     .single();
 
+  if (error) {
+    throw new Error(error.message);
+  }
+  return mapRowToBook(data);
+}
+
+export async function addCustomBook(
+  input: CustomBookItem,
+  userId: string,
+): Promise<Book> {
+  const bookToInsert = {
+    title: input.title,
+    authors: input.authors,
+    year: input.year ?? null,
+    isbn: input.isbn ?? null,
+    publisher: input.publisher ?? null,
+    page_count: input.pageCount ?? null,
+    google_books_id: null,
+    created_by: userId,
+  };
+  const { data, error } = await supabase
+    .from("books")
+    .insert(bookToInsert)
+    .select()
+    .single();
   if (error) {
     throw new Error(error.message);
   }

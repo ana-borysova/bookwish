@@ -33,3 +33,16 @@ export async function searchBooks(query: string): Promise<Book[]> {
     .filter((item) => item.volumeInfo.language !== "ru")
     .map(mapToBook);
 }
+
+export async function fetchCoverByIsbn(isbn: string): Promise<string | null> {
+  const url = `${BASE_URL}/volumes?q=${encodeURIComponent(`isbn:${isbn}`)}&maxResults=1&key=${API_KEY}`;
+
+  const res = await fetch(url);
+  if (!res.ok) {
+    throw new Error("Помилка запиту до API");
+  }
+
+  const data: GoogleBooksResponse = await res.json();
+  const thumbnail = data.items?.[0]?.volumeInfo.imageLinks?.thumbnail;
+  return thumbnail ? thumbnail.replace("http://", "https://") : null;
+}

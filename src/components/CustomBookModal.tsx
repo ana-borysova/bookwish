@@ -8,6 +8,7 @@ import {
 } from "../lib/desirability";
 import { WishlistDesirabilitySlider } from "./WishlistDesirabilitySlider";
 import { AppErrorCode } from "../lib/errors";
+import { BookCover } from "./BookCover";
 
 export interface CustomBookModalProps {
   onClose: () => void;
@@ -27,15 +28,15 @@ export function CustomBookModal({ onClose, onSubmit }: CustomBookModalProps) {
   const [comment, setComment] = useState("");
   const [isbn, setIsbn] = useState("");
   const [desirability, setDesirability] = useState(DEFAULT_DESIRABILITY);
-  const [coverError, setCoverError] = useState(false);
+
   const [status, setStatus] = useState<
     "idle" | "loading" | "success" | "duplicate" | "error"
   >("idle");
 
   const normalizedIsbn = normalizeIsbn(isbn);
-  const tier = getDesirabilityTier(desirability);
-  const showCover = normalizedIsbn !== null && !coverError;
+
   const canSubmit = title.trim() !== "" && author.trim() !== "";
+  const tier = getDesirabilityTier(desirability);
 
   async function handleAdd() {
     if (!canSubmit) {
@@ -90,18 +91,13 @@ export function CustomBookModal({ onClose, onSubmit }: CustomBookModalProps) {
         <h2 className="text-2xl">Додати книгу 📖</h2>
         <div className="my-2 flex gap-1">
           <div className="flex-1 relative rounded-lg overflow-hidden">
-            {showCover ? (
-              <img
-                src={isbnCoverUrl(normalizedIsbn!)}
-                alt={title}
-                className="w-full h-full object-cover"
-                onError={() => setCoverError(true)}
-              />
-            ) : (
-              <div className="w-full h-full object-cover text-gray-400 text-xs text-center bg-amber-200">
-                Немає обкладинки
-              </div>
-            )}
+            <BookCover
+              key={normalizedIsbn ?? "none"}
+              src={normalizedIsbn ? isbnCoverUrl(normalizedIsbn) : undefined}
+              title={title}
+              isbn={normalizedIsbn ?? undefined}
+              coverSize="w-full h-full"
+            />
 
             <span
               className="spine"
@@ -123,10 +119,7 @@ export function CustomBookModal({ onClose, onSubmit }: CustomBookModalProps) {
             />
             <input
               value={isbn}
-              onChange={(e) => {
-                setIsbn(e.target.value);
-                setCoverError(false);
-              }}
+              onChange={(e) => setIsbn(e.target.value)}
               className="bg-gray-200 w-full p-2 rounded-md"
               placeholder="ISBN (необов'язково)"
             />

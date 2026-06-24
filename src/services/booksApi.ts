@@ -1,4 +1,3 @@
-import { coverUrl } from "../lib/coverUrl";
 import type { Book, GoogleBooksItem, GoogleBooksResponse } from "../types/book";
 
 const API_KEY = import.meta.env.VITE_GOOGLE_BOOKS_API_KEY;
@@ -44,5 +43,6 @@ export async function fetchCoverByIsbn(isbn: string): Promise<string | null> {
   }
 
   const data: GoogleBooksResponse = await res.json();
-  return coverUrl(data.items?.[0]?.volumeInfo.imageLinks?.thumbnail) ?? null;
+  const thumbnail = data.items?.[0]?.volumeInfo.imageLinks?.thumbnail;
+  return thumbnail ? thumbnail.replace("http://", "https://") : null;
 }

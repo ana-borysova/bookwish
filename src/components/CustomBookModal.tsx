@@ -95,6 +95,7 @@ export function CustomBookModal({ onClose, onSubmit }: CustomBookModalProps) {
               key={normalizedIsbn ?? "none"}
               src={normalizedIsbn ? isbnCoverUrl(normalizedIsbn) : undefined}
               title={title}
+              isbn={normalizedIsbn ?? undefined}
               coverSize="w-full h-full"
             />
 

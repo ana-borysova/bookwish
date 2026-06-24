@@ -75,6 +75,7 @@ export function AddToWishlistModal({
             <BookCover
               src={bookCoverUrl(book)}
               title={book.title}
+              isbn={book.isbn}
               coverSize="w-full h-full"
             />
 

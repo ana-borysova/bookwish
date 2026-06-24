@@ -83,6 +83,7 @@ export function WishlistItemCard({
               src={bookCoverUrl(item.book)}
               title={title}
               coverSize="w-full h-full"
+              isbn={item.book.isbn}
             />
 
             <span

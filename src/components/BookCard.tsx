@@ -23,6 +23,7 @@ export function BookCard({ book, onAdd, alreadyAdded }: BookCardProps) {
         src={bookCoverUrl(book)}
         title={book.title}
         coverSize="w-24 h-36 rounded"
+        isbn={book.isbn}
       />
 
       <div className="flex flex-col gap-1 flex-1">

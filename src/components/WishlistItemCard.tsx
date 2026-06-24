@@ -14,6 +14,7 @@ import {
 } from "../lib/desirability";
 import clsx from "clsx";
 import { bookCoverUrl } from "../lib/coverUrl";
+import { BookCover } from "./BookCover";
 
 interface WishlistItemCardProps {
   item: WishlistItemWithBook;
@@ -59,9 +60,6 @@ export function WishlistItemCard({
   const tier = getDesirabilityTier(desirability);
   const isReserver = !!currentUserId && currentUserId === item.reservedBy;
 
-  const [coverError, setCoverError] = useState(false);
-  const cover = bookCoverUrl(item.book);
-
   function onOpenModal() {
     setIsModalOpen(true);
   }
@@ -81,18 +79,11 @@ export function WishlistItemCard({
       >
         <div className="flip-inner">
           <div className=" flip-face relative ">
-            {cover && !coverError ? (
-              <img
-                src={cover}
-                alt={title}
-                className="w-full h-full object-cover"
-                onError={() => setCoverError(true)}
-              />
-            ) : (
-              <div className="w-full h-full object-cover text-gray-400 text-xs text-center">
-                Немає обкладинки
-              </div>
-            )}
+            <BookCover
+              src={bookCoverUrl(item.book)}
+              title={title}
+              coverSize="w-full h-full"
+            />
 
             <span
               className="spine"

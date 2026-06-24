@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { coverUrl } from "../lib/coverUrl";
+import { bookCoverUrl } from "../lib/coverUrl";
 import type { Book } from "../types/book";
 import {
   DEFAULT_DESIRABILITY,
@@ -8,6 +8,7 @@ import {
 } from "../lib/desirability";
 import { WishlistDesirabilitySlider } from "./WishlistDesirabilitySlider";
 import { AppErrorCode } from "../lib/errors";
+import { BookCover } from "./BookCover";
 
 export interface AddToWishlistModalProps {
   book: Book;
@@ -71,17 +72,11 @@ export function AddToWishlistModal({
         <h2 className="text-2xl">Додати до списку 🎁</h2>
         <div className="my-2 flex gap-1">
           <div className="flex-1 relative rounded-lg overflow-hidden">
-            {book.thumbnail ? (
-              <img
-                src={coverUrl(book.thumbnail)}
-                alt={book.title}
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <div className="w-full h-full object-cover text-gray-400 text-xs text-center">
-                Немає обкладинки
-              </div>
-            )}
+            <BookCover
+              src={bookCoverUrl(book)}
+              title={book.title}
+              coverSize="w-full h-full"
+            />
 
             <span
               className="spine"

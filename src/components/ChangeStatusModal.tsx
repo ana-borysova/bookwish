@@ -23,7 +23,39 @@ interface ChangeStatusModalProps {
   onClose: () => void;
 }
 
+interface RadioOptionProps {
+  optionName: string;
+  checked: boolean;
+  title: string;
+  onChange: () => void;
+}
+
 type Action = "reserve" | "purchase" | null;
+
+function RadioOption({
+  checked,
+  optionName,
+  title,
+  onChange,
+}: RadioOptionProps) {
+  return (
+    <label>
+      <input
+        checked={checked}
+        className="sr-only"
+        name={optionName}
+        type="radio"
+        onChange={onChange}
+      />
+      <div>
+        <div>
+          <div></div>
+        </div>
+        <span>{title}</span>
+      </div>
+    </label>
+  );
+}
 
 export function ChangeStatusModal({
   status,
@@ -85,37 +117,19 @@ export function ChangeStatusModal({
             <h3>Виконуємо бажання?🎁</h3>
             <p>Повідом усім, що хтось уже подбав саме про цю книгу! </p>
             <div>
-              <label>
-                <input
-                  checked={action === "reserve"}
-                  //className="hidden"
-                  name="purchase_status"
-                  type="radio"
-                  onChange={() => setAction("reserve")}
-                />
-                <div>
-                  <div>
-                    <div></div>
-                  </div>
-                  <span>Так, я збираюся купити цю книгу</span>
-                </div>
-              </label>
+              <RadioOption
+                checked={action === "reserve"}
+                optionName="purchase_status"
+                onChange={() => setAction("reserve")}
+                title="Так, я збираюся купити цю книгу"
+              />
 
-              <label>
-                <input
-                  checked={action === "purchase"}
-                  //className="hidden"
-                  name="purchase_status"
-                  type="radio"
-                  onChange={() => setAction("purchase")}
-                />
-                <div>
-                  <div>
-                    <div></div>
-                  </div>
-                  <span>Так, я вже купив цю книгу!</span>
-                </div>
-              </label>
+              <RadioOption
+                checked={action === "purchase"}
+                optionName="purchase_status"
+                onChange={() => setAction("purchase")}
+                title="Так, я вже купив цю книгу!"
+              />
 
               <button disabled={action === null} onClick={() => setStep(2)}>
                 Далі
@@ -131,37 +145,18 @@ export function ChangeStatusModal({
               ти
             </p>
             <div>
-              <label>
-                <input
-                  checked={isAnonymous}
-                  //className="hidden"
-                  name="purchase_status"
-                  type="radio"
-                  onChange={() => setIsAnonymous(true)}
-                />
-                <div>
-                  <div>
-                    <div></div>
-                  </div>
-                  <span>Залишитись анонімним</span>
-                </div>
-              </label>
-
-              <label>
-                <input
-                  checked={!isAnonymous}
-                  //className="hidden"
-                  name="purchase_status"
-                  type="radio"
-                  onChange={() => setIsAnonymous(false)}
-                />
-                <div>
-                  <div>
-                    <div></div>
-                  </div>
-                  <span>Скажи їй хто я</span>
-                </div>
-              </label>
+              <RadioOption
+                checked={isAnonymous}
+                optionName="anonymity"
+                onChange={() => setIsAnonymous(true)}
+                title="Залишитись анонімним"
+              />
+              <RadioOption
+                checked={!isAnonymous}
+                optionName="anonymity"
+                onChange={() => setIsAnonymous(false)}
+                title="Розповісти, хто я"
+              />
 
               {!isAnonymous && (
                 <p>

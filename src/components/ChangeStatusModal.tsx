@@ -39,7 +39,9 @@ function RadioOption({
   onChange,
 }: RadioOptionProps) {
   return (
-    <label>
+    <label
+      className={`flex items-center gap-3 rounded-xl p-4 border group ${checked ? "bg-amber-50 border-amber-500" : "border-gray-200 hover:bg-gray-100"}`}
+    >
       <input
         checked={checked}
         className="sr-only"
@@ -47,12 +49,16 @@ function RadioOption({
         type="radio"
         onChange={onChange}
       />
-      <div>
-        <div>
-          <div></div>
-        </div>
-        <span>{title}</span>
-      </div>
+
+      <span
+        className={`flex items-center justify-center w-5 h-5 rounded-full border-2 flex-none ${checked ? "border-amber-500" : "border-gray-300"}`}
+      >
+        <span
+          className={`w-2.5 h-2.5 rounded-full ${checked ? "bg-amber-500" : "group-hover:bg-gray-300"}`}
+        />
+      </span>
+
+      <span className="text-gray-900">{title}</span>
     </label>
   );
 }

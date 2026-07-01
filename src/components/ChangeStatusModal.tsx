@@ -1,14 +1,16 @@
 import { useState } from "react";
-import { WishlistItemStatus } from "../types/book";
+import { WishlistItemStatus, type Book } from "../types/book";
 import { useAuthContext } from "../context/AuthContext";
 import { ButtonPrimary } from "./ButtonPrimary";
 import { ButtonSecondary } from "./ButtonSecondary";
+import { BookCover } from "./BookCover";
+import { bookCoverUrl } from "../lib/coverUrl";
 
 interface ChangeStatusModalProps {
   status: WishlistItemStatus;
+  book: Book;
   isAuthenticated: boolean;
   isOwner: boolean;
-
   isAnonymous: boolean;
   itemId: string;
   onReserve: (data: {
@@ -67,6 +69,7 @@ function RadioOption({
 
 export function ChangeStatusModal({
   status,
+  book,
   isAuthenticated,
   isOwner,
   itemId,
@@ -106,8 +109,28 @@ export function ChangeStatusModal({
         </button>
 
         {isOwner && (
-          <div>
-            <h3>Вже отримали?🎁</h3>
+          <div className="text-center">
+            <h3 className="text-2xl font-semibold text-gray-900">
+              Вже отримали?🎁
+            </h3>
+            <p className="text-gray-500 text-sm">
+              Ця книжка вже у твоїй колекції?
+            </p>
+            <div className="flex justify-center my-7">
+              <div className="flicker-cover relative w-36 aspect-2/3 rounded-lg overflow-hidden">
+                <BookCover
+                  src={bookCoverUrl(book)}
+                  title={book.title}
+                  isbn={book.isbn}
+                  coverSize="w-full h-full"
+                />
+                <span
+                  className="spine"
+                  style={{ ["--spine" as string]: "#f59e0b" }}
+                />
+              </div>
+            </div>
+
             <div className="flex gap-4 mt-6 justify-center">
               <ButtonSecondary onClick={onClose}>Ні, ще чекаю!</ButtonSecondary>
               <ButtonPrimary
@@ -122,11 +145,15 @@ export function ChangeStatusModal({
           </div>
         )}
         {!isOwner && isAuthenticated && step === 1 && (
-          <div>
-            <h3>Виконуємо бажання?🎁</h3>
-            <p>Повідом усім, що хтось уже подбав саме про цю книгу! </p>
+          <div className="text-center">
+            <h3 className="text-2xl font-semibold text-gray-900">
+              Виконуємо бажання?🎁
+            </h3>
+            <p className="text-gray-500 text-sm">
+              Повідом усім, що хтось уже подбав саме про цю книгу!{" "}
+            </p>
 
-            <div>
+            <div className="flex flex-col gap-3 mt-5">
               <RadioOption
                 checked={action === "reserve"}
                 optionName="purchase_status"
@@ -140,7 +167,7 @@ export function ChangeStatusModal({
                 onChange={() => setAction("purchase")}
                 title="Так, я вже купив цю книгу!"
               />
-              <div className="flex gap-4 mt-6 justify-end">
+              <div className="flex gap-4 mt-3 justify-end">
                 <ButtonSecondary onClick={onClose}>Скасувати</ButtonSecondary>
                 <ButtonPrimary
                   disabled={action === null}
@@ -153,13 +180,15 @@ export function ChangeStatusModal({
           </div>
         )}
         {!isOwner && isAuthenticated && step === 2 && (
-          <div>
-            <h3>Хочеш зробити сюрприз?🎁</h3>
-            <p>
+          <div className="text-center">
+            <h3 className="text-2xl font-semibold text-gray-900 pb-1">
+              Хочеш зробити сюрприз?🎁
+            </h3>
+            <p className="text-gray-500 text-sm">
               Обери, чи хочеш ти залишитись анонімним, чи повідомиш власнику хто
               ти
             </p>
-            <div>
+            <div className="flex flex-col gap-3 mt-3">
               <RadioOption
                 checked={isAnonymous}
                 optionName="anonymity"
@@ -174,13 +203,13 @@ export function ChangeStatusModal({
               />
 
               {!isAnonymous && (
-                <p>
+                <p className="text-gray-500 text-sm">
                   Власник одразу побачить, хто ти. Якщо передумаєш — може бути
                   запізно.
                 </p>
               )}
               <div
-                className={`flex gap-4 mt-6 ${isReservedFlow ? "justify-end" : "justify-between"}`}
+                className={`flex gap-4 mt-3 ${isReservedFlow ? "justify-end" : "justify-between"}`}
               >
                 {!isReservedFlow && (
                   <ButtonSecondary onClick={() => setStep(1)}>

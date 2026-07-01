@@ -165,6 +165,7 @@ export function WishlistItemCard({
           <ChangeStatusModal
             onClose={onCloseModal}
             status={status}
+            book={item.book}
             isAuthenticated={isAuthenticated}
             isOwner={isOwner}
             isAnonymous={item.isAnonymous ?? false}

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { WishlistItemStatus } from "../types/book";
 import { useAuthContext } from "../context/AuthContext";
+import { ButtonPrimary } from "./ButtonPrimary";
+import { ButtonSecondary } from "./ButtonSecondary";
 
 interface ChangeStatusModalProps {
   status: WishlistItemStatus;
@@ -93,35 +95,37 @@ export function ChangeStatusModal({
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl bg-white p-8 shadow-xl "
+        className="relative w-full max-w-md max-h-[90vh] overflow-y-auto rounded-2xl bg-white p-8 shadow-xl "
         onClick={(e) => e.stopPropagation()}
       >
         <button
           className="absolute right-4 top-4 text-gray-400 hover:text-gray-600"
           onClick={onClose}
         >
-          X
+          ✕
         </button>
 
         {isOwner && (
           <div>
             <h3>Вже отримали?🎁</h3>
-
-            <button
-              onClick={() => {
-                onReceived(itemId);
-                onClose();
-              }}
-            >
-              Так, отримала!
-            </button>
-            <button onClick={onClose}>Ні, ще чекаю!</button>
+            <div className="flex gap-4 mt-6 justify-center">
+              <ButtonSecondary onClick={onClose}>Ні, ще чекаю!</ButtonSecondary>
+              <ButtonPrimary
+                onClick={() => {
+                  onReceived(itemId);
+                  onClose();
+                }}
+              >
+                Так, отримала!
+              </ButtonPrimary>
+            </div>
           </div>
         )}
         {!isOwner && isAuthenticated && step === 1 && (
           <div>
             <h3>Виконуємо бажання?🎁</h3>
             <p>Повідом усім, що хтось уже подбав саме про цю книгу! </p>
+
             <div>
               <RadioOption
                 checked={action === "reserve"}
@@ -136,10 +140,15 @@ export function ChangeStatusModal({
                 onChange={() => setAction("purchase")}
                 title="Так, я вже купив цю книгу!"
               />
-
-              <button disabled={action === null} onClick={() => setStep(2)}>
-                Далі
-              </button>
+              <div className="flex gap-4 mt-6 justify-end">
+                <ButtonSecondary onClick={onClose}>Скасувати</ButtonSecondary>
+                <ButtonPrimary
+                  disabled={action === null}
+                  onClick={() => setStep(2)}
+                >
+                  Продовжити
+                </ButtonPrimary>
+              </div>
             </div>
           </div>
         )}
@@ -170,33 +179,42 @@ export function ChangeStatusModal({
                   запізно.
                 </p>
               )}
-              <button
-                disabled={!userId}
-                onClick={() => {
-                  if (!userId) {
-                    return;
-                  }
-                  if (action === "reserve") {
-                    onReserve({
-                      itemId: itemId,
-                      isAnonymous: isAnonymous,
-                      reservedBy: userId,
-                    });
-                    onClose();
-                  }
-
-                  if (action === "purchase") {
-                    onPurchase({
-                      itemId,
-                      reservedBy: userId,
-                      isAnonymous,
-                    });
-                    onClose();
-                  }
-                }}
+              <div
+                className={`flex gap-4 mt-6 ${isReservedFlow ? "justify-end" : "justify-between"}`}
               >
-                Підтвердити
-              </button>
+                {!isReservedFlow && (
+                  <ButtonSecondary onClick={() => setStep(1)}>
+                    ← Назад
+                  </ButtonSecondary>
+                )}
+                <ButtonPrimary
+                  disabled={!userId}
+                  onClick={() => {
+                    if (!userId) {
+                      return;
+                    }
+                    if (action === "reserve") {
+                      onReserve({
+                        itemId: itemId,
+                        isAnonymous: isAnonymous,
+                        reservedBy: userId,
+                      });
+                      onClose();
+                    }
+
+                    if (action === "purchase") {
+                      onPurchase({
+                        itemId,
+                        reservedBy: userId,
+                        isAnonymous,
+                      });
+                      onClose();
+                    }
+                  }}
+                >
+                  Підтвердити
+                </ButtonPrimary>
+              </div>
             </div>
           </div>
         )}

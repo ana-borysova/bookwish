@@ -71,3 +71,24 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   cursor: pointer;
 }
+
+.flicker-cover {
+  animation: flicker 2.6s infinite ease-in-out;
+}
+
+@keyframes flicker {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 18px 3px rgba(245, 158, 11, 0.5);
+  }
+  20%,
+  70% {
+    opacity: 0.9;
+    box-shadow: 0 0 10px 1px rgba(245, 158, 11, 0.3);
+  }
+  45% {
+    opacity: 1;
+    box-shadow: 0 0 20px 5px rgba(245, 158, 11, 0.55);
+  }
+}

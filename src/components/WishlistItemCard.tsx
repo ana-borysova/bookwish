@@ -165,6 +165,7 @@ export function WishlistItemCard({
           <ChangeStatusModal
             onClose={onCloseModal}
             status={status}
+            book={item.book}
             isAuthenticated={isAuthenticated}
             isOwner={isOwner}
             isAnonymous={item.isAnonymous ?? false}
@@ -177,6 +178,7 @@ export function WishlistItemCard({
         )}
       {confirm === "delete" && (
         <ConfirmDialog
+          book={item.book}
           title="Видалити книгу?"
           message="Точно хочеш видалити цю книгу зі свого списку?"
           confirmLabel="Так, видаляємо книгу"
@@ -190,6 +192,7 @@ export function WishlistItemCard({
       )}
       {confirm === "cancel" && (
         <ConfirmDialog
+          book={item.book}
           title="Змінили свою думку?"
           message="Більше не хочеш дарувати цю книгу?"
           confirmLabel="Так, я передумала"

@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { bookCoverUrl } from "../lib/coverUrl";
 import type { Book } from "../types/book";
-import {
-  DEFAULT_DESIRABILITY,
-  getDesirabilityTier,
-  gradient,
-} from "../lib/desirability";
+import { DEFAULT_DESIRABILITY, getDesirabilityTier } from "../lib/desirability";
 import { WishlistDesirabilitySlider } from "./WishlistDesirabilitySlider";
 import { AppErrorCode } from "../lib/errors";
 import { BookCover } from "./BookCover";
+import { ButtonSecondary } from "./ButtonSecondary";
+import { ButtonPrimary } from "./ButtonPrimary";
 
 export interface AddToWishlistModalProps {
   book: Book;
@@ -69,7 +67,9 @@ export function AddToWishlistModal({
         >
           X
         </button>
-        <h2 className="text-2xl">Додати до списку 🎁</h2>
+
+        <h2 className="text-2xl pb-4 px-1">Додати до списку 🎁</h2>
+
         <div className="my-2 flex gap-1">
           <div className="flex-1 relative rounded-lg overflow-hidden">
             <BookCover
@@ -122,10 +122,9 @@ export function AddToWishlistModal({
               </p>
             )}
             <div className="flex gap-5 justify-end self-end mt-auto">
-              <button onClick={onClose}>Скасувати</button>
-              <button
-                className="rounded-full whitespace-nowrap px-4 py-1"
-                style={{ backgroundImage: gradient }}
+              <ButtonSecondary onClick={onClose}>Скасувати</ButtonSecondary>
+
+              <ButtonPrimary
                 onClick={handleAdd}
                 disabled={
                   status === "loading" ||
@@ -134,7 +133,7 @@ export function AddToWishlistModal({
                 }
               >
                 {status === "loading" ? "Додаю…" : "Додати"}
-              </button>
+              </ButtonPrimary>
             </div>
           </div>
         </div>

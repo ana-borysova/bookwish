@@ -8,20 +8,21 @@ export function Navbar() {
   const { data: profile } = useProfile();
 
   return (
-    <nav className="border-b border-gray-200 px-6 py-4 flex justify-between items-center">
-      <Link to="/" className="text-xl font-bold text-gray-900">
+    <nav className="px-[clamp(40px,5vw,110px)] py-7 flex justify-between items-center">
+      <Link
+        to="/"
+        className="flex items-center gap-3 font-display font-extrabold text-[26px] text-cream"
+      >
         📚 BookWish
       </Link>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-8 text-base">
         {user && (
-          <span className="text-sm text-gray-600">
-            Привіт, {profile?.username}!
-          </span>
+          <span className="text-cream/70">Привіт, {profile?.username}!</span>
         )}
         <Link
           to="/wishlist"
-          className="text-sm text-blue-600 hover:text-blue-800 transition-colors"
+          className="text-gold/80 font-semibold hover:text-gold transition-colors"
         >
           Мій список
         </Link>
@@ -29,7 +30,7 @@ export function Navbar() {
         {user && (
           <button
             onClick={signOut}
-            className="text-sm text-gray-500 hover:text-red-500 transition-colors"
+            className="text-cream/70 hover:text-cream transition-colors"
           >
             Вийти
           </button>

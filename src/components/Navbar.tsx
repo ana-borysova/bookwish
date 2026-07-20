@@ -8,7 +8,7 @@ export function Navbar() {
   const { data: profile } = useProfile();
 
   return (
-    <nav className="px-[clamp(40px,5vw,110px)] py-7 flex justify-between items-center">
+    <nav className="px-[clamp(3.25rem,5vw,5.5rem)] py-7 flex justify-between items-center">
       <Link
         to="/"
         className="flex items-center gap-3 font-display font-extrabold text-[26px] text-cream"
@@ -25,6 +25,12 @@ export function Navbar() {
           className="text-gold/80 font-semibold hover:text-gold transition-colors"
         >
           Мій список
+        </Link>
+        <Link
+          to="/search"
+          className="text-gold/80 font-semibold hover:text-gold transition-colors"
+        >
+          Пошук
         </Link>
 
         {user && (

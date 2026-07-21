@@ -1,10 +1,10 @@
+import { bookCoverUrl } from "../lib/coverUrl";
+import { DEFAULT_DESIRABILITY, getDesirabilityTier } from "../lib/desirability";
+import type { WishlistItemWithBook } from "../types/book";
 import { SkyBookCard } from "./SkyBookCard";
 
-const DUMMY_COVERS = [
+const POSITION = [
   {
-    title: "Caraval",
-    coverUrl: "https://covers.openlibrary.org/b/isbn/9780747532699-L.jpg",
-    spineColor: "#e11d48",
     top: "top-3",
     left: "left-25",
     rotate: "-8deg",
@@ -12,9 +12,6 @@ const DUMMY_COVERS = [
     delay: "0s",
   },
   {
-    title: "Legendary",
-    coverUrl: "https://covers.openlibrary.org/b/isbn/9780747532699-L.jpg",
-    spineColor: "#f59e0b",
     top: "top-8",
     left: "left-90",
     rotate: "5deg",
@@ -22,9 +19,6 @@ const DUMMY_COVERS = [
     delay: "1.5s",
   },
   {
-    title: "Finale",
-    coverUrl: "https://covers.openlibrary.org/b/isbn/9780747532699-L.jpg",
-    spineColor: "#e11d48",
     top: "top-88",
     left: "left-120",
     rotate: "-6deg",
@@ -32,9 +26,6 @@ const DUMMY_COVERS = [
     delay: "0.7s",
   },
   {
-    title: "The Lord of the Rings",
-    coverUrl: "https://covers.openlibrary.org/b/isbn/9780747532699-L.jpg",
-    spineColor: "#f59e0b",
     top: "top-85",
     left: "left-0",
     rotate: "10deg",
@@ -42,9 +33,6 @@ const DUMMY_COVERS = [
     delay: "2.1s",
   },
   {
-    title: "Harry Potter",
-    coverUrl: "https://covers.openlibrary.org/b/isbn/9780747532699-L.jpg",
-    spineColor: "#f59e0b",
     top: "top-110",
     left: "left-62",
     rotate: "-3deg",
@@ -53,24 +41,34 @@ const DUMMY_COVERS = [
   },
 ];
 
-export function Sky() {
+interface SkyProps {
+  books: WishlistItemWithBook[];
+}
+
+export function Sky({ books }: SkyProps) {
   return (
     <div className="relative h-184">
-      {DUMMY_COVERS.map((cover) => {
+      {books.map((item, i) => {
+        const pos = POSITION[i];
+        const cover = bookCoverUrl(item.book);
+        const tier = getDesirabilityTier(
+          item.desirability ?? DEFAULT_DESIRABILITY,
+        );
+
         return (
           <div
-            key={cover.title}
-            className={`float-cover absolute ${cover.top} ${cover.left}`}
+            key={item.id}
+            className={`float-cover absolute ${pos.top} ${pos.left}`}
             style={{
-              ["--rot" as string]: cover.rotate,
-              ["--dur" as string]: cover.dur,
-              ["--delay" as string]: cover.delay,
+              ["--rot" as string]: pos.rotate,
+              ["--dur" as string]: pos.dur,
+              ["--delay" as string]: pos.delay,
             }}
           >
             <SkyBookCard
-              title={cover.title}
-              spineColor={cover.spineColor}
-              coverUrl={cover.coverUrl}
+              title={item.book.title}
+              spineColor={tier.color}
+              coverUrl={cover}
             />
           </div>
         );

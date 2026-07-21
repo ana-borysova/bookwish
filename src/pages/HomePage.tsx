@@ -1,10 +1,21 @@
 import { ButtonCTA } from "../components/ButtonCTA";
 import { Sky } from "../components/Sky";
 import { useAuthContext } from "../context/AuthContext";
+import { useWishlist } from "../hooks/useWishlist";
 import { gradient } from "../lib/desirability";
+import { WishlistItemStatus } from "../types/book";
 
 export function HomePage() {
   const { user } = useAuthContext();
+  const { data: wishlist } = useWishlist(user!.id);
+  const books = wishlist?.slice(0, 5) ?? [];
+
+  const booksInList = wishlist?.length ?? 0;
+  const dreamBooksInList =
+    wishlist?.filter((item) => item.desirability === 5).length ?? 0;
+  const booksReserved =
+    wishlist?.filter((item) => item.status === WishlistItemStatus.RESERVED)
+      .length ?? 0;
 
   return (
     <section className="px-[clamp(3.25rem,5vw,5.5rem)]">
@@ -31,15 +42,17 @@ export function HomePage() {
           </p>
           <div className="mt-6 flex gap-4 items-center flex-wrap text-sm text-cream/80">
             <span>
-              <b className="text-gold font-bold">✦ 6</b> книг у списку
+              <b className="text-gold font-bold">✦ {booksInList}</b> книг у
+              списку
             </span>
             <span className="text-cream/30">·</span>
             <span>
-              <b className="text-gold font-bold">🔥 2 </b>мрії
+              <b className="text-gold font-bold">🔥 {dreamBooksInList} </b>мрії
             </span>
             <span className="text-cream/30">·</span>
             <span>
-              <b className="text-gold font-bold">🎁 1</b> зарезервовано
+              <b className="text-gold font-bold">🎁 {booksReserved}</b>{" "}
+              зарезервовано
             </span>
           </div>
           <div className="flex gap-4 mt-8">
@@ -56,7 +69,7 @@ export function HomePage() {
           </p>
         </div>
 
-        <Sky />
+        <Sky books={books} />
       </div>
     </section>
   );

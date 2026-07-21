@@ -1,4 +1,5 @@
 import { ButtonCTA } from "../components/ButtonCTA";
+import { Sky } from "../components/Sky";
 import { useAuthContext } from "../context/AuthContext";
 import { gradient } from "../lib/desirability";
 
@@ -54,7 +55,8 @@ export function HomePage() {
             книгу-подарунок, поки ти й не здогадуєшся.
           </p>
         </div>
-        <div>Зображення</div>
+
+        <Sky />
       </div>
     </section>
   );

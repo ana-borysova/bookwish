@@ -5,6 +5,7 @@ import { WishlistPage } from "./pages/WishlistPage";
 import { AuthPage } from "./pages/AuthPage";
 import { useAuthContext } from "./context/AuthContext";
 import { HomePage } from "./pages/HomePage";
+import { StarField } from "./components/StarField";
 
 function App() {
   const { user, isLoading } = useAuthContext();
@@ -19,6 +20,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <StarField />
       {user && <Navbar />}
       <Routes>
         <Route

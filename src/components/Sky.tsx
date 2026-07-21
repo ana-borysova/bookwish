@@ -2,6 +2,7 @@ import { bookCoverUrl } from "../lib/coverUrl";
 import { DEFAULT_DESIRABILITY, getDesirabilityTier } from "../lib/desirability";
 import type { WishlistItemWithBook } from "../types/book";
 import { SkyBookCard } from "./SkyBookCard";
+import { SkyEmptyCard } from "./SkyEmptyCard";
 
 const POSITION = [
   {
@@ -48,16 +49,12 @@ interface SkyProps {
 export function Sky({ books }: SkyProps) {
   return (
     <div className="relative h-184">
-      {books.map((item, i) => {
-        const pos = POSITION[i];
-        const cover = bookCoverUrl(item.book);
-        const tier = getDesirabilityTier(
-          item.desirability ?? DEFAULT_DESIRABILITY,
-        );
+      {POSITION.map((pos, i) => {
+        const item = books[i];
 
         return (
           <div
-            key={item.id}
+            key={i}
             className={`float-cover absolute ${pos.top} ${pos.left}`}
             style={{
               ["--rot" as string]: pos.rotate,
@@ -65,11 +62,19 @@ export function Sky({ books }: SkyProps) {
               ["--delay" as string]: pos.delay,
             }}
           >
-            <SkyBookCard
-              title={item.book.title}
-              spineColor={tier.color}
-              coverUrl={cover}
-            />
+            {" "}
+            {item ? (
+              <SkyBookCard
+                title={item.book.title}
+                spineColor={
+                  getDesirabilityTier(item.desirability ?? DEFAULT_DESIRABILITY)
+                    .color
+                }
+                coverUrl={bookCoverUrl(item.book)}
+              />
+            ) : (
+              <SkyEmptyCard />
+            )}
           </div>
         );
       })}

@@ -6,6 +6,8 @@ import { AuthPage } from "./pages/AuthPage";
 import { useAuthContext } from "./context/AuthContext";
 import { HomePage } from "./pages/HomePage";
 import { StarField } from "./components/StarField";
+import { GuestHomePage } from "./pages/GuestHomePage";
+import { GuestNavbar } from "./components/GuestNavbar";
 
 function App() {
   const { user, isLoading } = useAuthContext();
@@ -21,12 +23,9 @@ function App() {
   return (
     <BrowserRouter>
       <StarField />
-      {user && <Navbar />}
+      {user ? <Navbar /> : <GuestNavbar />}
       <Routes>
-        <Route
-          path="/"
-          element={user ? <HomePage /> : <Navigate to="/auth" />}
-        />
+        <Route path="/" element={user ? <HomePage /> : <GuestHomePage />} />
         <Route
           path="/wishlist"
           element={

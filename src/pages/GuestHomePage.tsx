@@ -1,4 +1,5 @@
 import { ButtonCTA } from "../components/ButtonCTA";
+import { GuestSlider } from "../components/GuestSlider";
 
 import { gradient } from "../lib/desirability";
 
@@ -36,6 +37,7 @@ export function GuestHomePage() {
             таємно зарезервувати книгу-подарунок, яку ти так хочеш!
           </p>
         </div>
+        <GuestSlider />
       </div>
     </section>
   );

@@ -106,6 +106,14 @@ body {
   animation: glowpulse 5s ease-in-out 0.2s infinite;
 }
 
+.book-fly {
+  animation: bookFly 20s ease-in-out var(--delay, 0s) backwards infinite;
+}
+
+.hint-pop {
+  animation: hintPop 20s ease-in-out var(--delay, 0s) infinite;
+}
+
 @keyframes flicker {
   0%,
   100% {
@@ -147,9 +155,76 @@ body {
   }
 }
 
+@keyframes bookFly {
+  0% {
+    transform: translate(0, 0) rotate(var(--rot)) scale(1);
+    opacity: 1;
+  }
+  14% {
+    transform: translate(0, -8px) rotate(var(--rot)) scale(1);
+    opacity: 1;
+  }
+  26% {
+    transform: translate(0, 0) rotate(var(--rot)) scale(1);
+    opacity: 1;
+  }
+  43% {
+    transform: translate(var(--fx), var(--fy))
+      rotate(calc(var(--rot) + var(--spin))) scale(0);
+    opacity: 0;
+  }
+  90% {
+    transform: translate(var(--fx), var(--fy))
+      rotate(calc(var(--rot) + var(--spin))) scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(0, 0) rotate(var(--rot)) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes hintPop {
+  0%,
+  47% {
+    transform: translate(0, 0) rotate(var(--rot)) scale(0);
+    opacity: 0;
+  }
+  55% {
+    transform: translate(0, 0) rotate(var(--rot)) scale(1.06);
+    opacity: 1;
+  }
+  61% {
+    transform: translate(0, 0) rotate(var(--rot)) scale(1);
+    opacity: 1;
+  }
+  78% {
+    transform: translate(0, -8px) rotate(var(--rot)) scale(1);
+    opacity: 1;
+  }
+  88% {
+    transform: translate(0, 0) rotate(var(--rot)) scale(1);
+    opacity: 1;
+  }
+  94%,
+  100% {
+    transform: translate(0, 0) rotate(var(--rot)) scale(0);
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .float-cover,
   .glowpulse-cover {
     animation: none;
+  }
+  .float-cover,
+  .book-fly {
+    animation: none;
+    transform: translate(0, 0) rotate(var(--rot)) scale(1);
+  }
+
+  .hint-pop {
+    animation: none;
+    opacity: 0;
   }
 }

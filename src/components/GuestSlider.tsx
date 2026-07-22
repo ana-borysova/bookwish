@@ -13,7 +13,7 @@ const SLIDER_BOOKS = [
     title: "Каравал",
     coverUrl:
       "https://books.google.com/books/content?id=OxF4EAAAQBAJ&printsec=frontcover&img=1&zoom=0&source=gbs_api",
-    spineColor: "#e11d48 ",
+    spineColor: "#e11d48",
   },
   {
     top: "top-8",

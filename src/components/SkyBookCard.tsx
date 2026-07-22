@@ -21,8 +21,6 @@ export function SkyBookCard({ title, coverUrl, spineColor }: SkyBookCardProps) {
         coverSize="absolute inset-0 w-full h-full"
       />
       <Spine color={spineColor} />
-
-      {!coverUrl && <span className="absolute z-10 font-display">{title}</span>}
     </div>
   );
 }

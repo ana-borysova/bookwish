@@ -43,9 +43,12 @@ export function BookCover({ src, title, isbn, coverSize }: BookCoverProps) {
 
   return (
     <div
-      className={`text-gray-600 text-xs text-center bg-amber-200 ${coverSize ?? ""}`}
+      className={`flex flex-col items-center justify-center text-center p-2.5 bg-[linear-gradient(155deg,#20305e,#0f1836)] ${coverSize ?? ""}`}
     >
-      Немає обкладинки
+      <span className="text-2xl opacity-55 mb-2">📖</span>
+      <span className="font-display font-bold text-sm text-white/80 leading-tight">
+        {title ? title : "Тут буде обкладинка"}
+      </span>
     </div>
   );
 }

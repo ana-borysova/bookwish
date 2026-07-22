@@ -1,4 +1,5 @@
 import { BookCover } from "./BookCover";
+import { Spine } from "./Spine";
 
 interface SkyBookCardProps {
   title: string;
@@ -19,12 +20,7 @@ export function SkyBookCard({ title, coverUrl, spineColor }: SkyBookCardProps) {
         src={coverUrl}
         coverSize="absolute inset-0 w-full h-full"
       />
-      <span
-        className="spine"
-        style={{
-          ["--spine" as string]: spineColor,
-        }}
-      />
+      <Spine color={spineColor} />
 
       {!coverUrl && <span className="absolute z-10 font-display">{title}</span>}
     </div>

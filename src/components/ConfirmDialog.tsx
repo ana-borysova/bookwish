@@ -4,6 +4,7 @@ import { ButtonPrimary } from "./ButtonPrimary";
 import { BookCover } from "./BookCover";
 import { bookCoverUrl } from "../lib/coverUrl";
 import type { Book } from "../types/book";
+import { Spine } from "./Spine";
 
 interface ConfirmDialogProps {
   book?: Book;
@@ -52,10 +53,7 @@ export function ConfirmDialog({
                   isbn={book.isbn}
                   coverSize="w-full h-full"
                 />
-                <span
-                  className="spine"
-                  style={{ ["--spine" as string]: "#f59e0b" }}
-                />
+                <Spine color="#f59e0b" />
               </div>
             )}
           </div>

@@ -5,6 +5,7 @@ import { ButtonPrimary } from "./ButtonPrimary";
 import { ButtonSecondary } from "./ButtonSecondary";
 import { BookCover } from "./BookCover";
 import { bookCoverUrl } from "../lib/coverUrl";
+import { Spine } from "./Spine";
 
 interface ChangeStatusModalProps {
   status: WishlistItemStatus;
@@ -124,10 +125,7 @@ export function ChangeStatusModal({
                   isbn={book.isbn}
                   coverSize="w-full h-full"
                 />
-                <span
-                  className="spine"
-                  style={{ ["--spine" as string]: "#f59e0b" }}
-                />
+                <Spine color="#f59e0b" />
               </div>
             </div>
 

@@ -15,6 +15,7 @@ import {
 import clsx from "clsx";
 import { bookCoverUrl } from "../lib/coverUrl";
 import { BookCover } from "./BookCover";
+import { Spine } from "./Spine";
 
 interface WishlistItemCardProps {
   item: WishlistItemWithBook;
@@ -86,10 +87,7 @@ export function WishlistItemCard({
               isbn={item.book.isbn}
             />
 
-            <span
-              className="spine"
-              style={{ ["--spine" as string]: tier.color }}
-            />
+            <Spine color={tier.color} />
           </div>
 
           <div className="flip-face flip-back bg-white border border-gray-200 p-4 overflow-y-auto">

@@ -7,6 +7,7 @@ import { AppErrorCode } from "../lib/errors";
 import { BookCover } from "./BookCover";
 import { ButtonSecondary } from "./ButtonSecondary";
 import { ButtonPrimary } from "./ButtonPrimary";
+import { Spine } from "./Spine";
 
 export interface CustomBookModalProps {
   onClose: () => void;
@@ -97,10 +98,7 @@ export function CustomBookModal({ onClose, onSubmit }: CustomBookModalProps) {
               coverSize="w-full h-full"
             />
 
-            <span
-              className="spine"
-              style={{ ["--spine" as string]: tier.color }}
-            />
+            <Spine color={tier.color} />
           </div>
           <div className="mx-4 flex-2 flex flex-col gap-3">
             <input

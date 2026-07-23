@@ -21,17 +21,23 @@ function getButtonConfig(
 ): ButtonConfig | null {
   if (status === WishlistItemStatus.AVAILABLE && !isOwner) {
     return {
-      color: "bg-green-100 text-green-800",
+      color:
+        "text-[#86efac] bg-[rgba(74,222,128,0.14)] border-[rgba(74,222,128,0.4)] hover:bg-[rgba(74,222,128,0.25)] hover:shadow-[0_0_16px_-4px_rgba(74,222,128,0.5)]",
       label: "Подарувати🎁",
     };
   }
   if (status === WishlistItemStatus.RESERVED && !isOwner && isReserver) {
-    return { color: "bg-yellow-100 text-yellow-800", label: "Придбано🎁" };
+    return {
+      color:
+        "text-[#fcd34d] bg-[rgba(252,211,77,.13)] border-[rgba(252,211,77,.4)] hover:bg-[rgba(252,211,77,.24)] hover:shadow-[0_0_16px_-4px_rgba(252,211,77,.5)]",
+      label: "Придбано🎁",
+    };
   }
 
   if (status === WishlistItemStatus.PURCHASED && isOwner) {
     return {
-      color: "bg-orange-100 text-orange-800",
+      color:
+        "text-[#fdba74] bg-[rgba(253,186,116,.13)] border-[rgba(253,186,116,.4)] hover:bg-[rgba(253,186,116,.24)] hover:shadow-[0_0_16px_-4px_rgba(253,186,116,.5)]",
       label: "Отримано🎁",
     };
   }
@@ -57,7 +63,10 @@ export function ChangeStatusButton({
 
   return (
     <button
-      className={clsx("rounded-full whitespace-nowrap px-2 py-1", config.color)}
+      className={clsx(
+        "rounded-full whitespace-nowrap border px-4 py-2 text-sm font-bold transition",
+        config.color,
+      )}
       onClick={onOpenModal}
     >
       {config.label}

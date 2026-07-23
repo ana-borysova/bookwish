@@ -22,14 +22,14 @@ function getButtonConfig(
   if (status === WishlistItemStatus.AVAILABLE && !isOwner) {
     return {
       color:
-        "text-[#86efac] bg-[rgba(74,222,128,0.14)] border-[rgba(74,222,128,0.4)] hover:bg-[rgba(74,222,128,0.25)] hover:shadow-[0_0_16px_-4px_rgba(74,222,128,0.5)]",
+        "text-avail bg-avail/15 border-avail/40 hover:bg-avail/25 hover:shadow-[0_0_16px_-4px_var(--color-avail)]",
       label: "Подарувати🎁",
     };
   }
   if (status === WishlistItemStatus.RESERVED && !isOwner && isReserver) {
     return {
       color:
-        "text-[#fcd34d] bg-[rgba(252,211,77,.13)] border-[rgba(252,211,77,.4)] hover:bg-[rgba(252,211,77,.24)] hover:shadow-[0_0_16px_-4px_rgba(252,211,77,.5)]",
+        "text-reserve bg-reserve/15 border-reserve/40 hover:bg-reserve/25 hover:shadow-[0_0_16px_-4px_var(--color-reserve)]",
       label: "Придбано🎁",
     };
   }
@@ -37,7 +37,7 @@ function getButtonConfig(
   if (status === WishlistItemStatus.PURCHASED && isOwner) {
     return {
       color:
-        "text-[#fdba74] bg-[rgba(253,186,116,.13)] border-[rgba(253,186,116,.4)] hover:bg-[rgba(253,186,116,.24)] hover:shadow-[0_0_16px_-4px_rgba(253,186,116,.5)]",
+        "text-purchase bg-purchase/15 border-purchase/40 hover:bg-purchase/25 hover:shadow-[0_0_16px_-4px_var(--color-purchase)]",
       label: "Отримано🎁",
     };
   }

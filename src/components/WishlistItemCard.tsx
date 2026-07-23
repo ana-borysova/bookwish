@@ -73,7 +73,7 @@ export function WishlistItemCard({
     <>
       <div
         className={clsx(
-          "flip aspect-2/3 w-65 cursor-pointer",
+          "flip aspect-2/3 w-75 cursor-pointer",
           flipped && "is-flipped",
         )}
         onClick={() => setFlipped((f) => !f)}
@@ -88,6 +88,19 @@ export function WishlistItemCard({
             />
 
             <Spine color={tier.color} />
+            <span
+              className="absolute top-2 right-2 z-10 whitespace-nowrap rounded-full px-3 py-1 text-sm font-bold text-white shadow-lg"
+              style={{
+                background: tier.color,
+                color: desirability === 1 ? "#3a2c00" : "#fff",
+              }}
+            >
+              {tier.label}
+            </span>
+
+            <span className="absolute bottom-3 right-3 z-10 flex h-7 w-7 items-center justify-center rounded-full bg-black/70 text-sm text-white/90 transition hover:bg-black/90 hover:text-white">
+              ↻
+            </span>
           </div>
 
           <div className="flip-face flip-back flex flex-col gap-0.5 surface-card border border-white/12 p-4 overflow-y-auto">
@@ -95,7 +108,7 @@ export function WishlistItemCard({
               <StatusBadge status={status} />
               {isOwner && (
                 <button
-                  className="text-gray-400 hover:text-gray-600 absolute top-1 right-1"
+                  className="flex-none h-7 w-7 rounded-full text-xs text-cream/50 bg-white/5 transition hover:text-white hover:bg-rose-500/35"
                   onClick={(e) => {
                     e.stopPropagation();
                     setConfirm("delete");
@@ -108,7 +121,7 @@ export function WishlistItemCard({
                 (status === WishlistItemStatus.RESERVED ||
                   status === WishlistItemStatus.PURCHASED) && (
                   <button
-                    className="text-gray-400 hover:text-gray-600"
+                    className="flex-none h-7 w-7 rounded-full text-xs text-cream/50 bg-white/5 transition hover:text-white hover:bg-rose-500/35"
                     onClick={(e) => {
                       e.stopPropagation();
                       setConfirm("cancel");

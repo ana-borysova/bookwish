@@ -64,6 +64,10 @@ body {
     0 0 16px -1px var(--spine, #e11d48);
 }
 
+.surface-card {
+  background: linear-gradient(155deg, #243768, #101a3c);
+}
+
 /* --- desirability slider --- */
 .wish-slider {
   -webkit-appearance: none;

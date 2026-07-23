@@ -90,7 +90,7 @@ export function WishlistItemCard({
             <Spine color={tier.color} />
           </div>
 
-          <div className="flip-face flip-back bg-white border border-gray-200 p-4 overflow-y-auto">
+          <div className="flip-face flip-back flex flex-col gap-0.5 surface-card border border-white/12 p-4 overflow-y-auto">
             <div className="flex justify-between py-1">
               <StatusBadge status={status} />
               {isOwner && (
@@ -119,14 +119,16 @@ export function WishlistItemCard({
                 )}
             </div>
 
-            <div className="text-xl leading-none py-2 ">{title}</div>
+            <div className="font-display text-cream leading-none pt-3 pb-1.5 text-lg">
+              {title}
+            </div>
 
-            <div className="text-sm text-gray-500">{authors}</div>
-            <div className="text-xs text-gray-400">{year}</div>
-            <div className="text-xs text-gray-400 pb-4 ">{publisher}</div>
+            <div className="text-base text-white/70">{authors}</div>
+            <div className="text-sm text-white/40">{year}</div>
+            <div className="text-sm text-white/40 pb-4 ">{publisher}</div>
 
             <div
-              className="h-3 w-full rounded-full relative"
+              className="h-3 w-full rounded-full relative overflow-hidden"
               style={{
                 background: gradient,
               }}
@@ -138,13 +140,16 @@ export function WishlistItemCard({
             </div>
             <div
               className="text-center font-bold text-sm"
-              style={{ color: tier.color }}
+              style={{
+                color: tier.color,
+                textShadow: `0 0 12px ${tier.color}`,
+              }}
             >
               {tier.label}
             </div>
 
             <div
-              className="py-4 text-center"
+              className="mt-auto text-center"
               onClick={(e) => e.stopPropagation()}
             >
               <ChangeStatusButton

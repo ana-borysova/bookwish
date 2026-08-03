@@ -13,6 +13,7 @@ import { useParams } from "react-router-dom";
 import { GuestBanner } from "../components/GuestBanner";
 import { useProfile } from "../hooks/useProfiles";
 import { gradient } from "../lib/desirability";
+import { ButtonCTA } from "../components/ButtonCTA";
 
 export function WishlistPage() {
   const { user } = useAuthContext();
@@ -42,7 +43,7 @@ export function WishlistPage() {
       )}
       {!isLoading && !isAuthenticated && <GuestBanner />}
 
-      <div>
+      <div className="mb-5">
         <p className="uppercase text-xs font-semibold mb-3.5 tracking-[0.24em] text-gold">
           ✦ Вітрина мрій ✦
         </p>
@@ -76,11 +77,27 @@ export function WishlistPage() {
       </div>
 
       {!isLoading && books?.length === 0 ? (
-        <p className="text-center text-gray-500">
-          Список порожній — знайди щось цікаве! 🔍
-        </p>
+        <div className="text-center relative pt-20 px-5 pb-36">
+          <div className="text-[3.5rem] drop-shadow-[0_0_26px_rgba(246,211,140,0.55)]">
+            🌙
+          </div>
+          <h2 className="font-display font-extrabold text-3xl mt-6 text-cream">
+            Твоє небо ще темне
+          </h2>
+          <p className="text-base text-cream/65 mt-3 max-w-md mx-auto leading-relaxed">
+            Додай першу книгу і засвіти свою першу зірку. Що сильніше бажання,
+            то яскравіше вона сяятиме.
+          </p>
+          {isOwner && (
+            <div className="mt-7">
+              <ButtonCTA to="/search" variant="primary">
+                🔍 Знайти книгу
+              </ButtonCTA>
+            </div>
+          )}
+        </div>
       ) : (
-        <div className="flex gap-9 flex-wrap">
+        <div className="grid grid-cols-5 gap-6 pb-16 ">
           {books?.map((book) => (
             <WishlistItemCard
               key={book.id}

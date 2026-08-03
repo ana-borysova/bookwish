@@ -73,7 +73,7 @@ export function WishlistItemCard({
     <>
       <div
         className={clsx(
-          "flip aspect-2/3 w-75 cursor-pointer",
+          "flip aspect-2/3 cursor-pointer",
           flipped && "is-flipped",
         )}
         onClick={() => setFlipped((f) => !f)}

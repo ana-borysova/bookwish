@@ -29,6 +29,8 @@ export function WishlistPage() {
   const { mutate: markReceived } = useChangeToReceived(ownerId!);
   const { mutate: cancelItem } = useCancelReservation(ownerId!);
 
+  const count = books?.length ?? 0;
+
   return (
     <div className="px-[clamp(2.5rem,5vw,6.5rem)] py-8">
       {isLoading && (
@@ -67,6 +69,10 @@ export function WishlistPage() {
             </>
           )}
         </h1>
+        <p className="mt-2.5 text-base text-cream/70">
+          <b className="text-gold">{count}</b> книг · клікни картку, щоб
+          перегорнути ↻
+        </p>
       </div>
 
       {!isLoading && books?.length === 0 ? (

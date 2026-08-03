@@ -12,6 +12,7 @@ import { useAuthContext } from "../context/AuthContext";
 import { useParams } from "react-router-dom";
 import { GuestBanner } from "../components/GuestBanner";
 import { useProfile } from "../hooks/useProfiles";
+import { gradient } from "../lib/desirability";
 
 export function WishlistPage() {
   const { user } = useAuthContext();
@@ -29,7 +30,7 @@ export function WishlistPage() {
   const { mutate: cancelItem } = useCancelReservation(ownerId!);
 
   return (
-    <div className="max-w-6xl mx-auto px-8 py-8 ">
+    <div className="px-[clamp(2.5rem,5vw,6.5rem)] py-8">
       {isLoading && (
         <p className="text-center text-gray-500">Завантаження...</p>
       )}
@@ -39,11 +40,34 @@ export function WishlistPage() {
       )}
       {!isLoading && !isAuthenticated && <GuestBanner />}
 
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">
-        {isOwner
-          ? "Мій список 📚"
-          : `Список: ${owner?.username ?? "Користувач"} 📚`}
-      </h1>
+      <div>
+        <p className="uppercase text-xs font-semibold mb-3.5 tracking-[0.24em] text-gold">
+          ✦ Вітрина мрій ✦
+        </p>
+        <h1 className="font-display font-extrabold leading-[1.02] text-[clamp(2.625rem,4.6vw,4rem)]">
+          {isOwner ? (
+            <>
+              <span
+                className="bg-clip-text text-transparent"
+                style={{ backgroundImage: gradient }}
+              >
+                Мій
+              </span>{" "}
+              вішліст
+            </>
+          ) : (
+            <>
+              Вішліст{" "}
+              <span
+                className="bg-clip-text text-transparent"
+                style={{ backgroundImage: gradient }}
+              >
+                {owner?.username ?? "Користувач"}
+              </span>
+            </>
+          )}
+        </h1>
+      </div>
 
       {!isLoading && books?.length === 0 ? (
         <p className="text-center text-gray-500">

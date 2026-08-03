@@ -78,6 +78,35 @@ export function WishlistPage() {
 
       {!isLoading && books?.length === 0 ? (
         <div className="text-center relative pt-20 px-5 pb-36">
+          <span
+            className="twinkle-star"
+            style={{ left: "38%", top: "58px", fontSize: "13px" }}
+          >
+            ✦
+          </span>
+          <span
+            className="twinkle-star"
+            style={{
+              left: "45%",
+              top: "26px",
+              fontSize: "11px",
+              animationDelay: "0.6s",
+            }}
+          >
+            ✧
+          </span>
+          <span
+            className="twinkle-star"
+            style={{
+              left: "57%",
+              top: "44px",
+              fontSize: "15px",
+              animationDelay: "1.1s",
+            }}
+          >
+            ✦
+          </span>
+
           <div className="text-[3.5rem] drop-shadow-[0_0_26px_rgba(246,211,140,0.55)]">
             🌙
           </div>

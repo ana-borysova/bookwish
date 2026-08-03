@@ -121,6 +121,12 @@ body {
   animation: hintPop 20s ease-in-out var(--delay, 0s) infinite;
 }
 
+.twinkle-star {
+  position: absolute;
+  color: #f6d99a;
+  animation: twinkle 2.6s ease-in-out infinite;
+}
+
 @keyframes flicker {
   0%,
   100% {
@@ -220,6 +226,18 @@ body {
   }
 }
 
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .glowpulse-cover {
     animation: none;
@@ -233,5 +251,9 @@ body {
   .hint-pop {
     animation: none;
     opacity: 0;
+  }
+
+  .twinkle-star {
+    animation: none;
   }
 }

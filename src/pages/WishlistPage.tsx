@@ -14,6 +14,8 @@ import { GuestBanner } from "../components/GuestBanner";
 import { useProfile } from "../hooks/useProfiles";
 import { gradient } from "../lib/desirability";
 import { ButtonCTA } from "../components/ButtonCTA";
+import { WishlistTierFilter } from "../components/WishlistTierFilter";
+import { useState } from "react";
 
 export function WishlistPage() {
   const { user } = useAuthContext();
@@ -23,6 +25,8 @@ export function WishlistPage() {
   const { data: books, isLoading, isError } = useWishlist(ownerId!);
   const { data: owner } = useProfile(ownerId);
 
+  const [tiers, setTiers] = useState<number[]>([]);
+
   const { mutate: deleteItem } = useDeleteWishlistItem(ownerId!);
   const { mutate: reserveItem } = useReserveWishlistItem(ownerId!);
 
@@ -30,7 +34,12 @@ export function WishlistPage() {
   const { mutate: markReceived } = useChangeToReceived(ownerId!);
   const { mutate: cancelItem } = useCancelReservation(ownerId!);
 
-  const count = books?.length ?? 0;
+  const filtered =
+    tiers.length === 0
+      ? books
+      : books?.filter((b) => tiers.includes(b.desirability));
+
+  const count = filtered?.length ?? 0;
 
   return (
     <div className="px-[clamp(2.5rem,5vw,6.5rem)] py-8">
@@ -42,38 +51,40 @@ export function WishlistPage() {
         <p className="text-center text-red-500">Помилка. Спробуй ще раз.</p>
       )}
       {!isLoading && !isAuthenticated && <GuestBanner />}
-
-      <div className="mb-5">
-        <p className="uppercase text-xs font-semibold mb-3.5 tracking-[0.24em] text-gold">
-          ✦ Вітрина мрій ✦
-        </p>
-        <h1 className="font-display font-extrabold leading-[1.02] text-[clamp(2.625rem,4.6vw,4rem)]">
-          {isOwner ? (
-            <>
-              <span
-                className="bg-clip-text text-transparent"
-                style={{ backgroundImage: gradient }}
-              >
-                Мій
-              </span>{" "}
-              вішліст
-            </>
-          ) : (
-            <>
-              Вішліст{" "}
-              <span
-                className="bg-clip-text text-transparent"
-                style={{ backgroundImage: gradient }}
-              >
-                {owner?.username ?? "Користувач"}
-              </span>
-            </>
-          )}
-        </h1>
-        <p className="mt-2.5 text-base text-cream/70">
-          <b className="text-gold">{count}</b> книг · клікни картку, щоб
-          перегорнути ↻
-        </p>
+      <div className="flex justify-between items-end flex-wrap">
+        <div className="mb-5">
+          <p className="uppercase text-xs font-semibold mb-3.5 tracking-[0.24em] text-gold">
+            ✦ Вітрина мрій ✦
+          </p>
+          <h1 className="font-display font-extrabold leading-[1.02] text-[clamp(2.625rem,4.6vw,4rem)]">
+            {isOwner ? (
+              <>
+                <span
+                  className="bg-clip-text text-transparent"
+                  style={{ backgroundImage: gradient }}
+                >
+                  Мій
+                </span>{" "}
+                вішліст
+              </>
+            ) : (
+              <>
+                Вішліст{" "}
+                <span
+                  className="bg-clip-text text-transparent"
+                  style={{ backgroundImage: gradient }}
+                >
+                  {owner?.username ?? "Користувач"}
+                </span>
+              </>
+            )}
+          </h1>
+          <p className="mt-2.5 text-base text-cream/70">
+            <b className="text-gold">{count}</b> книг · клікни картку, щоб
+            перегорнути ↻
+          </p>
+        </div>
+        <WishlistTierFilter selected={tiers} onChange={setTiers} />
       </div>
 
       {!isLoading && books?.length === 0 ? (
@@ -127,7 +138,7 @@ export function WishlistPage() {
         </div>
       ) : (
         <div className="grid grid-cols-5 gap-6 pb-16 ">
-          {books?.map((book) => (
+          {filtered?.map((book) => (
             <WishlistItemCard
               key={book.id}
               item={book}

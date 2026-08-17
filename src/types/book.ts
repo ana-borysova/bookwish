@@ -52,7 +52,7 @@ export interface WishlistItem {
   id: string;
   userId: string;
   bookId: string;
-  desirability?: number;
+  desirability: number;
   comment?: string;
   reservedBy?: string;
   isAnonymous?: boolean;

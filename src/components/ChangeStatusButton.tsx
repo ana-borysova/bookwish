@@ -21,17 +21,23 @@ function getButtonConfig(
 ): ButtonConfig | null {
   if (status === WishlistItemStatus.AVAILABLE && !isOwner) {
     return {
-      color: "bg-green-100 text-green-800",
+      color:
+        "text-avail bg-avail/15 border-avail/40 hover:bg-avail/25 hover:shadow-[0_0_16px_-4px_var(--color-avail)]",
       label: "Подарувати🎁",
     };
   }
   if (status === WishlistItemStatus.RESERVED && !isOwner && isReserver) {
-    return { color: "bg-yellow-100 text-yellow-800", label: "Придбано🎁" };
+    return {
+      color:
+        "text-reserve bg-reserve/15 border-reserve/40 hover:bg-reserve/25 hover:shadow-[0_0_16px_-4px_var(--color-reserve)]",
+      label: "Придбано🎁",
+    };
   }
 
   if (status === WishlistItemStatus.PURCHASED && isOwner) {
     return {
-      color: "bg-orange-100 text-orange-800",
+      color:
+        "text-purchase bg-purchase/15 border-purchase/40 hover:bg-purchase/25 hover:shadow-[0_0_16px_-4px_var(--color-purchase)]",
       label: "Отримано🎁",
     };
   }
@@ -57,7 +63,10 @@ export function ChangeStatusButton({
 
   return (
     <button
-      className={clsx("rounded-full whitespace-nowrap px-2 py-1", config.color)}
+      className={clsx(
+        "rounded-full whitespace-nowrap border px-4 py-2 text-sm font-bold transition",
+        config.color,
+      )}
       onClick={onOpenModal}
     >
       {config.label}

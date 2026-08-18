@@ -1,5 +1,5 @@
 import { bookCoverUrl } from "../lib/coverUrl";
-import { DEFAULT_DESIRABILITY, getDesirabilityTier } from "../lib/desirability";
+import { getDesirabilityTier } from "../lib/desirability";
 import type { WishlistItemWithBook } from "../types/book";
 import { SkyBookCard } from "./SkyBookCard";
 import { SkyEmptyCard } from "./SkyEmptyCard";
@@ -66,10 +66,7 @@ export function Sky({ books }: SkyProps) {
             {item ? (
               <SkyBookCard
                 title={item.book.title}
-                spineColor={
-                  getDesirabilityTier(item.desirability ?? DEFAULT_DESIRABILITY)
-                    .color
-                }
+                spineColor={getDesirabilityTier(item.desirability).color}
                 coverUrl={bookCoverUrl(item.book)}
               />
             ) : (

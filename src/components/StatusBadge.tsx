@@ -10,38 +10,31 @@ const statusConfig: Record<
   { color: string; label: string }
 > = {
   available: {
-    color: "bg-green-100 text-green-800",
+    color: "text-avail bg-avail/15 border-avail/35",
     label: "Доступно",
   },
   reserved: {
-    color: "bg-yellow-100 text-yellow-800",
+    color: "text-reserve bg-reserve/15 border-reserve/35",
     label: "Заброньовано",
   },
   purchased: {
-    color: "bg-orange-100 text-orange-800",
+    color: "text-purchase bg-purchase/15 border-purchase/35",
     label: "Придбано",
   },
   received: {
-    color: "bg-gray-100 text-gray-800",
+    color: "text-cream/65 bg-white/5 border-white/20",
     label: "Отримано",
   },
 } as const;
 
 export function StatusBadge({ status }: StatusBadgeProps) {
-  //   const statusConfig = {
-  //     available: { color: "bg-green-100 text-green-800", label: "Доступно" },
-  //     reserved: { color: "bg-yellow-100 text-yellow-800", label: "Заброньовано" },
-  //     purchased: {
-  //       color: "bg-yellow-100 text-yellow-800",
-  //       label: "Придбано",
-  //     },
-  //     received: {
-  //       color: "bg-gray-100 text-gray-800",
-  //       label: "Отримано",
-  //     },
-  //   };
-
   const { color, label } = statusConfig[status];
 
-  return <div className={clsx("rounded-full px-2 py-0.5", color)}>{label}</div>;
+  return (
+    <div
+      className={clsx("rounded-full border px-3 py-1 text-xs font-bold", color)}
+    >
+      {label}
+    </div>
+  );
 }

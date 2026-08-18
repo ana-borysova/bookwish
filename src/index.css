@@ -5,6 +5,9 @@
   --font-sans: "Alegreya Sans", system-ui, sans-serif;
   --color-cream: #f4ece4;
   --color-gold: #f6c268;
+  --color-avail: #86efac;
+  --color-reserve: #fcd34d;
+  --color-purchase: #fdba74;
 }
 
 body {
@@ -64,6 +67,10 @@ body {
     0 0 16px -1px var(--spine, #e11d48);
 }
 
+.surface-card {
+  background: linear-gradient(155deg, #243768, #101a3c);
+}
+
 /* --- desirability slider --- */
 .wish-slider {
   -webkit-appearance: none;
@@ -112,6 +119,12 @@ body {
 
 .hint-pop {
   animation: hintPop 20s ease-in-out var(--delay, 0s) infinite;
+}
+
+.twinkle-star {
+  position: absolute;
+  color: #f6d99a;
+  animation: twinkle 2.6s ease-in-out infinite;
 }
 
 @keyframes flicker {
@@ -213,6 +226,18 @@ body {
   }
 }
 
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .glowpulse-cover {
     animation: none;
@@ -226,5 +251,9 @@ body {
   .hint-pop {
     animation: none;
     opacity: 0;
+  }
+
+  .twinkle-star {
+    animation: none;
   }
 }

@@ -51,8 +51,8 @@ export function WishlistPage() {
         <p className="text-center text-red-500">Помилка. Спробуй ще раз.</p>
       )}
       {!isLoading && !isAuthenticated && <GuestBanner />}
-      <div className="flex justify-between items-end flex-wrap">
-        <div className="mb-5">
+      <div className="flex justify-between items-end flex-wrap mb-5">
+        <div>
           <p className="uppercase text-xs font-semibold mb-3.5 tracking-[0.24em] text-gold">
             ✦ Вітрина мрій ✦
           </p>

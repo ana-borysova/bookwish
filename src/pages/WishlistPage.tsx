@@ -87,7 +87,7 @@ export function WishlistPage() {
         <WishlistTierFilter selected={tiers} onChange={setTiers} />
       </div>
 
-      {!isLoading && books?.length === 0 ? (
+      {!isLoading && books?.length === 0 && (
         <div className="text-center relative pt-20 px-5 pb-36">
           <span
             className="twinkle-star"
@@ -128,6 +128,7 @@ export function WishlistPage() {
             Додай першу книгу і засвіти свою першу зірку. Що сильніше бажання,
             то яскравіше вона сяятиме.
           </p>
+
           {isOwner && (
             <div className="mt-7">
               <ButtonCTA to="/search" variant="primary">
@@ -136,7 +137,8 @@ export function WishlistPage() {
             </div>
           )}
         </div>
-      ) : (
+      )}
+      {!isLoading && count > 0 && (
         <div className="grid grid-cols-5 gap-6 pb-16 ">
           {filtered?.map((book) => (
             <WishlistItemCard
@@ -154,6 +156,13 @@ export function WishlistPage() {
               currentUserId={user?.id}
             />
           ))}
+        </div>
+      )}
+      {!isLoading && (books?.length ?? 0) > 0 && count === 0 && (
+        <div className="text-center pt-20 px-5 pb-36">
+          <p className="leading-relaxed text-xl mt-6 text-cream">
+            🌙 На цьому рівні бажаності поки порожньо — вибери інший рівень.
+          </p>
         </div>
       )}
     </div>

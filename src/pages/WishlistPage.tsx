@@ -44,11 +44,11 @@ export function WishlistPage() {
   return (
     <div className="px-[clamp(2.5rem,5vw,6.5rem)] py-8">
       {isLoading && (
-        <p className="text-center text-gray-500">Завантаження...</p>
+        <p className="text-center text-cream/65 py-20">Завантаження...</p>
       )}
 
       {isError && (
-        <p className="text-center text-red-500">Помилка. Спробуй ще раз.</p>
+        <p className="text-center text-rose-400">Помилка. Спробуй ще раз.</p>
       )}
 
       <div className="flex justify-between items-end flex-wrap mb-5">

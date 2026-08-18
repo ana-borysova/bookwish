@@ -50,7 +50,7 @@ export function WishlistPage() {
       {isError && (
         <p className="text-center text-red-500">Помилка. Спробуй ще раз.</p>
       )}
-      {!isLoading && !isAuthenticated && <GuestBanner />}
+
       <div className="flex justify-between items-end flex-wrap mb-5">
         <div>
           <p className="uppercase text-xs font-semibold mb-3.5 tracking-[0.24em] text-gold">
@@ -86,7 +86,7 @@ export function WishlistPage() {
         </div>
         <WishlistTierFilter selected={tiers} onChange={setTiers} />
       </div>
-
+      {!isLoading && !isAuthenticated && <GuestBanner />}
       {!isLoading && books?.length === 0 && (
         <div className="text-center relative pt-20 px-5 pb-36">
           <span

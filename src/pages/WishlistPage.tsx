@@ -13,9 +13,9 @@ import { useParams } from "react-router-dom";
 import { GuestBanner } from "../components/GuestBanner";
 import { useProfile } from "../hooks/useProfiles";
 import { gradient } from "../lib/desirability";
-import { ButtonCTA } from "../components/ButtonCTA";
 import { WishlistTierFilter } from "../components/WishlistTierFilter";
 import { useState } from "react";
+import { Button } from "../components/ui/Button";
 
 export function WishlistPage() {
   const { user } = useAuthContext();
@@ -131,9 +131,9 @@ export function WishlistPage() {
 
           {isOwner && (
             <div className="mt-7">
-              <ButtonCTA to="/search" variant="primary">
+              <Button to="/search" variant="primary" size="basic">
                 🔍 Знайти книгу
-              </ButtonCTA>
+              </Button>
             </div>
           )}
         </div>

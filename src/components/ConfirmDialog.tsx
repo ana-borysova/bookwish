@@ -1,10 +1,9 @@
 import ReactDOM from "react-dom";
-import { ButtonSecondary } from "./ButtonSecondary";
-import { ButtonPrimary } from "./ButtonPrimary";
 import { BookCover } from "./BookCover";
 import { bookCoverUrl } from "../lib/coverUrl";
 import type { Book } from "../types/book";
 import { Spine } from "./Spine";
+import { Button } from "./ui/Button";
 
 interface ConfirmDialogProps {
   book?: Book;
@@ -58,8 +57,12 @@ export function ConfirmDialog({
             )}
           </div>
           <div className="flex gap-4 justify-center">
-            <ButtonSecondary onClick={onCancel}>{cancelLabel}</ButtonSecondary>
-            <ButtonPrimary onClick={onConfirm}>{confirmLabel}</ButtonPrimary>
+            <Button variant="quiet" onClick={onCancel}>
+              {cancelLabel}
+            </Button>
+            <Button variant="primary" onClick={onConfirm}>
+              {confirmLabel}
+            </Button>
           </div>
         </div>
       </div>

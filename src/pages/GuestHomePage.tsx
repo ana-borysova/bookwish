@@ -1,5 +1,5 @@
-import { ButtonCTA } from "../components/ButtonCTA";
 import { GuestSlider } from "../components/GuestSlider";
+import { Button } from "../components/ui/Button";
 
 import { gradient } from "../lib/desirability";
 
@@ -25,12 +25,13 @@ export function GuestHomePage() {
             подарунок. Створи своє сузір'я мрій і поділись ним із близькими.
           </p>
           <div className="flex gap-4 mt-8">
-            <ButtonCTA to="/auth" variant="primary">
+            <Button to="/auth" variant="primary" size="basic">
               ✨ Створити список
-            </ButtonCTA>
-            <ButtonCTA to="/auth?mode=login" variant="ghost">
+            </Button>
+
+            <Button to="/auth?mode=login" variant="ghost" size="basic">
               Увійти
-            </ButtonCTA>
+            </Button>
           </div>
           <p className="mt-8 text-sm text-cream/85 max-w-xl">
             🎁 Надішли друзям посилання на своє зіркове небо — і вони можуть

@@ -5,9 +5,8 @@ import { DEFAULT_DESIRABILITY, getDesirabilityTier } from "../lib/desirability";
 import { WishlistDesirabilitySlider } from "./WishlistDesirabilitySlider";
 import { AppErrorCode } from "../lib/errors";
 import { BookCover } from "./BookCover";
-import { ButtonSecondary } from "./ButtonSecondary";
-import { ButtonPrimary } from "./ButtonPrimary";
 import { Spine } from "./Spine";
+import { Button } from "./ui/Button";
 
 export interface AddToWishlistModalProps {
   book: Book;
@@ -120,9 +119,11 @@ export function AddToWishlistModal({
               </p>
             )}
             <div className="flex gap-5 justify-end self-end mt-auto">
-              <ButtonSecondary onClick={onClose}>Скасувати</ButtonSecondary>
-
-              <ButtonPrimary
+              <Button variant="quiet" onClick={onClose}>
+                Скасувати
+              </Button>
+              <Button
+                variant="primary"
                 onClick={handleAdd}
                 disabled={
                   status === "loading" ||
@@ -131,7 +132,7 @@ export function AddToWishlistModal({
                 }
               >
                 {status === "loading" ? "Додаю…" : "Додати"}
-              </ButtonPrimary>
+              </Button>
             </div>
           </div>
         </div>

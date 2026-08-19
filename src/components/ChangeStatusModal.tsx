@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { WishlistItemStatus, type Book } from "../types/book";
 import { useAuthContext } from "../context/AuthContext";
-import { ButtonPrimary } from "./ButtonPrimary";
-import { ButtonSecondary } from "./ButtonSecondary";
 import { BookCover } from "./BookCover";
 import { bookCoverUrl } from "../lib/coverUrl";
 import { Spine } from "./Spine";
+import { Button } from "./ui/Button";
 
 interface ChangeStatusModalProps {
   status: WishlistItemStatus;
@@ -130,15 +129,18 @@ export function ChangeStatusModal({
             </div>
 
             <div className="flex gap-4 mt-6 justify-center">
-              <ButtonSecondary onClick={onClose}>Ні, ще чекаю!</ButtonSecondary>
-              <ButtonPrimary
+              <Button variant="quiet" onClick={onClose}>
+                Ні, ще чекаю!
+              </Button>
+              <Button
+                variant="primary"
                 onClick={() => {
                   onReceived(itemId);
                   onClose();
                 }}
               >
                 Так, отримала!
-              </ButtonPrimary>
+              </Button>
             </div>
           </div>
         )}
@@ -166,13 +168,16 @@ export function ChangeStatusModal({
                 title="Так, я вже купив цю книгу!"
               />
               <div className="flex gap-4 mt-3 justify-end">
-                <ButtonSecondary onClick={onClose}>Скасувати</ButtonSecondary>
-                <ButtonPrimary
+                <Button variant="quiet" onClick={onClose}>
+                  Скасувати
+                </Button>
+                <Button
+                  variant="primary"
                   disabled={action === null}
                   onClick={() => setStep(2)}
                 >
                   Продовжити
-                </ButtonPrimary>
+                </Button>
               </div>
             </div>
           </div>
@@ -210,11 +215,12 @@ export function ChangeStatusModal({
                 className={`flex gap-4 mt-3 ${isReservedFlow ? "justify-end" : "justify-between"}`}
               >
                 {!isReservedFlow && (
-                  <ButtonSecondary onClick={() => setStep(1)}>
+                  <Button variant="quiet" onClick={() => setStep(1)}>
                     ← Назад
-                  </ButtonSecondary>
+                  </Button>
                 )}
-                <ButtonPrimary
+                <Button
+                  variant="primary"
                   disabled={!userId}
                   onClick={() => {
                     if (!userId) {
@@ -240,7 +246,7 @@ export function ChangeStatusModal({
                   }}
                 >
                   Підтвердити
-                </ButtonPrimary>
+                </Button>
               </div>
             </div>
           </div>

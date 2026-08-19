@@ -1,5 +1,5 @@
-import { ButtonCTA } from "../components/ButtonCTA";
 import { Sky } from "../components/Sky";
+import { Button } from "../components/ui/Button";
 import { useAuthContext } from "../context/AuthContext";
 import { useWishlist } from "../hooks/useWishlist";
 import { gradient } from "../lib/desirability";
@@ -56,12 +56,13 @@ export function HomePage() {
             </span>
           </div>
           <div className="flex gap-4 mt-8">
-            <ButtonCTA to={`/wishlist/${user?.id}`} variant="primary">
+            <Button to={`/wishlist/${user?.id}`} variant="primary" size="basic">
               📚 Мій список
-            </ButtonCTA>
-            <ButtonCTA to="/search" variant="ghost">
+            </Button>
+
+            <Button to="/search" variant="ghost" size="basic">
               🔍 Пошук
-            </ButtonCTA>
+            </Button>
           </div>
           <p className="mt-8 text-sm text-cream/85 max-w-xl">
             🎁 Друзі бачать твоє небо — і можуть таємно зарезервувати

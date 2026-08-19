@@ -22,7 +22,7 @@ export function WishlistDesirabilitySlider({ value, onChange }: SliderProps) {
         className="wish-slider"
         style={{
           backgroundImage: gradient,
-          backgroundColor: "#f3f4f6",
+          backgroundColor: "var(--color-track)",
           backgroundRepeat: "no-repeat",
           backgroundSize: `${desirabilityFillPct(value)}% 100%`,
           ["--thumb" as string]: tier.color,

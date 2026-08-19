@@ -53,7 +53,7 @@ export function ConfirmDialog({
                   isbn={book.isbn}
                   coverSize="w-full h-full"
                 />
-                <Spine color="#f59e0b" />
+                <Spine color="var(--color-spine-neutral)" />
               </div>
             )}
           </div>

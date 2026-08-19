@@ -8,6 +8,13 @@
   --color-avail: #86efac;
   --color-reserve: #fcd34d;
   --color-purchase: #fdba74;
+  --color-night: #0e1a3c;
+  --color-surface-from: #243768;
+  --color-surface-to: #101a3c;
+  --color-track: #f3f4f6;
+  --color-spine-neutral: #f59e0b;
+
+  --page-x: clamp(3.25rem, 5vw, 5.5rem);
 }
 
 body {
@@ -21,8 +28,25 @@ body {
     #46446f 30%,
     #2d3d6c 52%,
     #1a2c5a 76%,
-    #0e1a3c 100%
+    var(--color-night) 100%
   );
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+.page-x {
+  padding-inline: var(--page-x);
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  font-weight: 600;
+  color: var(--color-gold);
+  font-size: var(--text-xs);
 }
 
 /* --- wishlist card flip --- */
@@ -68,7 +92,11 @@ body {
 }
 
 .surface-card {
-  background: linear-gradient(155deg, #243768, #101a3c);
+  background: linear-gradient(
+    155deg,
+    var(--color-surface-from),
+    var(--color-surface-to)
+  );
 }
 
 /* --- desirability slider --- */

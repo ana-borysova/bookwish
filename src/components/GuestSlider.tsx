@@ -1,3 +1,4 @@
+import { DESIRABILITY_TIERS } from "../lib/desirability";
 import { HintBubble } from "./HintBubble";
 import { SkyBookCard } from "./SkyBookCard";
 
@@ -13,7 +14,7 @@ const SLIDER_BOOKS = [
     title: "Каравал",
     coverUrl:
       "https://books.google.com/books/content?id=OxF4EAAAQBAJ&printsec=frontcover&img=1&zoom=0&source=gbs_api",
-    spineColor: "#e11d48",
+    spineColor: DESIRABILITY_TIERS[4].color,
   },
   {
     top: "top-8",
@@ -26,7 +27,7 @@ const SLIDER_BOOKS = [
     title: "Легенда",
     coverUrl:
       "https://books.google.com/books/content?id=M8k9EQAAQBAJ&printsec=frontcover&img=1&zoom=0&source=gbs_api",
-    spineColor: "#f43f5e",
+    spineColor: DESIRABILITY_TIERS[3].color,
   },
   {
     top: "top-88",
@@ -39,7 +40,7 @@ const SLIDER_BOOKS = [
     title: "Фінал",
     coverUrl:
       "https://books.google.com/books/content?id=hck9EQAAQBAJ&printsec=frontcover&img=1&zoom=0&source=gbs_api",
-    spineColor: "#f59e0b",
+    spineColor: DESIRABILITY_TIERS[1].color,
   },
   {
     top: "top-85",
@@ -52,7 +53,7 @@ const SLIDER_BOOKS = [
     title: "Братство Персня",
     coverUrl:
       "https://books.google.com/books/content?id=2AdoEAAAQBAJ&printsec=frontcover&img=1&zoom=0&source=gbs_api",
-    spineColor: "#f43f5e",
+    spineColor: DESIRABILITY_TIERS[3].color,
   },
   {
     top: "top-110",
@@ -65,7 +66,7 @@ const SLIDER_BOOKS = [
     title: "Дві вежі",
     coverUrl:
       "https://books.google.com/books/content?id=HmhoEAAAQBAJ&printsec=frontcover&img=1&zoom=0&source=gbs_api",
-    spineColor: "#f59e0b",
+    spineColor: DESIRABILITY_TIERS[1].color,
   },
 ];
 

@@ -32,7 +32,7 @@ export function WishlistTierFilter({
               isActive
                 ? {
                     boxShadow: `0 0 20px ${tier.color}80`,
-                    color: tier.value >= 3 ? "#fff" : "#383442",
+                    color: tier.textColor,
                     backgroundColor: tier.color,
                   }
                 : undefined

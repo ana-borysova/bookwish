@@ -91,7 +91,7 @@ export function WishlistItemCard({
               className="absolute top-2 right-2 z-10 whitespace-nowrap rounded-full px-3 py-1 text-sm font-bold shadow-lg"
               style={{
                 background: tier.color,
-                color: desirability === 1 ? "#3a2c00" : "#fff",
+                color: tier.textColor,
               }}
             >
               {tier.label}

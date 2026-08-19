@@ -146,7 +146,7 @@ export function WishlistItemCard({
               }}
             >
               <div
-                className="absolute inset-y-0 right-0 bg-gray-100"
+                className="absolute inset-y-0 right-0 bg-track"
                 style={{ left: `${desirabilityFillPct(desirability)}%` }}
               />
             </div>

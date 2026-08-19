@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { WishlistItemStatus } from "../types/book";
+import { STATUS_STYLE } from "../lib/status";
 
 interface ChangeStatusButtonProps {
   status: WishlistItemStatus;
@@ -9,37 +10,20 @@ interface ChangeStatusButtonProps {
   onOpenModal: () => void;
 }
 
-type ButtonConfig = {
-  color: string;
-  label: string;
-};
-
-function getButtonConfig(
+function getButtonLabel(
   status: WishlistItemStatus,
   isOwner: boolean,
   isReserver: boolean,
-): ButtonConfig | null {
+): string | null {
   if (status === WishlistItemStatus.AVAILABLE && !isOwner) {
-    return {
-      color:
-        "text-avail bg-avail/15 border-avail/40 hover:bg-avail/25 hover:shadow-[0_0_16px_-4px_var(--color-avail)]",
-      label: "Подарувати🎁",
-    };
+    return "Подарувати🎁";
   }
   if (status === WishlistItemStatus.RESERVED && !isOwner && isReserver) {
-    return {
-      color:
-        "text-reserve bg-reserve/15 border-reserve/40 hover:bg-reserve/25 hover:shadow-[0_0_16px_-4px_var(--color-reserve)]",
-      label: "Придбано🎁",
-    };
+    return "Придбано🎁";
   }
 
   if (status === WishlistItemStatus.PURCHASED && isOwner) {
-    return {
-      color:
-        "text-purchase bg-purchase/15 border-purchase/40 hover:bg-purchase/25 hover:shadow-[0_0_16px_-4px_var(--color-purchase)]",
-      label: "Отримано🎁",
-    };
+    return "Отримано🎁";
   }
   return null;
 }
@@ -55,9 +39,9 @@ export function ChangeStatusButton({
     return null;
   }
 
-  const config = getButtonConfig(status, isOwner, isReserver);
+  const label = getButtonLabel(status, isOwner, isReserver);
 
-  if (!config) {
+  if (!label) {
     return null;
   }
 
@@ -65,11 +49,12 @@ export function ChangeStatusButton({
     <button
       className={clsx(
         "rounded-full whitespace-nowrap border px-4 py-2 text-sm font-bold transition",
-        config.color,
+        STATUS_STYLE[status].tone,
+        STATUS_STYLE[status].hover,
       )}
       onClick={onOpenModal}
     >
-      {config.label}
+      {label}
     </button>
   );
 }

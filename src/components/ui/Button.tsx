@@ -1,0 +1,56 @@
+import type { ReactNode } from "react";
+import { Link } from "react-router-dom";
+import { gradient } from "../../lib/desirability";
+
+interface ButtonProps {
+  children: ReactNode;
+  variant: "primary" | "ghost" | "quiet" | "icon";
+  size?: "basic" | "small";
+  to?: string;
+  onClick?: () => void;
+  disabled?: boolean;
+}
+
+export function Button({
+  children,
+  variant,
+  size = "small",
+  to,
+  onClick,
+  disabled,
+}: ButtonProps) {
+  const base =
+    "rounded-full font-semibold inline-flex gap-2 items-center transition disabled:opacity-50";
+
+  const SIZES = {
+    basic: "px-8 py-4 text-base",
+    small: "px-4 py-1 text-sm",
+  };
+
+  const VARIANTS = {
+    primary: "text-white shadow-[0_10px_28px_-6px_rgba(244,63,94,0.55)]",
+    ghost: "text-cream bg-white/5 border border-white/20",
+    quiet:
+      "text-gray-500 hover:bg-gray-100 hover:text-gray-700 hover:shadow-md",
+    icon: "flex-none h-7 w-7 rounded-full text-xs text-cream/50 bg-white/5 hover:text-white hover:bg-rose-500/35",
+  };
+
+  const classes = `${base} ${variant === "icon" ? "" : SIZES[size]} ${VARIANTS[variant]}`;
+  const styles =
+    variant === "primary" ? { backgroundImage: gradient } : undefined;
+
+  return to ? (
+    <Link to={to} className={classes} style={styles}>
+      {children}
+    </Link>
+  ) : (
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      className={classes}
+      style={styles}
+    >
+      {children}
+    </button>
+  );
+}

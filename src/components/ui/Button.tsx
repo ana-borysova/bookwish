@@ -9,6 +9,7 @@ interface ButtonProps {
   to?: string;
   onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
+  fullWidth?: boolean;
 }
 
 const base =
@@ -33,8 +34,9 @@ export function Button({
   to,
   onClick,
   disabled,
+  fullWidth,
 }: ButtonProps) {
-  const classes = `${base} ${variant === "icon" ? "" : SIZES[size]} ${VARIANTS[variant]}`;
+  const classes = `${base} ${variant === "icon" ? "" : SIZES[size]} ${VARIANTS[variant]} ${fullWidth ? "w-full justify-center" : ""}`;
   const styles =
     variant === "primary" ? { backgroundImage: gradient } : undefined;
 

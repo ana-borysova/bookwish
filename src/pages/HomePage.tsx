@@ -30,7 +30,7 @@ export function HomePage() {
       .length ?? 0;
 
   return (
-    <section className="px-[clamp(3.25rem,5vw,5.5rem)]">
+    <section className="page-x">
       <div className="grid grid-cols-[1.08fr_1fr] gap-4 items-center min-h-[calc(100vh-6rem)]">
         <div>
           <PageHeader

@@ -42,7 +42,7 @@ export function WishlistPage() {
   const count = filtered?.length ?? 0;
 
   return (
-    <div className="px-[clamp(2.5rem,5vw,6.5rem)] py-8">
+    <div className="page-x py-8">
       {isLoading && (
         <p className="text-center text-cream/65 py-20">Завантаження...</p>
       )}

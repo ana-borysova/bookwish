@@ -7,6 +7,7 @@ import { AppErrorCode } from "../lib/errors";
 import { BookCover } from "./BookCover";
 import { Spine } from "./Spine";
 import { Button } from "./ui/Button";
+import { Modal } from "./ui/Modal";
 
 export interface CustomBookModalProps {
   onClose: () => void;
@@ -72,122 +73,108 @@ export function CustomBookModal({ onClose, onSubmit }: CustomBookModalProps) {
   }
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
-      onClick={onClose}
-    >
-      <div
-        className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl bg-white p-8 shadow-xl "
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          className="absolute right-4 top-4 text-gray-400 hover:text-gray-600"
-          onClick={onClose}
-        >
-          X
-        </button>
-        <h2 className="text-2xl">Додати книгу 📖</h2>
-        <div className="my-2 flex gap-1">
-          <div className="flex-1 relative rounded-lg overflow-hidden">
-            <BookCover
-              key={normalizedIsbn ?? "none"}
-              src={normalizedIsbn ? isbnCoverUrl(normalizedIsbn) : undefined}
-              title={title}
-              isbn={normalizedIsbn ?? undefined}
-              coverSize="w-full h-full"
-            />
+    <Modal size="lg" onClose={onClose}>
+      <h2 className="text-2xl">Додати книгу 📖</h2>
+      <div className="my-2 flex gap-1">
+        <div className="flex-1 relative rounded-lg overflow-hidden">
+          <BookCover
+            key={normalizedIsbn ?? "none"}
+            src={normalizedIsbn ? isbnCoverUrl(normalizedIsbn) : undefined}
+            title={title}
+            isbn={normalizedIsbn ?? undefined}
+            coverSize="w-full h-full"
+          />
 
-            <Spine color={tier.color} />
+          <Spine color={tier.color} />
+        </div>
+        <div className="mx-4 flex-2 flex flex-col gap-3">
+          <input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="bg-gray-200 w-full p-2 rounded-md"
+            placeholder="Назва *"
+          />
+          <input
+            value={author}
+            onChange={(e) => setAuthor(e.target.value)}
+            className="bg-gray-200 w-full p-2 rounded-md"
+            placeholder="Автор * (кілька — через кому)"
+          />
+          <input
+            value={isbn}
+            onChange={(e) => setIsbn(e.target.value)}
+            className="bg-gray-200 w-full p-2 rounded-md"
+            placeholder="ISBN (необов'язково)"
+          />
+          <div className="flex gap-2">
+            <input
+              value={year}
+              onChange={(e) => setYear(e.target.value)}
+              className="bg-gray-200 w-full p-2 rounded-md"
+              placeholder="Рік (необов'язково)"
+            />
+            <input
+              value={pageCount}
+              onChange={(e) => setPageCount(e.target.value)}
+              className="bg-gray-200 w-full p-2 rounded-md"
+              placeholder="Сторінок (необов'язково)"
+            />
           </div>
-          <div className="mx-4 flex-2 flex flex-col gap-3">
-            <input
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="bg-gray-200 w-full p-2 rounded-md"
-              placeholder="Назва *"
-            />
-            <input
-              value={author}
-              onChange={(e) => setAuthor(e.target.value)}
-              className="bg-gray-200 w-full p-2 rounded-md"
-              placeholder="Автор * (кілька — через кому)"
-            />
-            <input
-              value={isbn}
-              onChange={(e) => setIsbn(e.target.value)}
-              className="bg-gray-200 w-full p-2 rounded-md"
-              placeholder="ISBN (необов'язково)"
-            />
-            <div className="flex gap-2">
-              <input
-                value={year}
-                onChange={(e) => setYear(e.target.value)}
-                className="bg-gray-200 w-full p-2 rounded-md"
-                placeholder="Рік (необов'язково)"
-              />
-              <input
-                value={pageCount}
-                onChange={(e) => setPageCount(e.target.value)}
-                className="bg-gray-200 w-full p-2 rounded-md"
-                placeholder="Сторінок (необов'язково)"
-              />
-            </div>
-            <input
-              value={publisher}
-              onChange={(e) => setPublisher(e.target.value)}
-              className="bg-gray-200 w-full p-2 rounded-md"
-              placeholder="Видавництво (необов'язково)"
-            />
-            <WishlistDesirabilitySlider
-              value={desirability}
-              onChange={setDesirability}
-            />{" "}
-          </div>
-        </div>
-        <div className="text-lg text-gray-500 my-1.5">
-          <p>Твій коментар (необов'язково)</p>
-        </div>
-        <textarea
-          maxLength={200}
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-          className="bg-gray-200 w-full p-2 rounded-md"
-          placeholder="Наприклад: Хочу цю книгу з кольоровим зрізом ❤️"
-        />
-        <div className="text-sm text-gray-400 text-right">
-          {comment.length}/200
-        </div>
-
-        {status === "success" && (
-          <p className="text-green-600 text-lg">Додано! 🎉</p>
-        )}
-        {status === "duplicate" && (
-          <p className="text-red-600 text-lg">Ця книжка вже є у списку 📚</p>
-        )}
-        {status === "error" && (
-          <p className="text-red-600 text-lg">
-            Не вдалося додати. Спробуй ще раз.
-          </p>
-        )}
-
-        <div className="flex gap-5 justify-end self-end mt-auto">
-          <Button variant="quiet" onClick={onClose}>
-            Скасувати
-          </Button>
-          <Button
-            variant="primary"
-            onClick={handleAdd}
-            disabled={
-              !canSubmit ||
-              status === "loading" ||
-              status === "success" ||
-              status === "duplicate"
-            }
-          >
-            {status === "loading" ? "Додаю…" : "Додати"}
-          </Button>
+          <input
+            value={publisher}
+            onChange={(e) => setPublisher(e.target.value)}
+            className="bg-gray-200 w-full p-2 rounded-md"
+            placeholder="Видавництво (необов'язково)"
+          />
+          <WishlistDesirabilitySlider
+            value={desirability}
+            onChange={setDesirability}
+          />{" "}
         </div>
       </div>
-    </div>
+      <div className="text-lg text-gray-500 my-1.5">
+        <p>Твій коментар (необов'язково)</p>
+      </div>
+      <textarea
+        maxLength={200}
+        value={comment}
+        onChange={(e) => setComment(e.target.value)}
+        className="bg-gray-200 w-full p-2 rounded-md"
+        placeholder="Наприклад: Хочу цю книгу з кольоровим зрізом ❤️"
+      />
+      <div className="text-sm text-gray-400 text-right">
+        {comment.length}/200
+      </div>
+
+      {status === "success" && (
+        <p className="text-green-600 text-lg">Додано! 🎉</p>
+      )}
+      {status === "duplicate" && (
+        <p className="text-red-600 text-lg">Ця книжка вже є у списку 📚</p>
+      )}
+      {status === "error" && (
+        <p className="text-red-600 text-lg">
+          Не вдалося додати. Спробуй ще раз.
+        </p>
+      )}
+
+      <div className="flex gap-5 justify-end self-end mt-auto">
+        <Button variant="quiet" onClick={onClose}>
+          Скасувати
+        </Button>
+        <Button
+          variant="primary"
+          onClick={handleAdd}
+          disabled={
+            !canSubmit ||
+            status === "loading" ||
+            status === "success" ||
+            status === "duplicate"
+          }
+        >
+          {status === "loading" ? "Додаю…" : "Додати"}
+        </Button>
+      </div>
+    </Modal>
   );
 }

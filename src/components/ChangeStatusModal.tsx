@@ -5,6 +5,7 @@ import { BookCover } from "./BookCover";
 import { bookCoverUrl } from "../lib/coverUrl";
 import { Spine } from "./Spine";
 import { Button } from "./ui/Button";
+import { Modal } from "./ui/Modal";
 
 interface ChangeStatusModalProps {
   status: WishlistItemStatus;
@@ -93,165 +94,150 @@ export function ChangeStatusModal({
   const userId = user?.id;
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
-      onClick={onClose}
-    >
-      <div
-        className="relative w-full max-w-md max-h-[90vh] overflow-y-auto rounded-2xl bg-white p-8 shadow-xl "
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          className="absolute right-4 top-4 text-gray-400 hover:text-gray-600"
-          onClick={onClose}
-        >
-          ✕
-        </button>
-
-        {isOwner && (
-          <div className="text-center">
-            <h3 className="text-2xl font-semibold text-gray-900">
-              Вже отримали?🎁
-            </h3>
-            <p className="text-gray-500 text-sm">
-              Ця книжка вже у твоїй колекції?
-            </p>
-            <div className="flex justify-center my-7">
-              <div className="flicker-cover relative w-36 aspect-2/3 rounded-lg overflow-hidden">
-                <BookCover
-                  src={bookCoverUrl(book)}
-                  title={book.title}
-                  isbn={book.isbn}
-                  coverSize="w-full h-full"
-                />
-                <Spine color="var(--color-spine-neutral)" />
-              </div>
+    <Modal onClose={onClose}>
+      {isOwner && (
+        <div className="text-center">
+          <h3 className="text-2xl font-semibold text-gray-900">
+            Вже отримали?🎁
+          </h3>
+          <p className="text-gray-500 text-sm">
+            Ця книжка вже у твоїй колекції?
+          </p>
+          <div className="flex justify-center my-7">
+            <div className="flicker-cover relative w-36 aspect-2/3 rounded-lg overflow-hidden">
+              <BookCover
+                src={bookCoverUrl(book)}
+                title={book.title}
+                isbn={book.isbn}
+                coverSize="w-full h-full"
+              />
+              <Spine color="var(--color-spine-neutral)" />
             </div>
+          </div>
 
-            <div className="flex gap-4 mt-6 justify-center">
+          <div className="flex gap-4 mt-6 justify-center">
+            <Button variant="quiet" onClick={onClose}>
+              Ні, ще чекаю!
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => {
+                onReceived(itemId);
+                onClose();
+              }}
+            >
+              Так, отримала!
+            </Button>
+          </div>
+        </div>
+      )}
+      {!isOwner && isAuthenticated && step === 1 && (
+        <div className="text-center">
+          <h3 className="text-2xl font-semibold text-gray-900">
+            Виконуємо бажання?🎁
+          </h3>
+          <p className="text-gray-500 text-sm">
+            Повідом усім, що хтось уже подбав саме про цю книгу!{" "}
+          </p>
+
+          <div className="flex flex-col gap-3 mt-5">
+            <RadioOption
+              checked={action === "reserve"}
+              optionName="purchase_status"
+              onChange={() => setAction("reserve")}
+              title="Так, я збираюся купити цю книгу"
+            />
+
+            <RadioOption
+              checked={action === "purchase"}
+              optionName="purchase_status"
+              onChange={() => setAction("purchase")}
+              title="Так, я вже купив цю книгу!"
+            />
+            <div className="flex gap-4 mt-3 justify-end">
               <Button variant="quiet" onClick={onClose}>
-                Ні, ще чекаю!
+                Скасувати
               </Button>
               <Button
                 variant="primary"
-                onClick={() => {
-                  onReceived(itemId);
-                  onClose();
-                }}
+                disabled={action === null}
+                onClick={() => setStep(2)}
               >
-                Так, отримала!
+                Продовжити
               </Button>
             </div>
           </div>
-        )}
-        {!isOwner && isAuthenticated && step === 1 && (
-          <div className="text-center">
-            <h3 className="text-2xl font-semibold text-gray-900">
-              Виконуємо бажання?🎁
-            </h3>
-            <p className="text-gray-500 text-sm">
-              Повідом усім, що хтось уже подбав саме про цю книгу!{" "}
-            </p>
+        </div>
+      )}
+      {!isOwner && isAuthenticated && step === 2 && (
+        <div className="text-center">
+          <h3 className="text-2xl font-semibold text-gray-900 pb-1">
+            Хочеш зробити сюрприз?🎁
+          </h3>
+          <p className="text-gray-500 text-sm">
+            Обери, чи хочеш ти залишитись анонімним, чи повідомиш власнику хто
+            ти
+          </p>
+          <div className="flex flex-col gap-3 mt-3">
+            <RadioOption
+              checked={isAnonymous}
+              optionName="anonymity"
+              onChange={() => setIsAnonymous(true)}
+              title="Залишитись анонімним"
+            />
+            <RadioOption
+              checked={!isAnonymous}
+              optionName="anonymity"
+              onChange={() => setIsAnonymous(false)}
+              title="Розповісти, хто я"
+            />
 
-            <div className="flex flex-col gap-3 mt-5">
-              <RadioOption
-                checked={action === "reserve"}
-                optionName="purchase_status"
-                onChange={() => setAction("reserve")}
-                title="Так, я збираюся купити цю книгу"
-              />
-
-              <RadioOption
-                checked={action === "purchase"}
-                optionName="purchase_status"
-                onChange={() => setAction("purchase")}
-                title="Так, я вже купив цю книгу!"
-              />
-              <div className="flex gap-4 mt-3 justify-end">
-                <Button variant="quiet" onClick={onClose}>
-                  Скасувати
+            {!isAnonymous && (
+              <p className="text-gray-500 text-sm">
+                Власник одразу побачить, хто ти. Якщо передумаєш — може бути
+                запізно.
+              </p>
+            )}
+            <div
+              className={`flex gap-4 mt-3 ${isReservedFlow ? "justify-end" : "justify-between"}`}
+            >
+              {!isReservedFlow && (
+                <Button variant="quiet" onClick={() => setStep(1)}>
+                  ← Назад
                 </Button>
-                <Button
-                  variant="primary"
-                  disabled={action === null}
-                  onClick={() => setStep(2)}
-                >
-                  Продовжити
-                </Button>
-              </div>
-            </div>
-          </div>
-        )}
-        {!isOwner && isAuthenticated && step === 2 && (
-          <div className="text-center">
-            <h3 className="text-2xl font-semibold text-gray-900 pb-1">
-              Хочеш зробити сюрприз?🎁
-            </h3>
-            <p className="text-gray-500 text-sm">
-              Обери, чи хочеш ти залишитись анонімним, чи повідомиш власнику хто
-              ти
-            </p>
-            <div className="flex flex-col gap-3 mt-3">
-              <RadioOption
-                checked={isAnonymous}
-                optionName="anonymity"
-                onChange={() => setIsAnonymous(true)}
-                title="Залишитись анонімним"
-              />
-              <RadioOption
-                checked={!isAnonymous}
-                optionName="anonymity"
-                onChange={() => setIsAnonymous(false)}
-                title="Розповісти, хто я"
-              />
-
-              {!isAnonymous && (
-                <p className="text-gray-500 text-sm">
-                  Власник одразу побачить, хто ти. Якщо передумаєш — може бути
-                  запізно.
-                </p>
               )}
-              <div
-                className={`flex gap-4 mt-3 ${isReservedFlow ? "justify-end" : "justify-between"}`}
-              >
-                {!isReservedFlow && (
-                  <Button variant="quiet" onClick={() => setStep(1)}>
-                    ← Назад
-                  </Button>
-                )}
-                <Button
-                  variant="primary"
-                  disabled={!userId}
-                  onClick={() => {
-                    if (!userId) {
-                      return;
-                    }
-                    if (action === "reserve") {
-                      onReserve({
-                        itemId: itemId,
-                        isAnonymous: isAnonymous,
-                        reservedBy: userId,
-                      });
-                      onClose();
-                    }
+              <Button
+                variant="primary"
+                disabled={!userId}
+                onClick={() => {
+                  if (!userId) {
+                    return;
+                  }
+                  if (action === "reserve") {
+                    onReserve({
+                      itemId: itemId,
+                      isAnonymous: isAnonymous,
+                      reservedBy: userId,
+                    });
+                    onClose();
+                  }
 
-                    if (action === "purchase") {
-                      onPurchase({
-                        itemId,
-                        reservedBy: userId,
-                        isAnonymous,
-                      });
-                      onClose();
-                    }
-                  }}
-                >
-                  Підтвердити
-                </Button>
-              </div>
+                  if (action === "purchase") {
+                    onPurchase({
+                      itemId,
+                      reservedBy: userId,
+                      isAnonymous,
+                    });
+                    onClose();
+                  }
+                }}
+              >
+                Підтвердити
+              </Button>
             </div>
           </div>
-        )}
-      </div>
-    </div>
+        </div>
+      )}
+    </Modal>
   );
 }

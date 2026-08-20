@@ -1,5 +1,3 @@
-import ReactDOM from "react-dom";
-
 import { useState } from "react";
 import { WishlistItemStatus, type WishlistItemWithBook } from "../types/book";
 import { ChangeStatusButton } from "./ChangeStatusButton";
@@ -176,22 +174,20 @@ export function WishlistItemCard({
           </div>
         </div>
       </div>
-      {isModalOpen &&
-        ReactDOM.createPortal(
-          <ChangeStatusModal
-            onClose={onCloseModal}
-            status={status}
-            book={item.book}
-            isAuthenticated={isAuthenticated}
-            isOwner={isOwner}
-            isAnonymous={item.isAnonymous ?? false}
-            itemId={item.id}
-            onReserve={onReserve}
-            onReceived={onReceived}
-            onPurchase={onPurchase}
-          />,
-          document.body,
-        )}
+      {isModalOpen && (
+        <ChangeStatusModal
+          onClose={onCloseModal}
+          status={status}
+          book={item.book}
+          isAuthenticated={isAuthenticated}
+          isOwner={isOwner}
+          isAnonymous={item.isAnonymous ?? false}
+          itemId={item.id}
+          onReserve={onReserve}
+          onReceived={onReceived}
+          onPurchase={onPurchase}
+        />
+      )}
       {confirm === "delete" && (
         <ConfirmDialog
           book={item.book}

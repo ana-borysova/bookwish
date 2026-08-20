@@ -46,7 +46,6 @@ body {
   letter-spacing: 0.24em;
   font-weight: 600;
   color: var(--color-gold);
-  font-size: var(--text-xs);
 }
 
 /* --- wishlist card flip --- */

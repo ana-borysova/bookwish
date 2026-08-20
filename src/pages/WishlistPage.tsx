@@ -12,10 +12,10 @@ import { useAuthContext } from "../context/AuthContext";
 import { useParams } from "react-router-dom";
 import { GuestBanner } from "../components/GuestBanner";
 import { useProfile } from "../hooks/useProfiles";
-import { gradient } from "../lib/desirability";
 import { WishlistTierFilter } from "../components/WishlistTierFilter";
 import { useState } from "react";
 import { Button } from "../components/ui/Button";
+import { GradientText } from "../components/ui/GradientText";
 
 export function WishlistPage() {
   const { user } = useAuthContext();
@@ -59,23 +59,12 @@ export function WishlistPage() {
           <h1 className="font-display font-extrabold leading-[1.02] text-[clamp(2.625rem,4.6vw,4rem)]">
             {isOwner ? (
               <>
-                <span
-                  className="bg-clip-text text-transparent"
-                  style={{ backgroundImage: gradient }}
-                >
-                  Мій
-                </span>{" "}
-                вішліст
+                <GradientText>Мій</GradientText> вішліст
               </>
             ) : (
               <>
                 Вішліст{" "}
-                <span
-                  className="bg-clip-text text-transparent"
-                  style={{ backgroundImage: gradient }}
-                >
-                  {owner?.username ?? "Користувач"}
-                </span>
+                <GradientText>{owner?.username ?? "Користувач"}</GradientText>
               </>
             )}
           </h1>

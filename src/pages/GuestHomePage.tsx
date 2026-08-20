@@ -1,7 +1,6 @@
 import { GuestSlider } from "../components/GuestSlider";
 import { Button } from "../components/ui/Button";
-
-import { gradient } from "../lib/desirability";
+import { GradientText } from "../components/ui/GradientText";
 
 export function GuestHomePage() {
   return (
@@ -12,12 +11,7 @@ export function GuestHomePage() {
             ✦ Вішліст книжок, який здійснюється ✦
           </div>
           <h1 className="font-display font-extrabold text-[clamp(3.25rem,5.6vw,5.4rem)] leading-[1.02] tracking-[-0.005em]">
-            <span
-              className="bg-clip-text text-transparent"
-              style={{ backgroundImage: gradient }}
-            >
-              Збери книги мрій
-            </span>
+            <GradientText>Збери книги мрій</GradientText>
             <br />— і дозволь друзям здивувати тебе
           </h1>
           <p className="mt-6 text-lg leading-relaxed text-cream max-w-2xl">

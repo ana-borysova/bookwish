@@ -1,8 +1,8 @@
 import { Sky } from "../components/Sky";
 import { Button } from "../components/ui/Button";
+import { GradientText } from "../components/ui/GradientText";
 import { useAuthContext } from "../context/AuthContext";
 import { useWishlist } from "../hooks/useWishlist";
-import { gradient } from "../lib/desirability";
 import { WishlistItemStatus } from "../types/book";
 
 export function HomePage() {
@@ -25,14 +25,7 @@ export function HomePage() {
             ✦ Сузір'я твоїх мрій ✦
           </div>
           <h1 className="font-display font-extrabold text-[clamp(3.25rem,5.6vw,5.4rem)] leading-[1.02] tracking-[-0.005em]">
-            Кожна мрія - своя{" "}
-            <span
-              className="bg-clip-text text-transparent"
-              style={{ backgroundImage: gradient }}
-            >
-              зірка
-            </span>{" "}
-            на небі
+            Кожна мрія - своя <GradientText>зірка</GradientText> на небі
           </h1>
           <p className="mt-6 text-lg leading-relaxed text-cream max-w-2xl">
             Що дужче ти прагнеш книгу, то яскравіше вона світить у твоєму

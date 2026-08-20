@@ -1,5 +1,3 @@
-import ReactDOM from "react-dom";
-
 import { useState } from "react";
 import { WishlistItemStatus, type WishlistItemWithBook } from "../types/book";
 import { ChangeStatusButton } from "./ChangeStatusButton";
@@ -15,6 +13,7 @@ import clsx from "clsx";
 import { bookCoverUrl } from "../lib/coverUrl";
 import { BookCover } from "./BookCover";
 import { Spine } from "./Spine";
+import { Button } from "./ui/Button";
 
 interface WishlistItemCardProps {
   item: WishlistItemWithBook;
@@ -106,28 +105,28 @@ export function WishlistItemCard({
             <div className="flex justify-between py-1">
               <StatusBadge status={status} />
               {isOwner && (
-                <button
-                  className="flex-none h-7 w-7 rounded-full text-xs text-cream/50 bg-white/5 transition hover:text-white hover:bg-rose-500/35"
+                <Button
+                  variant="icon"
                   onClick={(e) => {
                     e.stopPropagation();
                     setConfirm("delete");
                   }}
                 >
                   ✕
-                </button>
+                </Button>
               )}
               {isReserver &&
                 (status === WishlistItemStatus.RESERVED ||
                   status === WishlistItemStatus.PURCHASED) && (
-                  <button
-                    className="flex-none h-7 w-7 rounded-full text-xs text-cream/50 bg-white/5 transition hover:text-white hover:bg-rose-500/35"
+                  <Button
+                    variant="icon"
                     onClick={(e) => {
                       e.stopPropagation();
                       setConfirm("cancel");
                     }}
                   >
                     ✕
-                  </button>
+                  </Button>
                 )}
             </div>
 
@@ -175,22 +174,20 @@ export function WishlistItemCard({
           </div>
         </div>
       </div>
-      {isModalOpen &&
-        ReactDOM.createPortal(
-          <ChangeStatusModal
-            onClose={onCloseModal}
-            status={status}
-            book={item.book}
-            isAuthenticated={isAuthenticated}
-            isOwner={isOwner}
-            isAnonymous={item.isAnonymous ?? false}
-            itemId={item.id}
-            onReserve={onReserve}
-            onReceived={onReceived}
-            onPurchase={onPurchase}
-          />,
-          document.body,
-        )}
+      {isModalOpen && (
+        <ChangeStatusModal
+          onClose={onCloseModal}
+          status={status}
+          book={item.book}
+          isAuthenticated={isAuthenticated}
+          isOwner={isOwner}
+          isAnonymous={item.isAnonymous ?? false}
+          itemId={item.id}
+          onReserve={onReserve}
+          onReceived={onReceived}
+          onPurchase={onPurchase}
+        />
+      )}
       {confirm === "delete" && (
         <ConfirmDialog
           book={item.book}

@@ -1,36 +1,39 @@
-import { ButtonCTA } from "../components/ButtonCTA";
 import { GuestSlider } from "../components/GuestSlider";
+import { Button } from "../components/ui/Button";
+import { GradientText } from "../components/ui/GradientText";
+import { PageHeader } from "../components/ui/PageHeader";
 
-import { gradient } from "../lib/desirability";
+const GUEST_HEADER_TEXT = {
+  eyebrow: "✦ Вішліст книжок, який здійснюється ✦",
+  title: (
+    <>
+      <GradientText>Збери книги мрій</GradientText>
+      <br />— і дозволь друзям здивувати тебе
+    </>
+  ),
+  subtitle:
+    "Признач кожній книзі рівень бажаності — а друзі таємно зарезервують подарунок. Створи своє сузір'я мрій і поділись ним із близькими.",
+};
 
 export function GuestHomePage() {
   return (
-    <section className="px-[clamp(3.25rem,5vw,5.5rem)]">
+    <section className="page-x">
       <div className="grid grid-cols-[1.08fr_1fr] gap-4 items-center min-h-[calc(100vh-6rem)]">
         <div>
-          <div className="uppercase tracking-[0.24em] text-sm font-semibold text-gold mb-5">
-            ✦ Вішліст книжок, який здійснюється ✦
-          </div>
-          <h1 className="font-display font-extrabold text-[clamp(3.25rem,5.6vw,5.4rem)] leading-[1.02] tracking-[-0.005em]">
-            <span
-              className="bg-clip-text text-transparent"
-              style={{ backgroundImage: gradient }}
-            >
-              Збери книги мрій
-            </span>
-            <br />— і дозволь друзям здивувати тебе
-          </h1>
-          <p className="mt-6 text-lg leading-relaxed text-cream max-w-2xl">
-            Признач кожній книзі рівень бажаності — а друзі таємно зарезервують
-            подарунок. Створи своє сузір'я мрій і поділись ним із близькими.
-          </p>
+          <PageHeader
+            eyebrow={GUEST_HEADER_TEXT.eyebrow}
+            title={GUEST_HEADER_TEXT.title}
+            subtitle={GUEST_HEADER_TEXT.subtitle}
+          />
+
           <div className="flex gap-4 mt-8">
-            <ButtonCTA to="/auth" variant="primary">
+            <Button to="/auth" variant="primary" size="basic">
               ✨ Створити список
-            </ButtonCTA>
-            <ButtonCTA to="/auth?mode=login" variant="ghost">
+            </Button>
+
+            <Button to="/auth?mode=login" variant="ghost" size="basic">
               Увійти
-            </ButtonCTA>
+            </Button>
           </div>
           <p className="mt-8 text-sm text-cream/85 max-w-xl">
             🎁 Надішли друзям посилання на своє зіркове небо — і вони можуть

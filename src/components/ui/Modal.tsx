@@ -38,16 +38,16 @@ export function Modal({
     return null;
   }
 
-  const classes = `${SIZES[size]} relative w-full max-h-[90vh] overflow-y-auto rounded-2xl bg-white p-8 shadow-xl`;
+  const classes = `${SIZES[size]} surface-card border border-white/15 shadow-panel relative w-full max-h-[90vh] overflow-y-auto rounded-3xl p-8`;
 
   return ReactDOM.createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-night/70 backdrop-blur-sm p-4"
       onClick={onClose}
     >
       <div className={classes} onClick={(e) => e.stopPropagation()}>
         <button
-          className="absolute right-4 top-4 text-gray-400 hover:text-gray-600"
+          className="absolute right-4 top-4 h-9 w-9 rounded-full bg-white/5 text-cream/55 transition hover:bg-white/15 hover:text-cream"
           onClick={onClose}
         >
           ✕

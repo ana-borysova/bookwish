@@ -83,7 +83,7 @@ export function AddToWishlistModal({
             value={desirability}
             onChange={setDesirability}
           />
-          <div className="text-sm text-cream/60 mt-2.5 mb-1.5">
+          <div className="text-base text-cream/60 mt-2.5 mb-1.5">
             <p>Твій коментар (необов'язково)</p>
           </div>
           <textarea

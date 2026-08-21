@@ -43,7 +43,7 @@ export function ConfirmDialog({
           )}
         </div>
         <div className="flex gap-4 justify-center">
-          <Button variant="quiet" onClick={onCancel}>
+          <Button variant="ghost" onClick={onCancel}>
             {cancelLabel}
           </Button>
           <Button variant="primary" onClick={onConfirm}>

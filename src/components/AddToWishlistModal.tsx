@@ -104,7 +104,7 @@ export function AddToWishlistModal({
             </p>
           )}
           <div className="flex gap-5 justify-end self-end mt-auto">
-            <Button variant="quiet" onClick={onClose}>
+            <Button variant="ghost" onClick={onClose}>
               Скасувати
             </Button>
             <Button

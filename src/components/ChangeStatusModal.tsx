@@ -116,7 +116,7 @@ export function ChangeStatusModal({
           </div>
 
           <div className="flex gap-4 mt-6 justify-center">
-            <Button variant="quiet" onClick={onClose}>
+            <Button variant="ghost" onClick={onClose}>
               Ні, ще чекаю!
             </Button>
             <Button
@@ -155,7 +155,7 @@ export function ChangeStatusModal({
               title="Так, я вже купив цю книгу!"
             />
             <div className="flex gap-4 mt-3 justify-end">
-              <Button variant="quiet" onClick={onClose}>
+              <Button variant="ghost" onClick={onClose}>
                 Скасувати
               </Button>
               <Button
@@ -202,7 +202,7 @@ export function ChangeStatusModal({
               className={`flex gap-4 mt-3 ${isReservedFlow ? "justify-end" : "justify-between"}`}
             >
               {!isReservedFlow && (
-                <Button variant="quiet" onClick={() => setStep(1)}>
+                <Button variant="ghost" onClick={() => setStep(1)}>
                   ← Назад
                 </Button>
               )}

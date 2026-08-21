@@ -4,7 +4,7 @@ import { gradient } from "../../lib/desirability";
 
 interface ButtonProps {
   children: ReactNode;
-  variant: "primary" | "ghost" | "quiet" | "icon";
+  variant: "primary" | "ghost" | "icon";
   size?: "basic" | "small";
   to?: string;
   onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
@@ -22,8 +22,8 @@ const SIZES = {
 
 const VARIANTS = {
   primary: "text-white shadow-[0_10px_28px_-6px_rgba(244,63,94,0.55)]",
-  ghost: "text-cream bg-white/5 border border-white/20",
-  quiet: "text-gray-500 hover:bg-gray-100 hover:text-gray-700 hover:shadow-md",
+  ghost:
+    "text-cream bg-white/5 border border-white/20 hover:bg-white/12 hover:border-gold/50",
   icon: "flex-none h-7 w-7 rounded-full text-xs text-cream/50 bg-white/5 hover:text-white hover:bg-rose-500/35 justify-center",
 };
 

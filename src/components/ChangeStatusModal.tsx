@@ -45,7 +45,7 @@ function RadioOption({
 }: RadioOptionProps) {
   return (
     <label
-      className={`flex items-center gap-3 rounded-xl p-4 border group ${checked ? "bg-amber-50 border-amber-500" : "border-gray-200 hover:bg-gray-100"}`}
+      className={`flex items-center gap-3 rounded-2xl p-4 border group ${checked ? "bg-gold/10 border-gold/70" : "border-white/15 bg-white/5 hover:bg-white/10"}`}
     >
       <input
         checked={checked}
@@ -56,14 +56,14 @@ function RadioOption({
       />
 
       <span
-        className={`flex items-center justify-center w-5 h-5 rounded-full border-2 flex-none ${checked ? "border-amber-500" : "border-gray-300"}`}
+        className={`flex items-center justify-center w-5 h-5 rounded-full border-2 flex-none ${checked ? "border-gold" : "border-white/35"}`}
       >
         <span
-          className={`w-2.5 h-2.5 rounded-full ${checked ? "bg-amber-500" : "group-hover:bg-gray-300"}`}
+          className={`w-2.5 h-2.5 rounded-full ${checked ? "bg-gold" : "group-hover:bg-white/25"}`}
         />
       </span>
 
-      <span className="text-gray-900">{title}</span>
+      <span>{title}</span>
     </label>
   );
 }
@@ -97,10 +97,10 @@ export function ChangeStatusModal({
     <Modal onClose={onClose}>
       {isOwner && (
         <div className="text-center">
-          <h3 className="text-2xl font-semibold text-gray-900">
-            Вже отримали?🎁
+          <h3 className="font-display text-3xl font-extrabold">
+            Вже отримали?
           </h3>
-          <p className="text-gray-500 text-sm">
+          <p className="text-base text-cream/60">
             Ця книжка вже у твоїй колекції?
           </p>
           <div className="flex justify-center my-7">
@@ -116,7 +116,7 @@ export function ChangeStatusModal({
           </div>
 
           <div className="flex gap-4 mt-6 justify-center">
-            <Button variant="quiet" onClick={onClose}>
+            <Button variant="ghost" onClick={onClose}>
               Ні, ще чекаю!
             </Button>
             <Button
@@ -133,14 +133,14 @@ export function ChangeStatusModal({
       )}
       {!isOwner && isAuthenticated && step === 1 && (
         <div className="text-center">
-          <h3 className="text-2xl font-semibold text-gray-900">
-            Виконуємо бажання?🎁
+          <h3 className="font-display text-3xl font-extrabold">
+            Виконуємо бажання?
           </h3>
-          <p className="text-gray-500 text-sm">
+          <p className="text-base text-cream/60">
             Повідом усім, що хтось уже подбав саме про цю книгу!{" "}
           </p>
 
-          <div className="flex flex-col gap-3 mt-5">
+          <div className="flex flex-col gap-3 mt-6">
             <RadioOption
               checked={action === "reserve"}
               optionName="purchase_status"
@@ -155,7 +155,7 @@ export function ChangeStatusModal({
               title="Так, я вже купив цю книгу!"
             />
             <div className="flex gap-4 mt-3 justify-end">
-              <Button variant="quiet" onClick={onClose}>
+              <Button variant="ghost" onClick={onClose}>
                 Скасувати
               </Button>
               <Button
@@ -171,10 +171,10 @@ export function ChangeStatusModal({
       )}
       {!isOwner && isAuthenticated && step === 2 && (
         <div className="text-center">
-          <h3 className="text-2xl font-semibold text-gray-900 pb-1">
-            Хочеш зробити сюрприз?🎁
+          <h3 className="font-display text-3xl font-extrabold pb-1">
+            Хочеш зробити сюрприз?
           </h3>
-          <p className="text-gray-500 text-sm">
+          <p className="text-base text-cream/60">
             Обери, чи хочеш ти залишитись анонімним, чи повідомиш власнику хто
             ти
           </p>
@@ -193,7 +193,7 @@ export function ChangeStatusModal({
             />
 
             {!isAnonymous && (
-              <p className="text-gray-500 text-sm">
+              <p className="text-sm text-gold bg-gold/10 border border-gold/25 rounded-xl px-4 py-2.5 text-left">
                 Власник одразу побачить, хто ти. Якщо передумаєш — може бути
                 запізно.
               </p>
@@ -202,7 +202,7 @@ export function ChangeStatusModal({
               className={`flex gap-4 mt-3 ${isReservedFlow ? "justify-end" : "justify-between"}`}
             >
               {!isReservedFlow && (
-                <Button variant="quiet" onClick={() => setStep(1)}>
+                <Button variant="ghost" onClick={() => setStep(1)}>
                   ← Назад
                 </Button>
               )}

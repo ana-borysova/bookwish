@@ -139,16 +139,14 @@ export function WishlistItemCard({
             <div className="text-sm text-white/40 pb-4 ">{publisher}</div>
 
             <div
-              className="h-3 w-full rounded-full relative overflow-hidden"
+              className="h-3 w-full rounded-full"
               style={{
-                background: gradient,
+                backgroundImage: gradient,
+                backgroundColor: "var(--color-track)",
+                backgroundRepeat: "no-repeat",
+                backgroundSize: `${desirabilityFillPct(desirability)}% 100%`,
               }}
-            >
-              <div
-                className="absolute inset-y-0 right-0 bg-track"
-                style={{ left: `${desirabilityFillPct(desirability)}%` }}
-              />
-            </div>
+            />
             <div
               className="text-center font-bold text-sm"
               style={{

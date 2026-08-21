@@ -74,9 +74,9 @@ export function CustomBookModal({ onClose, onSubmit }: CustomBookModalProps) {
 
   return (
     <Modal size="lg" onClose={onClose}>
-      <h2 className="text-2xl">Додати книгу 📖</h2>
-      <div className="my-2 flex gap-1">
-        <div className="flex-1 relative rounded-lg overflow-hidden">
+      <h2 className="font-display text-3xl font-extrabold">Додати книгу</h2>
+      <div className="my-2 flex gap-6">
+        <div className="w-52 shrink-0 relative rounded-xl overflow-hidden">
           <BookCover
             key={normalizedIsbn ?? "none"}
             src={normalizedIsbn ? isbnCoverUrl(normalizedIsbn) : undefined}
@@ -87,79 +87,75 @@ export function CustomBookModal({ onClose, onSubmit }: CustomBookModalProps) {
 
           <Spine color={tier.color} />
         </div>
-        <div className="mx-4 flex-2 flex flex-col gap-3">
+        <div className="flex-1 min-w-0 flex flex-col gap-3">
           <input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="bg-gray-200 w-full p-2 rounded-md"
+            className="field"
             placeholder="Назва *"
           />
           <input
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
-            className="bg-gray-200 w-full p-2 rounded-md"
+            className="field"
             placeholder="Автор * (кілька — через кому)"
           />
           <input
             value={isbn}
             onChange={(e) => setIsbn(e.target.value)}
-            className="bg-gray-200 w-full p-2 rounded-md"
+            className="field"
             placeholder="ISBN (необов'язково)"
           />
           <div className="flex gap-2">
             <input
               value={year}
               onChange={(e) => setYear(e.target.value)}
-              className="bg-gray-200 w-full p-2 rounded-md"
+              className="field"
               placeholder="Рік (необов'язково)"
             />
             <input
               value={pageCount}
               onChange={(e) => setPageCount(e.target.value)}
-              className="bg-gray-200 w-full p-2 rounded-md"
+              className="field"
               placeholder="Сторінок (необов'язково)"
             />
           </div>
           <input
             value={publisher}
             onChange={(e) => setPublisher(e.target.value)}
-            className="bg-gray-200 w-full p-2 rounded-md"
+            className="field"
             placeholder="Видавництво (необов'язково)"
           />
-          <WishlistDesirabilitySlider
-            value={desirability}
-            onChange={setDesirability}
-          />{" "}
         </div>
       </div>
-      <div className="text-lg text-gray-500 my-1.5">
+      <WishlistDesirabilitySlider
+        value={desirability}
+        onChange={setDesirability}
+      />
+      <div className="text-base text-cream/60 mt-2.5 mb-1.5">
         <p>Твій коментар (необов'язково)</p>
       </div>
       <textarea
         maxLength={200}
         value={comment}
         onChange={(e) => setComment(e.target.value)}
-        className="bg-gray-200 w-full p-2 rounded-md"
+        className="field resize-y min-h-16"
         placeholder="Наприклад: Хочу цю книгу з кольоровим зрізом ❤️"
       />
-      <div className="text-sm text-gray-400 text-right">
+      <div className="text-sm text-cream/40 text-right mt-1 mb-2">
         {comment.length}/200
       </div>
-
-      {status === "success" && (
-        <p className="text-green-600 text-lg">Додано! 🎉</p>
-      )}
+      {status === "success" && <p className="text-avail text-lg">Додано! 🎉</p>}
       {status === "duplicate" && (
-        <p className="text-red-600 text-lg">Ця книжка вже є у списку 📚</p>
+        <p className="text-rose-300 text-lg">Ця книжка вже є у списку 📚</p>
       )}
       {status === "error" && (
-        <p className="text-red-600 text-lg">
+        <p className="text-rose-300 text-lg">
           Не вдалося додати. Спробуй ще раз.
         </p>
       )}
-
       <div className="flex gap-5 justify-end self-end mt-auto">
-        <Button variant="quiet" onClick={onClose}>
+        <Button variant="ghost" onClick={onClose}>
           Скасувати
         </Button>
         <Button

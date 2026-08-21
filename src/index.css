@@ -11,7 +11,7 @@
   --color-night: #0e1a3c;
   --color-surface-from: #243768;
   --color-surface-to: #101a3c;
-  --color-track: #f3f4f6;
+  --color-track: rgba(255, 255, 255, 0.05);
   --color-spine-neutral: #f59e0b;
 
   --page-x: clamp(3.25rem, 5vw, 5.5rem);

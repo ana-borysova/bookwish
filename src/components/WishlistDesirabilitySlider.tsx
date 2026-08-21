@@ -13,6 +13,9 @@ export function WishlistDesirabilitySlider({ value, onChange }: SliderProps) {
   const tier = getDesirabilityTier(value);
   return (
     <div>
+      <div className="font-display font-bold text-lg mb-2.5">
+        Наскільки хочеш цю книгу?
+      </div>
       <input
         type="range"
         min={1}
@@ -29,8 +32,8 @@ export function WishlistDesirabilitySlider({ value, onChange }: SliderProps) {
         }}
       />
       <div
-        className="text-center font-bold text-sm mt-2"
-        style={{ color: tier.color }}
+        className="font-bold text-base mt-2"
+        style={{ color: tier.color, textShadow: `0 0 14px ${tier.color}` }}
       >
         {tier.label}
       </div>

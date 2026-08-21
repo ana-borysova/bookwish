@@ -55,10 +55,12 @@ export function AddToWishlistModal({
 
   return (
     <Modal size="lg" onClose={onClose}>
-      <h2 className="text-2xl pb-4 px-1">Додати до списку 🎁</h2>
+      <h2 className="font-display text-3xl font-extrabold pb-4 px-1">
+        Додати до списку
+      </h2>
 
-      <div className="my-2 flex gap-1">
-        <div className="flex-1 relative rounded-lg overflow-hidden">
+      <div className="my-2 flex gap-6">
+        <div className="w-52 shrink-0 relative rounded-xl overflow-hidden">
           <BookCover
             src={bookCoverUrl(book)}
             title={book.title}
@@ -68,38 +70,40 @@ export function AddToWishlistModal({
 
           <Spine color={tier.color} />
         </div>
-        <div className="mx-4 flex-2 flex flex-col">
-          <div className="text-xl leading-none">{book.title}</div>
+        <div className="flex-1 min-w-0 flex flex-col">
+          <div className="font-display text-2xl font-bold leading-tight">
+            {book.title}
+          </div>
 
-          <div className="text-sm text-gray-500 mb-2">
-            <p>{book.authors?.join(", ")}</p> <p>{book.year}</p>
+          <div className="text-sm text-cream/60 mb-2">
+            {[book.authors?.join(", "), book.year].filter(Boolean).join(" | ")}
           </div>
 
           <WishlistDesirabilitySlider
             value={desirability}
             onChange={setDesirability}
           />
-          <div className="text-lg text-gray-500 my-1.5">
+          <div className="text-sm text-cream/60 mt-2.5 mb-1.5">
             <p>Твій коментар (необов'язково)</p>
           </div>
           <textarea
             maxLength={200}
             value={comment}
             onChange={(e) => setComment(e.target.value)}
-            className="bg-gray-200 w-full p-2 rounded-md"
+            className="field resize-y min-h-16"
             placeholder="Наприклад: Хочу цю книгу з кольоровим зрізом ❤️"
           />
-          <div className="text-sm text-gray-400 text-right">
+          <div className="text-sm text-cream/40 text-right mt-1 mb-2">
             {comment.length}/200
           </div>
           {status === "success" && (
-            <p className="text-green-600 text-lg">Додано! 🎉</p>
+            <p className="text-avail text-lg">Додано! 🎉</p>
           )}
           {status === "duplicate" && (
-            <p className="text-red-600 text-lg">Ця книжка вже є у списку 📚</p>
+            <p className="text-rose-300 text-lg">Ця книжка вже є у списку 📚</p>
           )}
           {status === "error" && (
-            <p className="text-red-600 text-lg">
+            <p className="text-rose-300 text-lg">
               Не вдалося додати. Спробуй ще раз.
             </p>
           )}

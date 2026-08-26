@@ -70,6 +70,12 @@ export function SearchPage() {
         <p className="text-center text-gray-500">Нічого не знайдено 😔</p>
       )}
 
+      {!isLoading && !!data?.length && (
+        <p className="text-base text-cream/60 mt-5 mb-4">
+          Знайдено <b className="text-gold">{data.length}</b> книг
+        </p>
+      )}
+
       <div className="flex flex-col gap-4">
         {data?.map((book) => (
           <BookCard

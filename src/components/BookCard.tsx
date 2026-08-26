@@ -3,6 +3,7 @@ import type { Book } from "../types/book";
 import { AddToWishlistModal } from "./AddToWishlistModal";
 import { bookCoverUrl } from "../lib/coverUrl";
 import { BookCover } from "./BookCover";
+import { Button } from "./ui/Button";
 
 interface BookCardProps {
   book: Book;
@@ -17,52 +18,49 @@ interface BookCardProps {
 export function BookCard({ book, onAdd, alreadyAdded }: BookCardProps) {
   const [open, setOpen] = useState(false);
 
+  const meta = [
+    book.year,
+    book.publisher,
+    book.pageCount && `${book.pageCount} стор.`,
+  ]
+    .filter(Boolean)
+    .join(" · ");
+
   return (
-    <div className="flex gap-4 rounded-xl border border-gray-200 p-4 shadow-sm hover:shadow-md transition-shadow">
+    <div className="flex gap-5 p-4 rounded-2xl bg-white/5 border border-white/10 shadow-[0_12px_30px_rgba(0,0,0,0.28)] transition hover:-translate-y-1 hover:border-gold/35">
       <BookCover
         src={bookCoverUrl(book)}
         title={book.title}
-        coverSize="w-24 h-36 rounded"
+        coverSize="w-24 h-36 rounded-lg"
         isbn={book.isbn}
       />
 
-      <div className="flex flex-col gap-1 flex-1">
-        <h3 className="font-semibold text-gray-900 line-clamp-2">
-          {book.title}
-        </h3>
-        <p className="text-sm text-gray-500">{book.authors?.join(", ")}</p>
-        {book.year && <p className="text-xs text-gray-400">{book.year}</p>}
-        {book.publisher && (
-          <p className="text-xs text-gray-400">{book.publisher}</p>
-        )}
-        {book.pageCount && (
-          <p className="text-xs text-gray-400">{book.pageCount} стор.</p>
-        )}
-
+      <div className="flex-1 min-w-0">
+        <h3 className="font-display font-bold text-2xl">{book.title}</h3>
+        <p className="text-base text-cream/70 mt-1">
+          {book.authors?.join(", ")}
+        </p>
+        {meta && <p className="text-sm text-cream/40 mt-1.5">{meta}</p>}
+      </div>
+      <div className="flex items-end ml-auto">
         {alreadyAdded ? (
-          <button
-            disabled={true}
-            className={`mt-auto self-start text-sm px-4 py-1.5 rounded-full transition-colors ${" bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
-          >
-            Вже у списку
-          </button>
+          <Button variant="ghost" size="basic" disabled>
+            ✓ Вже у списку
+          </Button>
         ) : (
-          <button
-            onClick={() => setOpen(true)}
-            className={`mt-auto self-start text-sm px-4 py-1.5 rounded-full transition-colors ${"bg-blue-100 text-blue-600 hover:bg-blue-200"}`}
-          >
-            До списку
-          </button>
-        )}
-
-        {open && (
-          <AddToWishlistModal
-            book={book}
-            onClose={() => setOpen(false)}
-            onSubmit={onAdd}
-          />
+          <Button variant="primary" size="basic" onClick={() => setOpen(true)}>
+            + До списку
+          </Button>
         )}
       </div>
+
+      {open && (
+        <AddToWishlistModal
+          book={book}
+          onClose={() => setOpen(false)}
+          onSubmit={onAdd}
+        />
+      )}
     </div>
   );
 }

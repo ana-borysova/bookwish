@@ -4,7 +4,7 @@ interface PageHeaderProps {
   eyebrow: ReactNode;
   title: ReactNode;
   subtitle: ReactNode;
-  size?: "hero" | "compact";
+  size?: "hero" | "medium" | "compact";
 }
 
 const SIZES = {
@@ -12,6 +12,12 @@ const SIZES = {
     eyebrow: "text-sm mb-5",
     title: "text-[clamp(3.25rem,5.6vw,5.4rem)]",
     subtitle: "mt-6 text-lg text-cream max-w-2xl",
+  },
+
+  medium: {
+    eyebrow: "text-xs mb-3.5",
+    title: "text-[clamp(2.625rem,4.6vw,4rem)]",
+    subtitle: "mt-2.5 text-base text-cream/70",
   },
   compact: {
     eyebrow: "text-xs mb-3",

@@ -50,32 +50,34 @@ body {
   color: var(--color-gold);
 }
 
-.field {
-  width: 100%;
-  padding: 0.75rem 1.25rem;
-  color: var(--color-cream);
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 0.75rem;
-  outline: none;
-  transition:
-    border-color 0.25s ease,
-    box-shadow 0.3s ease;
-}
+@layer components {
+  .field {
+    width: 100%;
+    padding: 0.75rem 1.25rem;
+    color: var(--color-cream);
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 0.75rem;
+    outline: none;
+    transition:
+      border-color 0.25s ease,
+      box-shadow 0.3s ease;
+  }
 
-.field::placeholder {
-  color: color-mix(in srgb, var(--color-cream) 40%, transparent);
-}
+  .field::placeholder {
+    color: color-mix(in srgb, var(--color-cream) 40%, transparent);
+  }
 
-.field:focus {
-  border-color: color-mix(in srgb, var(--color-gold) 65%, transparent);
-  box-shadow:
-    0 0 0 3px color-mix(in srgb, var(--color-gold) 13%, transparent),
-    0 0 20px -4px color-mix(in srgb, var(--color-gold) 45%, transparent);
-}
+  .field:focus {
+    border-color: color-mix(in srgb, var(--color-gold) 65%, transparent);
+    box-shadow:
+      0 0 0 3px color-mix(in srgb, var(--color-gold) 13%, transparent),
+      0 0 20px -4px color-mix(in srgb, var(--color-gold) 45%, transparent);
+  }
 
-.field:focus-visible {
-  outline: none;
+  .field:focus-visible {
+    outline: none;
+  }
 }
 
 /* --- wishlist card flip --- */

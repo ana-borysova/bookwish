@@ -9,6 +9,9 @@ import {
 } from "../hooks/useWishlist";
 import { useAuthContext } from "../context/AuthContext";
 import { CustomBookModal } from "../components/CustomBookModal";
+import { Button } from "../components/ui/Button";
+import { PageHeader } from "../components/ui/PageHeader";
+import { GradientText } from "../components/ui/GradientText";
 
 export function SearchPage() {
   const [query, setQuery] = useState("");
@@ -27,21 +30,32 @@ export function SearchPage() {
   const { mutateAsync: addManual } = useAddCustomWishlistItem(user!.id);
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8 ">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Пошук книг</h1>
-      <div className="flex mb-6 gap-5">
+    <div className="page-x py-8">
+      <PageHeader
+        size="medium"
+        eyebrow="✦ Знайди свою наступну зірку ✦"
+        title={
+          <>
+            <GradientText>Пошук</GradientText> книг
+          </>
+        }
+        subtitle="Напиши назву чи автора — і додай знахідку до свого нічного неба"
+      />
+
+      <div className="flex mb-6 mt-6 gap-5">
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Введіть назву або автора..."
-          className="w-full border border-gray-300 rounded-lg py-2 px-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="field rounded-full h-14 px-6 text-lg flex-1"
         />
-        <button
+        <Button
           onClick={() => setIsManualOpen(true)}
-          className="whitespace-nowrap rounded-lg border border-gray-300 px-2 text-sm text-gray-700 hover:bg-gray-100"
+          variant="ghost"
+          size="basic"
         >
           + Додати вручну
-        </button>
+        </Button>
       </div>
 
       {isLoading && (

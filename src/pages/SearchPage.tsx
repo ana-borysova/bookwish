@@ -20,7 +20,7 @@ export function SearchPage() {
 
   const debouncedQuery = useDebounce(query);
   const { user } = useAuthContext();
-  const { data, isLoading, isError } = useBookSearch(debouncedQuery);
+  const { data, isLoading, isError, refetch } = useBookSearch(debouncedQuery);
 
   const { data: wishlist } = useWishlist(user!.id);
   const addedIds = new Set(
@@ -74,11 +74,39 @@ export function SearchPage() {
       )}
 
       {isError && (
-        <p className="text-center text-red-500">Помилка. Спробуй ще раз.</p>
+        <SearchState
+          icon="☁️"
+          title="Щось пішло не так"
+          description="Не вдалося дотягнутися до каталогу. Перевір з'єднання і спробуй ще раз"
+        >
+          <Button
+            variant="primary"
+            size="basic"
+            onClick={() => {
+              refetch();
+            }}
+          >
+            ↻ Спробувати ще раз
+          </Button>
+        </SearchState>
       )}
 
       {!isLoading && data?.length === 0 && (
-        <p className="text-center text-gray-500">Нічого не знайдено 😔</p>
+        <SearchState
+          icon="🌙"
+          title="Нічого не знайшлося"
+          description="Спробуй інакше написати назву чи автора — або додай книгу вручну, якщо її ще нема в жодному каталозі"
+        >
+          <Button
+            variant="ghost"
+            size="basic"
+            onClick={() => {
+              setIsManualOpen(true);
+            }}
+          >
+            + Додати вручну
+          </Button>
+        </SearchState>
       )}
 
       {!isLoading && !!data?.length && (

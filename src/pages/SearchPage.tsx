@@ -12,6 +12,7 @@ import { CustomBookModal } from "../components/CustomBookModal";
 import { Button } from "../components/ui/Button";
 import { PageHeader } from "../components/ui/PageHeader";
 import { GradientText } from "../components/ui/GradientText";
+import { SearchState } from "../components/ui/SearchState";
 
 export function SearchPage() {
   const [query, setQuery] = useState("");
@@ -28,6 +29,8 @@ export function SearchPage() {
 
   const { mutateAsync } = useAddWishlistItem(user!.id);
   const { mutateAsync: addManual } = useAddCustomWishlistItem(user!.id);
+
+  const isIdle = debouncedQuery.trim().length < 3;
 
   return (
     <div className="page-x py-8">
@@ -58,6 +61,14 @@ export function SearchPage() {
         </Button>
       </div>
 
+      {isIdle && (
+        <SearchState
+          icon="🔭"
+          title="Небо чекає на пошук"
+          description="Почни писати назву або ім'я автора — і знайди книгу, яка засвітиться у твоєму списку мрій."
+        />
+      )}
+
       {isLoading && (
         <p className="text-center text-gray-500">Завантаження...</p>
       )}
@@ -76,7 +87,7 @@ export function SearchPage() {
         </p>
       )}
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 pb-16">
         {data?.map((book) => (
           <BookCard
             key={book.id}

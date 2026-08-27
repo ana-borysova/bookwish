@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { TwinkleStars } from "./TwinkleStars";
 
 interface SearchStateProps {
   icon: string;
@@ -15,6 +16,7 @@ export function SearchState({
 }: SearchStateProps) {
   return (
     <div className="text-center relative pt-20 px-5 pb-36">
+      <TwinkleStars />
       <span className="text-[3.5rem] drop-shadow-glow">{icon}</span>
       <h2 className="font-display font-extrabold text-3xl mt-6">{title}</h2>
       <p className="text-base text-cream/65 mt-3 max-w-md mx-auto leading-relaxed">

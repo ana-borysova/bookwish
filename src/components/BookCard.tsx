@@ -27,7 +27,7 @@ export function BookCard({ book, onAdd, alreadyAdded }: BookCardProps) {
     .join(" · ");
 
   return (
-    <div className="flex gap-5 p-4 rounded-2xl bg-white/5 border border-white/10 shadow-[0_12px_30px_rgba(0,0,0,0.28)] transition hover:-translate-y-1 hover:border-gold/35">
+    <div className="flex gap-5 p-4 rounded-2xl bg-white/5 border border-white/10 shadow-row transition hover:-translate-y-1 hover:border-gold/35">
       <BookCover
         src={bookCoverUrl(book)}
         title={book.title}

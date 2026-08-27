@@ -15,8 +15,11 @@
   --color-spine-neutral: #f59e0b;
 
   --page-x: clamp(3.25rem, 5vw, 5.5rem);
+
   --shadow-panel:
     0 30px 80px rgba(0, 0, 0, 0.45), 0 0 60px -20px rgba(246, 194, 104, 0.25);
+  --shadow-row: 0 12px 30px rgba(0, 0, 0, 0.28);
+  --drop-shadow-glow: 0 0 26px rgba(246, 211, 140, 0.55);
 }
 
 body {

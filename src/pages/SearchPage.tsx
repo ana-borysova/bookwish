@@ -13,6 +13,7 @@ import { Button } from "../components/ui/Button";
 import { PageHeader } from "../components/ui/PageHeader";
 import { GradientText } from "../components/ui/GradientText";
 import { SearchState } from "../components/ui/SearchState";
+import { BookLoader } from "../components/ui/BookLoader";
 
 export function SearchPage() {
   const [query, setQuery] = useState("");
@@ -69,9 +70,7 @@ export function SearchPage() {
         />
       )}
 
-      {isLoading && (
-        <p className="text-center text-gray-500">Завантаження...</p>
-      )}
+      {isLoading && <BookLoader caption="Гортаємо сторінки..." />}
 
       {isError && (
         <SearchState

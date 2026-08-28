@@ -16,6 +16,8 @@ import { WishlistTierFilter } from "../components/WishlistTierFilter";
 import { useState } from "react";
 import { Button } from "../components/ui/Button";
 import { GradientText } from "../components/ui/GradientText";
+import { PageHeader } from "../components/ui/PageHeader";
+import { SearchState } from "../components/ui/SearchState";
 
 export function WishlistPage() {
   const { user } = useAuthContext();
@@ -53,79 +55,44 @@ export function WishlistPage() {
 
       <div className="flex justify-between items-end flex-wrap mb-5">
         <div>
-          <p className="uppercase text-xs font-semibold mb-3.5 tracking-[0.24em] text-gold">
-            ✦ Вітрина мрій ✦
-          </p>
-          <h1 className="font-display font-extrabold leading-[1.02] text-[clamp(2.625rem,4.6vw,4rem)]">
-            {isOwner ? (
+          <PageHeader
+            size="medium"
+            eyebrow="✦ Вітрина мрій ✦"
+            title={
+              isOwner ? (
+                <>
+                  <GradientText>Мій</GradientText> вішліст
+                </>
+              ) : (
+                <>
+                  Вішліст{" "}
+                  <GradientText>{owner?.username ?? "Користувач"}</GradientText>
+                </>
+              )
+            }
+            subtitle={
               <>
-                <GradientText>Мій</GradientText> вішліст
+                <b className="text-gold">{count}</b> книг · клікни картку, щоб
+                перегорнути ↻
               </>
-            ) : (
-              <>
-                Вішліст{" "}
-                <GradientText>{owner?.username ?? "Користувач"}</GradientText>
-              </>
-            )}
-          </h1>
-          <p className="mt-2.5 text-base text-cream/70">
-            <b className="text-gold">{count}</b> книг · клікни картку, щоб
-            перегорнути ↻
-          </p>
+            }
+          />
         </div>
         <WishlistTierFilter selected={tiers} onChange={setTiers} />
       </div>
       {!isLoading && !isAuthenticated && <GuestBanner />}
       {!isLoading && books?.length === 0 && (
-        <div className="text-center relative pt-20 px-5 pb-36">
-          <span
-            className="twinkle-star"
-            style={{ left: "38%", top: "58px", fontSize: "13px" }}
-          >
-            ✦
-          </span>
-          <span
-            className="twinkle-star"
-            style={{
-              left: "45%",
-              top: "26px",
-              fontSize: "11px",
-              animationDelay: "0.6s",
-            }}
-          >
-            ✧
-          </span>
-          <span
-            className="twinkle-star"
-            style={{
-              left: "57%",
-              top: "44px",
-              fontSize: "15px",
-              animationDelay: "1.1s",
-            }}
-          >
-            ✦
-          </span>
-
-          <div className="text-[3.5rem] drop-shadow-[0_0_26px_rgba(246,211,140,0.55)]">
-            🌙
-          </div>
-          <h2 className="font-display font-extrabold text-3xl mt-6 text-cream">
-            Твоє небо ще темне
-          </h2>
-          <p className="text-base text-cream/65 mt-3 max-w-md mx-auto leading-relaxed">
-            Додай першу книгу і засвіти свою першу зірку. Що сильніше бажання,
-            то яскравіше вона сяятиме.
-          </p>
-
+        <SearchState
+          icon="🌙"
+          title="Твоє небо ще темне"
+          description="Додай першу книгу і засвіти свою першу зірку. Що сильніше бажання, то яскравіше вона сяятиме."
+        >
           {isOwner && (
-            <div className="mt-7">
-              <Button to="/search" variant="primary" size="basic">
-                🔍 Знайти книгу
-              </Button>
-            </div>
+            <Button to="/search" variant="primary" size="basic">
+              🔍 Знайти книгу
+            </Button>
           )}
-        </div>
+        </SearchState>
       )}
       {!isLoading && count > 0 && (
         <div className="grid grid-cols-5 gap-6 pb-16 ">

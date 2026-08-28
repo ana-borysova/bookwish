@@ -16,8 +16,8 @@ import { WishlistTierFilter } from "../components/WishlistTierFilter";
 import { useState } from "react";
 import { Button } from "../components/ui/Button";
 import { GradientText } from "../components/ui/GradientText";
-import { TwinkleStars } from "../components/ui/TwinkleStars";
 import { PageHeader } from "../components/ui/PageHeader";
+import { SearchState } from "../components/ui/SearchState";
 
 export function WishlistPage() {
   const { user } = useAuthContext();
@@ -82,28 +82,17 @@ export function WishlistPage() {
       </div>
       {!isLoading && !isAuthenticated && <GuestBanner />}
       {!isLoading && books?.length === 0 && (
-        <div className="text-center relative pt-20 px-5 pb-36">
-          <TwinkleStars />
-
-          <div className="text-[3.5rem] drop-shadow-[0_0_26px_rgba(246,211,140,0.55)]">
-            🌙
-          </div>
-          <h2 className="font-display font-extrabold text-3xl mt-6 text-cream">
-            Твоє небо ще темне
-          </h2>
-          <p className="text-base text-cream/65 mt-3 max-w-md mx-auto leading-relaxed">
-            Додай першу книгу і засвіти свою першу зірку. Що сильніше бажання,
-            то яскравіше вона сяятиме.
-          </p>
-
+        <SearchState
+          icon="🌙"
+          title="Твоє небо ще темне"
+          description="Додай першу книгу і засвіти свою першу зірку. Що сильніше бажання, то яскравіше вона сяятиме."
+        >
           {isOwner && (
-            <div className="mt-7">
-              <Button to="/search" variant="primary" size="basic">
-                🔍 Знайти книгу
-              </Button>
-            </div>
+            <Button to="/search" variant="primary" size="basic">
+              🔍 Знайти книгу
+            </Button>
           )}
-        </div>
+        </SearchState>
       )}
       {!isLoading && count > 0 && (
         <div className="grid grid-cols-5 gap-6 pb-16 ">

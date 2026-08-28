@@ -16,6 +16,8 @@ import { WishlistTierFilter } from "../components/WishlistTierFilter";
 import { useState } from "react";
 import { Button } from "../components/ui/Button";
 import { GradientText } from "../components/ui/GradientText";
+import { TwinkleStars } from "../components/ui/TwinkleStars";
+import { PageHeader } from "../components/ui/PageHeader";
 
 export function WishlistPage() {
   const { user } = useAuthContext();
@@ -53,59 +55,35 @@ export function WishlistPage() {
 
       <div className="flex justify-between items-end flex-wrap mb-5">
         <div>
-          <p className="uppercase text-xs font-semibold mb-3.5 tracking-[0.24em] text-gold">
-            ✦ Вітрина мрій ✦
-          </p>
-          <h1 className="font-display font-extrabold leading-[1.02] text-[clamp(2.625rem,4.6vw,4rem)]">
-            {isOwner ? (
+          <PageHeader
+            size="medium"
+            eyebrow="✦ Вітрина мрій ✦"
+            title={
+              isOwner ? (
+                <>
+                  <GradientText>Мій</GradientText> вішліст
+                </>
+              ) : (
+                <>
+                  Вішліст{" "}
+                  <GradientText>{owner?.username ?? "Користувач"}</GradientText>
+                </>
+              )
+            }
+            subtitle={
               <>
-                <GradientText>Мій</GradientText> вішліст
+                <b className="text-gold">{count}</b> книг · клікни картку, щоб
+                перегорнути ↻
               </>
-            ) : (
-              <>
-                Вішліст{" "}
-                <GradientText>{owner?.username ?? "Користувач"}</GradientText>
-              </>
-            )}
-          </h1>
-          <p className="mt-2.5 text-base text-cream/70">
-            <b className="text-gold">{count}</b> книг · клікни картку, щоб
-            перегорнути ↻
-          </p>
+            }
+          />
         </div>
         <WishlistTierFilter selected={tiers} onChange={setTiers} />
       </div>
       {!isLoading && !isAuthenticated && <GuestBanner />}
       {!isLoading && books?.length === 0 && (
         <div className="text-center relative pt-20 px-5 pb-36">
-          <span
-            className="twinkle-star"
-            style={{ left: "38%", top: "58px", fontSize: "13px" }}
-          >
-            ✦
-          </span>
-          <span
-            className="twinkle-star"
-            style={{
-              left: "45%",
-              top: "26px",
-              fontSize: "11px",
-              animationDelay: "0.6s",
-            }}
-          >
-            ✧
-          </span>
-          <span
-            className="twinkle-star"
-            style={{
-              left: "57%",
-              top: "44px",
-              fontSize: "15px",
-              animationDelay: "1.1s",
-            }}
-          >
-            ✦
-          </span>
+          <TwinkleStars />
 
           <div className="text-[3.5rem] drop-shadow-[0_0_26px_rgba(246,211,140,0.55)]">
             🌙

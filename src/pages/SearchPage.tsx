@@ -9,6 +9,11 @@ import {
 } from "../hooks/useWishlist";
 import { useAuthContext } from "../context/AuthContext";
 import { CustomBookModal } from "../components/CustomBookModal";
+import { Button } from "../components/ui/Button";
+import { PageHeader } from "../components/ui/PageHeader";
+import { GradientText } from "../components/ui/GradientText";
+import { SearchState } from "../components/ui/SearchState";
+import { BookLoader } from "../components/ui/BookLoader";
 
 export function SearchPage() {
   const [query, setQuery] = useState("");
@@ -16,7 +21,7 @@ export function SearchPage() {
 
   const debouncedQuery = useDebounce(query);
   const { user } = useAuthContext();
-  const { data, isLoading, isError } = useBookSearch(debouncedQuery);
+  const { data, isLoading, isError, refetch } = useBookSearch(debouncedQuery);
 
   const { data: wishlist } = useWishlist(user!.id);
   const addedIds = new Set(
@@ -26,37 +31,90 @@ export function SearchPage() {
   const { mutateAsync } = useAddWishlistItem(user!.id);
   const { mutateAsync: addManual } = useAddCustomWishlistItem(user!.id);
 
+  const isIdle = debouncedQuery.trim().length < 3;
+
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8 ">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Пошук книг</h1>
-      <div className="flex mb-6 gap-5">
+    <div className="page-x py-8">
+      <PageHeader
+        size="medium"
+        eyebrow="✦ Знайди свою наступну зірку ✦"
+        title={
+          <>
+            <GradientText>Пошук</GradientText> книг
+          </>
+        }
+        subtitle="Напиши назву чи автора — і додай знахідку до свого нічного неба"
+      />
+
+      <div className="flex mb-6 mt-6 gap-5">
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Введіть назву або автора..."
-          className="w-full border border-gray-300 rounded-lg py-2 px-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="field rounded-full h-14 px-6 text-lg flex-1"
         />
-        <button
+        <Button
           onClick={() => setIsManualOpen(true)}
-          className="whitespace-nowrap rounded-lg border border-gray-300 px-2 text-sm text-gray-700 hover:bg-gray-100"
+          variant="ghost"
+          size="basic"
         >
           + Додати вручну
-        </button>
+        </Button>
       </div>
 
-      {isLoading && (
-        <p className="text-center text-gray-500">Завантаження...</p>
+      {isIdle && (
+        <SearchState
+          icon="🔭"
+          title="Небо чекає на пошук"
+          description="Почни писати назву або ім'я автора — і знайди книгу, яка засвітиться у твоєму списку мрій."
+        />
       )}
 
+      {isLoading && <BookLoader caption="Гортаємо сторінки..." />}
+
       {isError && (
-        <p className="text-center text-red-500">Помилка. Спробуй ще раз.</p>
+        <SearchState
+          icon="☁️"
+          title="Щось пішло не так"
+          description="Не вдалося дотягнутися до каталогу. Перевір з'єднання і спробуй ще раз"
+        >
+          <Button
+            variant="primary"
+            size="basic"
+            onClick={() => {
+              refetch();
+            }}
+          >
+            ↻ Спробувати ще раз
+          </Button>
+        </SearchState>
       )}
 
       {!isLoading && data?.length === 0 && (
-        <p className="text-center text-gray-500">Нічого не знайдено 😔</p>
+        <SearchState
+          icon="🌙"
+          title="Нічого не знайшлося"
+          description="Спробуй інакше написати назву чи автора — або додай книгу вручну, якщо її ще нема в жодному каталозі"
+        >
+          <Button
+            variant="ghost"
+            size="basic"
+            onClick={() => {
+              setIsManualOpen(true);
+            }}
+          >
+            + Додати вручну
+          </Button>
+        </SearchState>
       )}
 
-      <div className="flex flex-col gap-4">
+      {!isLoading && !!data?.length && (
+        <p className="text-base text-cream/60 mt-5 mb-4">
+          Знайдено <b className="text-gold">{data.length}</b> книг
+        </p>
+      )}
+
+      <div className="flex flex-col gap-4 pb-16">
         {data?.map((book) => (
           <BookCard
             key={book.id}

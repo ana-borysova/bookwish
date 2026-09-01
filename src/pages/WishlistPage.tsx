@@ -18,13 +18,14 @@ import { Button } from "../components/ui/Button";
 import { GradientText } from "../components/ui/GradientText";
 import { PageHeader } from "../components/ui/PageHeader";
 import { SearchState } from "../components/ui/SearchState";
+import { BookLoader } from "../components/ui/BookLoader";
 
 export function WishlistPage() {
   const { user } = useAuthContext();
   const isAuthenticated = !!user;
   const { ownerId } = useParams();
   const isOwner = user?.id === ownerId;
-  const { data: books, isLoading, isError } = useWishlist(ownerId!);
+  const { data: books, isLoading, isError, refetch } = useWishlist(ownerId!);
   const { data: owner } = useProfile(ownerId);
 
   const [tiers, setTiers] = useState<number[]>([]);
@@ -43,16 +44,19 @@ export function WishlistPage() {
 
   const count = filtered?.length ?? 0;
 
+  const subtitle = books ? (
+    <>
+      <b className="text-gold">{count}</b> книг · клікни картку, щоб перегорнути
+      ↻
+    </>
+  ) : isError ? (
+    "Не вдалося завантажити список"
+  ) : (
+    "Завантажуємо..."
+  );
+
   return (
     <div className="page-x py-8">
-      {isLoading && (
-        <p className="text-center text-cream/65 py-20">Завантаження...</p>
-      )}
-
-      {isError && (
-        <p className="text-center text-rose-400">Помилка. Спробуй ще раз.</p>
-      )}
-
       <div className="flex justify-between items-end flex-wrap mb-5">
         <div>
           <PageHeader
@@ -70,18 +74,22 @@ export function WishlistPage() {
                 </>
               )
             }
-            subtitle={
-              <>
-                <b className="text-gold">{count}</b> книг · клікни картку, щоб
-                перегорнути ↻
-              </>
-            }
+            subtitle={subtitle}
           />
         </div>
+
         <WishlistTierFilter selected={tiers} onChange={setTiers} />
       </div>
-      {!isLoading && !isAuthenticated && <GuestBanner />}
-      {!isLoading && books?.length === 0 && (
+      {isLoading && <BookLoader caption="Шукаємо поміж зірок..." />}
+      {isError && (
+        <SearchState icon="☁️" title="Помилка" description="Спробуй ще раз">
+          <Button variant="primary" onClick={() => refetch()}>
+            Оновити
+          </Button>
+        </SearchState>
+      )}
+      {!isAuthenticated && !isLoading && <GuestBanner />}
+      {books?.length === 0 && (
         <SearchState
           icon="🌙"
           title="Твоє небо ще темне"
@@ -94,7 +102,7 @@ export function WishlistPage() {
           )}
         </SearchState>
       )}
-      {!isLoading && count > 0 && (
+      {count > 0 && (
         <div className="grid grid-cols-5 gap-6 pb-16 ">
           {filtered?.map((book) => (
             <WishlistItemCard
@@ -114,7 +122,7 @@ export function WishlistPage() {
           ))}
         </div>
       )}
-      {!isLoading && (books?.length ?? 0) > 0 && count === 0 && (
+      {(books?.length ?? 0) > 0 && count === 0 && (
         <div className="text-center pt-20 px-5 pb-36">
           <p className="leading-relaxed text-xl mt-6 text-cream">
             🌙 На цьому рівні бажаності поки порожньо — вибери інший рівень.

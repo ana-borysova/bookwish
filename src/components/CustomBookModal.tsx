@@ -18,6 +18,20 @@ export interface CustomBookModalProps {
   }) => Promise<unknown>;
 }
 
+function parseIntField(raw: string, min: number, max: number): number | null {
+  const trimmed = raw.trim();
+  if (trimmed === "") {
+    return null;
+  }
+
+  const value = Number(trimmed);
+  if (!Number.isInteger(value) || value < min || value > max) {
+    return null;
+  }
+
+  return value;
+}
+
 export function CustomBookModal({ onClose, onSubmit }: CustomBookModalProps) {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -32,9 +46,19 @@ export function CustomBookModal({ onClose, onSubmit }: CustomBookModalProps) {
     "idle" | "loading" | "success" | "duplicate" | "error"
   >("idle");
 
-  const normalizedIsbn = normalizeIsbn(isbn);
+  const maxYear = new Date().getFullYear() + 1;
 
-  const canSubmit = title.trim() !== "" && author.trim() !== "";
+  const normalizedIsbn = normalizeIsbn(isbn);
+  const parsedYear = parseIntField(year, 1450, maxYear);
+  const parsedPageCount = parseIntField(pageCount, 1, 5000);
+  const yearError = year.trim() !== "" && parsedYear === null;
+  const pageCountError = pageCount.trim() !== "" && parsedPageCount === null;
+
+  const canSubmit =
+    title.trim() !== "" &&
+    author.trim() !== "" &&
+    !yearError &&
+    !pageCountError;
   const tier = getDesirabilityTier(desirability);
 
   async function handleAdd() {
@@ -52,9 +76,9 @@ export function CustomBookModal({ onClose, onSubmit }: CustomBookModalProps) {
             .map((a) => a.trim())
             .filter(Boolean),
           isbn: normalizedIsbn ?? undefined,
-          year: year.trim() ? Number(year.trim()) : undefined,
+          year: parsedYear ?? undefined,
           publisher: publisher.trim() || undefined,
-          pageCount: pageCount.trim() ? Number(pageCount.trim()) : undefined,
+          pageCount: parsedPageCount ?? undefined,
         },
         desirability,
         comment: comment.trim() || undefined,
@@ -122,9 +146,19 @@ export function CustomBookModal({ onClose, onSubmit }: CustomBookModalProps) {
               placeholder="Сторінок (необов'язково)"
             />
           </div>
+          {yearError && (
+            <p className="text-rose-300 text-sm">
+              Рік має бути числом від 1450 до {maxYear}
+            </p>
+          )}
+          {pageCountError && (
+            <p className="text-rose-300 text-sm">
+              Сторінок має бути від 1 до 5000
+            </p>
+          )}
           <input
             value={publisher}
-            maxLength={150}
+            maxLength={200}
             onChange={(e) => setPublisher(e.target.value)}
             className="field"
             placeholder="Видавництво (необов'язково)"

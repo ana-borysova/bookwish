@@ -90,12 +90,14 @@ export function CustomBookModal({ onClose, onSubmit }: CustomBookModalProps) {
         <div className="flex-1 min-w-0 flex flex-col gap-3">
           <input
             value={title}
+            maxLength={300}
             onChange={(e) => setTitle(e.target.value)}
             className="field"
             placeholder="Назва *"
           />
           <input
             value={author}
+            maxLength={400}
             onChange={(e) => setAuthor(e.target.value)}
             className="field"
             placeholder="Автор * (кілька — через кому)"
@@ -122,6 +124,7 @@ export function CustomBookModal({ onClose, onSubmit }: CustomBookModalProps) {
           </div>
           <input
             value={publisher}
+            maxLength={150}
             onChange={(e) => setPublisher(e.target.value)}
             className="field"
             placeholder="Видавництво (необов'язково)"

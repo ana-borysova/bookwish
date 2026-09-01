@@ -53,12 +53,14 @@ export function CustomBookModal({ onClose, onSubmit }: CustomBookModalProps) {
   const parsedPageCount = parseIntField(pageCount, 1, 5000);
   const yearError = year.trim() !== "" && parsedYear === null;
   const pageCountError = pageCount.trim() !== "" && parsedPageCount === null;
+  const isbnError = isbn.trim() !== "" && normalizedIsbn === null;
 
   const canSubmit =
     title.trim() !== "" &&
     author.trim() !== "" &&
     !yearError &&
-    !pageCountError;
+    !pageCountError &&
+    !isbnError;
   const tier = getDesirabilityTier(desirability);
 
   async function handleAdd() {
@@ -132,6 +134,11 @@ export function CustomBookModal({ onClose, onSubmit }: CustomBookModalProps) {
             className="field"
             placeholder="ISBN (необов'язково)"
           />
+          {isbnError && (
+            <p className="text-rose-300 text-sm">
+              ISBN має містити 10 або 13 цифр
+            </p>
+          )}
           <div className="flex gap-2">
             <input
               value={year}
